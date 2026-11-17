@@ -1,0 +1,39 @@
+# TS Refresh
+
+A hands-on TypeScript teaching gym for rebuilding fluency before a live coding interview.
+
+## How to use
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local URL Vite prints (usually `http://localhost:5173`).
+
+1. Read each short lesson (assumes zero TypeScript knowledge).
+2. Complete the challenge in the editor.
+3. Hit **Run tests** — you must pass to unlock the next lesson.
+4. Use **Get hint** if you are stuck (hints reveal one at a time).
+
+Progress and your code drafts are saved in the browser (`localStorage`).
+
+## Course arc (~6–8 hours)
+
+1. What TypeScript is  
+2. Primitive types & `let` / `const`  
+3. Arrays  
+4. Objects & type aliases  
+5. Functions  
+6. Unions & optionals  
+7. `map` / `filter`  
+8. `find` / `reduce`  
+9. Narrowing  
+10. Interfaces & light generics  
+11. Interview drills (cart total, unique tags, group by)
+
+## Scripts
+
+- `npm run dev` — local teaching app
+- `npm run build` — production build
+- `npm run preview` — preview the build

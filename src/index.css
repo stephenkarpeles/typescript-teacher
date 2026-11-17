@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --ink: #14212b;
+  --ink-soft: #3a4a57;
+  --muted: #6b7c8a;
+  --paper: #f3f6f8;
+  --panel: #ffffff;
+  --line: #d5dee6;
+  --teal: #0f7a6c;
+  --teal-deep: #0a554c;
+  --teal-soft: #d8f0eb;
+  --amber: #c47a16;
+  --amber-soft: #fff1d6;
+  --rose: #b42318;
+  --rose-soft: #fde8e6;
+  --ok: #1f7a3f;
+  --ok-soft: #e3f6ea;
+  --sidebar: #101820;
+  --sidebar-text: #c5d0d8;
+  --sidebar-active: #1c2a35;
+  --brand: #3ddc97;
+  --shadow: 0 12px 40px rgba(16, 24, 32, 0.08);
+  --radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #d9efe9 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #e7eef5 0%, transparent 50%),
+    var(--paper);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+code,
+pre,
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+button {
+  cursor: pointer;
+}
