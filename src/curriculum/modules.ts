@@ -67,9 +67,9 @@ You write types after a colon: \`let x: string = "hi"\`.`,
 `,
           exports: ['greeting', 'year'],
           hints: [
-            'Use: let greeting: string = "Hello, TypeScript"',
-            'Then on the next line: let year: number = 2026',
-            'Spelling and capitalization must match exactly — including the comma and space in the greeting.',
+            'Put the type after the variable name with a colon, like `name: type`.',
+            '`greeting` needs type `string`. `year` needs type `number` — and 2026 should not be in quotes.',
+            'Match the text exactly for greeting, including the comma and space.',
           ],
           tests: [
             {
@@ -133,9 +133,9 @@ Both can have type annotations:
 `,
           exports: ['productName', 'inStock', 'quantity'],
           hints: [
-            'const productName: string = "Widget"',
-            'let inStock: boolean = true',
-            'let quantity: number = 12',
+            'One of these should use `const` (it never changes). The other two should use `let`.',
+            'Annotate each one: string, boolean, and number.',
+            'Values: "Widget", true, and 12.',
           ],
           tests: [
             {
@@ -165,8 +165,8 @@ Both can have type annotations:
           starterCode: ``,
           exports: ['isActive', 'status'],
           hints: [
-            'let isActive: boolean = false',
-            'let status: string = "paused"',
+            '`isActive` is a yes/no value. `status` is text.',
+            'Use `boolean` and `string` annotations. `false` has no quotes; `"paused"` does.',
           ],
           tests: [
             { description: 'isActive is false', run: (s) => eq(s.isActive, false) },
@@ -215,8 +215,8 @@ names.push("Grace")
           starterCode: ``,
           exports: ['temps', 'cities'],
           hints: [
-            'const temps: number[] = [72, 68, 75]',
-            'const cities: string[] = ["Austin", "Denver"]',
+            'Array types look like `number[]` or `string[]`.',
+            'Fill `temps` with three numbers and `cities` with two city names from the lesson.',
             'Order matters for the tests.',
           ],
           tests: [
@@ -290,9 +290,9 @@ const item: Product = {
 `,
           exports: ['player'],
           hints: [
-            'type Person = { name: string; score: number }',
-            'const player: Person = { name: "Riley", score: 42 }',
-            'Types are erased at runtime — tests check the `player` object values.',
+            'First define a `type` alias with two fields, then create a value that uses it.',
+            'The fields are `name` (string) and `score` (number).',
+            'Create `player` with name "Riley" and score 42, typed as `Person`.',
           ],
           tests: [
             {
@@ -360,8 +360,8 @@ greet("Dev") // "Hi, Dev"`,
 `,
           exports: ['multiply'],
           hints: [
-            'Inside the function: return a * b',
-            'Make sure the function is named exactly multiply',
+            'The body only needs to return the product of the two parameters.',
+            'Use `*` and make sure the function name is exactly `multiply`.',
           ],
           tests: [
             {
@@ -399,8 +399,9 @@ Use template literals: \`\` \`\${name} (\${count})\` \`\``,
 `,
           exports: ['formatLabel'],
           hints: [
-            'return `${name} (${count})`',
-            'Watch the space before the parenthesis: "Task (3)" not "Task(3)"',
+            'Build one string that includes both the name and the count.',
+            'A template literal helps: backticks with `${...}` inside.',
+            'There should be a space before the opening parenthesis: "Task (3)".',
           ],
           tests: [
             {
@@ -479,8 +480,8 @@ function isLoading(state: LoadState): boolean {
 `,
           exports: ['isLoading'],
           hints: [
-            'return state === "loading"',
-            'You do not need if/else — a comparison already returns boolean',
+            'You only need to check whether `state` equals one specific string.',
+            'A comparison like `===` already returns a boolean — you can return that directly.',
           ],
           tests: [
             {
@@ -549,8 +550,8 @@ const withTax = prices.map((p: number) => p * 1.1)`,
 `,
           exports: ['doubleAll'],
           hints: [
-            'return nums.map((n) => n * 2)',
-            'Do not use a for-loop unless you must — map is the interview-friendly answer here',
+            'Use an array method that transforms every element into a new array.',
+            'In the callback, multiply each number by 2.',
           ],
           tests: [
             {
@@ -593,8 +594,8 @@ Callback returns a boolean. \`true\` keeps the item.`,
 `,
           exports: ['onlyEvens'],
           hints: [
-            'return nums.filter((n) => n % 2 === 0)',
-            'n % 2 === 0 means divisible by 2 with no remainder',
+            'Use an array method that keeps only some elements.',
+            'Keep a number when dividing by 2 leaves no remainder (`%`).',
           ],
           tests: [
             {
@@ -635,9 +636,9 @@ function activeNames(users: User[]): string[] {
 `,
           exports: ['activeNames'],
           hints: [
-            'First: users.filter((u) => u.active)',
-            'Then chain: .map((u) => u.name)',
-            'Full: return users.filter((u) => u.active).map((u) => u.name)',
+            'You need two steps: keep only active users, then get their names.',
+            'Chain `filter` and then `map` on the result.',
+            'Filter with `u.active`, map with `u.name`.',
           ],
           tests: [
             {
@@ -702,8 +703,8 @@ function findById(items: Item[], id: number): Item | undefined {
 `,
           exports: ['findById'],
           hints: [
-            'return items.find((item) => item.id === id)',
-            'Return type Item | undefined is a union — find already returns that',
+            'Look for an array method that returns the first matching element (or undefined).',
+            'Compare each item's `id` to the `id` argument.',
           ],
           tests: [
             {
@@ -757,8 +758,8 @@ Interview tip: start with \`0\` for sums, \`{}\` for grouping, \`[]\` for buildi
 `,
           exports: ['sumNumbers'],
           hints: [
-            'return nums.reduce((total, n) => total + n, 0)',
-            'The 0 at the end is the initial total — critical for empty arrays',
+            'Use `reduce` to fold the array into one number.',
+            'Start the accumulator at 0 so an empty array still works.',
           ],
           tests: [
             {
@@ -813,9 +814,9 @@ function len(value: string | string[]): number {
 `,
           exports: ['asString'],
           hints: [
-            'if (typeof value === "number") return String(value)',
-            'return value',
-            'Or: return typeof value === "number" ? String(value) : value',
+            'Narrow with `typeof` so you know whether you have a number or a string.',
+            'If it is a number, convert it to a string (for example with `String(...)`).',
+            'If it is already a string, return it unchanged.',
           ],
           tests: [
             {
@@ -894,9 +895,9 @@ function firstItem<T>(items: T[]): T | undefined {
 `,
           exports: ['identity', 'firstItem'],
           hints: [
-            'identity: return value',
-            'firstItem: return items[0]',
-            'Empty arrays give undefined for items[0] — that is fine',
+            '`identity` should return whatever it received, unchanged.',
+            '`firstItem` should return the element at index 0.',
+            'For an empty array, index 0 is `undefined` — that is fine.',
           ],
           tests: [
             {
@@ -950,9 +951,9 @@ function inStockTotal(items: CartItem[]): number {
 `,
           exports: ['inStockTotal'],
           hints: [
-            'Filter: items.filter((item) => item.inStock)',
-            'Then map to price or reduce: .reduce((sum, item) => sum + item.price, 0)',
-            'One line: return items.filter(i => i.inStock).reduce((s, i) => s + i.price, 0)',
+            'Ignore items that are not in stock first.',
+            'Then add up the `price` values of what remains.',
+            'A `filter` followed by `reduce` (starting at 0) is a solid approach.',
           ],
           tests: [
             {
@@ -1003,9 +1004,9 @@ function uniqueTags(posts: Post[]): string[] {
 `,
           exports: ['uniqueTags'],
           hints: [
-            'Flatten: posts.flatMap((p) => p.tags)  — or map + flat',
-            'Dedupe: filter with indexOf, or use a Set then Array.from',
-            'Example with Set: return Array.from(new Set(posts.flatMap((p) => p.tags)))',
+            'First collect every tag from every post into one list.',
+            '`flatMap` (or map + flat) helps flatten the nested tag arrays.',
+            'Then remove duplicates while keeping first-seen order (a `Set` can help).',
           ],
           tests: [
             {
@@ -1063,10 +1064,9 @@ function groupByRole(people: Person[]): Record<string, string[]> {
 `,
           exports: ['groupByRole'],
           hints: [
-            'Start with const result: Record<string, string[]> = {}',
-            'For each person: if (!result[person.role]) result[person.role] = []',
-            'Then result[person.role].push(person.name) and return result',
-            'Or use reduce to build the object',
+            'Build an object whose keys are roles and whose values are arrays of names.',
+            'Loop (or reduce): for each person, make sure that role key exists as an array.',
+            'Push the person's name into the array for their role, then return the object.',
           ],
           tests: [
             {
