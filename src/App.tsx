@@ -19,10 +19,13 @@ import {
 } from './lib/progress'
 import type { ProgressState } from './curriculum/types'
 
+type Phase = 'learn' | 'challenge'
+
 function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress())
   const [ready, setReady] = useState(false)
   const [contentKey, setContentKey] = useState(0)
+  const [phase, setPhase] = useState<Phase>('learn')
 
   useEffect(() => {
     setReady(true)
@@ -46,7 +49,11 @@ function App() {
   const completedChallenges = progress.completedChallengeIds.length
   const lessonPct = Math.round((completedLessons / totalLessonCount()) * 100)
 
-  function goTo(lessonId: string) {
+  const hasChallenge = Boolean(lesson.challenge)
+  const showingChallenge = hasChallenge && phase === 'challenge'
+  const showingLearn = !showingChallenge
+
+  function goTo(lessonId: string, nextPhase: Phase = 'learn') {
     if (
       !isLessonUnlocked(
         lessonId,
@@ -57,6 +64,7 @@ function App() {
       return
     }
     setProgress((p) => ({ ...p, currentLessonId: lessonId }))
+    setPhase(nextPhase)
     setContentKey((k) => k + 1)
   }
 
@@ -102,8 +110,27 @@ function App() {
         completedLessonIds,
         currentLessonId: nextId,
       }))
+      setPhase('learn')
       setContentKey((k) => k + 1)
     }
+  }
+
+  function startChallenge() {
+    setPhase('challenge')
+    setContentKey((k) => k + 1)
+  }
+
+  function backFromChallenge() {
+    setPhase('learn')
+    setContentKey((k) => k + 1)
+  }
+
+  function handlePrevious() {
+    if (showingChallenge) {
+      backFromChallenge()
+      return
+    }
+    if (prevId) goTo(prevId)
   }
 
   function resetAll() {
@@ -113,10 +140,12 @@ function App() {
     const fresh = defaultProgress()
     setProgress(fresh)
     saveProgress(fresh)
+    setPhase('learn')
     setContentKey((k) => k + 1)
   }
 
-  const showWelcomeHero = lesson.id === modules[0].lessons[0].id
+  const showWelcomeHero =
+    showingLearn && lesson.id === modules[0].lessons[0].id
 
   return (
     <div className="app-shell">
@@ -174,7 +203,7 @@ function App() {
                     key={l.id}
                     className={`lesson-btn ${active ? 'active' : ''} ${done ? 'done-row' : ''}`}
                     disabled={!unlocked}
-                    onClick={() => goTo(l.id)}
+                    onClick={() => goTo(l.id, 'learn')}
                     type="button"
                   >
                     <span
@@ -202,8 +231,17 @@ function App() {
           <div>
             <p className="top-eyebrow">
               Lesson {lessonNumber} of {allLessons.length}
+              {hasChallenge
+                ? showingChallenge
+                  ? ' · Challenge'
+                  : ' · Read first'
+                : ''}
             </p>
-            <h1>{lesson.title}</h1>
+            <h1>
+              {showingChallenge && lesson.challenge
+                ? lesson.challenge.title
+                : lesson.title}
+            </h1>
             <p>
               {module.subtitle} · ~{lesson.minutes} min
             </p>
@@ -228,20 +266,22 @@ function App() {
             </section>
           )}
 
-          <section className="panel float-in learn-panel">
-            <div className="panel-kicker">
-              <span className="chip chip-learn">Lesson</span>
-            </div>
-            <h2 className="sr-only">Lesson</h2>
-            <LessonContent content={lesson.content} />
-            {lesson.example && (
-              <pre className="example-block" style={{ marginTop: '1rem' }}>
-                <code>{lesson.example}</code>
-              </pre>
-            )}
-          </section>
+          {showingLearn && (
+            <section className="panel float-in learn-panel">
+              <div className="panel-kicker">
+                <span className="chip chip-learn">Lesson</span>
+              </div>
+              <h2 className="sr-only">Lesson</h2>
+              <LessonContent content={lesson.content} />
+              {lesson.example && (
+                <pre className="example-block" style={{ marginTop: '1rem' }}>
+                  <code>{lesson.example}</code>
+                </pre>
+              )}
+            </section>
+          )}
 
-          {lesson.challenge && (
+          {showingChallenge && lesson.challenge && (
             <ChallengePanel
               challenge={lesson.challenge}
               savedCode={progress.codeByChallengeId[lesson.challenge.id]}
@@ -262,13 +302,23 @@ function App() {
             <button
               className="btn"
               type="button"
-              disabled={!prevId}
-              onClick={() => prevId && goTo(prevId)}
+              disabled={!showingChallenge && !prevId}
+              onClick={handlePrevious}
             >
-              Previous
+              {showingChallenge ? 'Back to lesson' : 'Previous'}
             </button>
 
-            {!lesson.challenge && !lessonDone && (
+            {showingLearn && hasChallenge && (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={startChallenge}
+              >
+                Start challenge
+              </button>
+            )}
+
+            {showingLearn && !hasChallenge && !lessonDone && (
               <button
                 className="btn btn-primary"
                 type="button"
@@ -278,7 +328,7 @@ function App() {
               </button>
             )}
 
-            {(lessonDone || (lesson.challenge && challengeDone)) && nextId && (
+            {showingChallenge && challengeDone && nextId && (
               <button
                 className="btn btn-primary"
                 type="button"
@@ -288,7 +338,17 @@ function App() {
               </button>
             )}
 
-            {lesson.challenge && !challengeDone && (
+            {showingLearn && !hasChallenge && lessonDone && nextId && (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={continueNext}
+              >
+                Next lesson
+              </button>
+            )}
+
+            {showingChallenge && !challengeDone && (
               <button className="btn btn-wait" type="button" disabled>
                 Pass the challenge to continue
               </button>

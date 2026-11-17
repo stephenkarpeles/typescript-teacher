@@ -55,13 +55,11 @@ let label: string = "Alex"
         id: 'welcome-first-challenge',
         title: 'Challenge: say hello with a type',
         minutes: 10,
-        content: `Your first hands-on task.
+        content: `Time to write your first typed variables.
 
-Create a **string** variable named \`greeting\` with the exact value \`"Hello, TypeScript"\`.
+Remember: the type goes after the name with a colon, like \`let x: string = "hi"\`.
 
-Then create a **number** variable named \`year\` with the value \`2026\`.
-
-You write types after a colon: \`let x: string = "hi"\`.`,
+When you start the challenge, this lesson text hides so you are not reading the answer while you code. Use the challenge prompt (and hints if needed).`,
         challenge: {
           id: 'ch-hello',
           title: 'Hello variables',
@@ -169,7 +167,9 @@ Both can have type annotations:
         id: 'prim-union-preview',
         title: 'Challenge: type a status flag',
         minutes: 10,
-        content: `Booleans are great for yes/no. Create a boolean \`isActive\` set to \`false\`, and a string \`status\` set to \`"paused"\`.`,
+        content: `Booleans are for yes/no values (\`true\` / \`false\`). Strings are for text.
+
+Next you will declare one of each with explicit annotations. Exact names and values stay on the challenge screen.`,
         challenge: {
           id: 'ch-status',
           title: 'Active flag + status',
@@ -220,9 +220,9 @@ names.push("Grace")
         id: 'arr-challenge-build',
         title: 'Challenge: build two arrays',
         minutes: 12,
-        content: `Create:
-- \`temps\` — a \`number[]\` with values \`72, 68, 75\`
-- \`cities\` — a \`string[]\` with \`"Austin"\`, \`"Denver"\``,
+        content: `You will build two typed arrays: one of numbers and one of strings.
+
+Use \`number[]\` or \`string[]\`. Exact values are only on the challenge screen.`,
         challenge: {
           id: 'ch-arrays',
           title: 'temps and cities',
@@ -296,8 +296,9 @@ const item: Product = {
         id: 'obj-challenge',
         title: 'Challenge: type a user',
         minutes: 15,
-        content: `1. Define a type alias \`Person\` with \`name: string\` and \`score: number\`.
-2. Create a constant \`player\` of type \`Person\` with name \`"Riley"\` and score \`42\`.`,
+        content: `You will define a type alias for an object shape, then create a value that uses that type.
+
+Field names and values are on the challenge screen — not here.`,
         challenge: {
           id: 'ch-person',
           title: 'Person type + player',
@@ -369,7 +370,9 @@ greet("Dev") // "Hi, Dev"`,
         id: 'fn-challenge-add',
         title: 'Challenge: multiply',
         minutes: 12,
-        content: `Write a function \`multiply\` that takes two \`number\` parameters and returns their product as a \`number\`.`,
+        content: `Functions should annotate parameter types and the return type.
+
+You will implement a small math function. The required signature is on the challenge screen.`,
         challenge: {
           id: 'ch-multiply',
           title: 'multiply(a, b)',
@@ -406,9 +409,9 @@ greet("Dev") // "Hi, Dev"`,
         id: 'fn-challenge-format',
         title: 'Challenge: format label',
         minutes: 12,
-        content: `Write \`formatLabel(name: string, count: number): string\` that returns a string like \`"Task (3)"\` when name is \`"Task"\` and count is \`3\`.
+        content: `You will build a label string from a name and a count.
 
-Use template literals: \`\` \`\${name} (\${count})\` \`\``,
+Template literals (backticks with \`\${...}\`) help. Spacing matters — tests are exact. Details are on the challenge screen.`,
         challenge: {
           id: 'ch-format',
           title: 'formatLabel',
