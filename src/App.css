@@ -254,15 +254,15 @@
 }
 
 .btn-primary {
-  background: linear-gradient(180deg, #12957f, var(--teal-deep));
-  border-color: transparent;
+  background: var(--teal);
+  border-color: var(--teal);
   color: #fff;
-  box-shadow: 0 8px 18px rgba(13, 124, 108, 0.28);
+  box-shadow: none;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(180deg, #14a58d, #074f45);
-  border-color: transparent;
+  background: var(--teal-deep);
+  border-color: var(--teal-deep);
 }
 
 .btn-run.is-running {
@@ -378,6 +378,12 @@
   border: 1px solid #243844;
 }
 
+.challenge-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .challenge-grid {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
@@ -399,6 +405,7 @@
 }
 
 .editor-wrap {
+  margin-top: 0.85rem;
   border: 1px solid #243844;
   border-radius: 14px;
   overflow: hidden;

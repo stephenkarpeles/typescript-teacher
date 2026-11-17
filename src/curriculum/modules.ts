@@ -63,7 +63,6 @@ You write types after a colon: \`let x: string = "hi"\`.`,
           prompt:
             'Declare `greeting` as a string equal to "Hello, TypeScript" and `year` as a number equal to 2026.',
           starterCode: `// Write your code below.
-// Tip: let greeting: string = "..."
 
 `,
           exports: ['greeting', 'year'],
@@ -129,8 +128,7 @@ Both can have type annotations:
           title: 'Annotate three values',
           prompt:
             'Create const productName: string = "Widget", let inStock: boolean = true, and let quantity: number = 12.',
-          starterCode: `// productName should never be reassigned → use const
-// inStock and quantity may change later → use let
+          starterCode: `// Write your code below.
 
 `,
           exports: ['productName', 'inStock', 'quantity'],
@@ -287,8 +285,7 @@ const item: Product = {
           title: 'Person type + player',
           prompt:
             'Define type Person = { name: string; score: number } and const player: Person = { name: "Riley", score: 42 }.',
-          starterCode: `// 1) type Person = { ... }
-// 2) const player: Person = { ... }
+          starterCode: `// Write your code below.
 
 `,
           exports: ['player'],
@@ -357,7 +354,7 @@ greet("Dev") // "Hi, Dev"`,
           title: 'multiply(a, b)',
           prompt: 'Implement function multiply(a: number, b: number): number',
           starterCode: `function multiply(a: number, b: number): number {
-  // return the product
+
 }
 
 `,
@@ -476,7 +473,7 @@ type User = {
           starterCode: `type LoadState = "idle" | "loading" | "error"
 
 function isLoading(state: LoadState): boolean {
-  // ...
+
 }
 
 `,
