@@ -150,6 +150,18 @@ export async function runChallenge(
     }
   }
 
+  // Don't run value checks until types/const/aliases are correct —
+  // otherwise a green "value pass" looks like success when types are still wrong.
+  const typesReady = results.every((r) => r.passed)
+  if (!typesReady) {
+    results.push({
+      description: 'Value checks',
+      passed: false,
+      error: 'Fix the type requirements above first, then run again.',
+    })
+    return { ok: false, results }
+  }
+
   for (const test of challenge.tests) {
     try {
       test.run(scope)

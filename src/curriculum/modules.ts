@@ -83,7 +83,7 @@ You write types after a colon: \`let x: string = "hi"\`.`,
               run: (s) => eq(s.greeting, 'Hello, TypeScript', 'greeting'),
             },
             {
-              description: 'year equals 2026 (number, not string)',
+              description: 'year equals 2026',
               run: (s) => eq(s.year, 2026, 'year'),
             },
           ],
