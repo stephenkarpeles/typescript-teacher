@@ -37,7 +37,7 @@ How this gym works:
 3. Run tests — pass to unlock the next stop
 4. Smash **Get hint** if you’re stuck (that counts as studying)
 
-Pretend you know nothing. Absolute zero. Let’s go.`
+Pretend you know nothing. Absolute zero. Let’s go.`,
         example: `// Plain JavaScript — easy to mess up later
 let name = "Alex"
 name = 42  // oops, still allowed in JS
