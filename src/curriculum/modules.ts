@@ -704,7 +704,7 @@ function findById(items: Item[], id: number): Item | undefined {
           exports: ['findById'],
           hints: [
             'Look for an array method that returns the first matching element (or undefined).',
-            'Compare each item's `id` to the `id` argument.',
+            "Compare each item's `id` to the `id` argument.",
           ],
           tests: [
             {
@@ -1066,7 +1066,7 @@ function groupByRole(people: Person[]): Record<string, string[]> {
           hints: [
             'Build an object whose keys are roles and whose values are arrays of names.',
             'Loop (or reduce): for each person, make sure that role key exists as an array.',
-            'Push the person's name into the array for their role, then return the object.',
+            "Push the person's name into the array for their role, then return the object.",
           ],
           tests: [
             {
