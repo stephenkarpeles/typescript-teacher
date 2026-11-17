@@ -1,5 +1,8 @@
 import type { Challenge, TestResult } from '../curriculum/types'
-import { missingTypeAnnotations } from './annotations'
+import {
+  annotationErrorMessage,
+  findAnnotationIssues,
+} from './annotations'
 
 export type RunOutcome = {
   ok: boolean
@@ -50,7 +53,6 @@ export async function runChallenge(
     }
   }
 
-  // Strip export keywords so we can capture bindings via return.
   const cleaned = js
     .replace(/\bexport\s+default\s+/g, '')
     .replace(/\bexport\s+/g, '')
@@ -80,15 +82,21 @@ export async function runChallenge(
     }
   }
 
-  const untyped = missingTypeAnnotations(ts, code, challenge.exports)
+  const issues = findAnnotationIssues(ts, code, challenge.exports)
+  const issueByName = new Map(issues.map((i) => [i.name, i]))
+
   const annotationResults: TestResult[] = challenge.exports.map((name) => {
-    const ok = !untyped.includes(name)
+    const issue = issueByName.get(name)
+    if (!issue) {
+      return {
+        description: `${name} has an explicit type annotation`,
+        passed: true,
+      }
+    }
     return {
-      description: `${name} has an explicit TypeScript type`,
-      passed: ok,
-      error: ok
-        ? undefined
-        : `Add a type annotation — plain JavaScript is not enough. Example: \`let ${name}: string = ...\` or typed function params/return.`,
+      description: `${name} has an explicit type annotation`,
+      passed: false,
+      error: annotationErrorMessage(issue),
     }
   })
 
