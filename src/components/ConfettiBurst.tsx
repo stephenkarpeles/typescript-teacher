@@ -12,7 +12,7 @@ type Piece = {
   size: string
 }
 
-/** Lightweight CSS confetti — no library, just vibes. */
+/** Lightweight CSS confetti (no library). */
 export function ConfettiBurst({ active }: { active: boolean }) {
   const [pieces, setPieces] = useState<Piece[]>([])
 

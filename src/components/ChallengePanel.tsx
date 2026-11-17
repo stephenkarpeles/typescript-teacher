@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Editor from '@monaco-editor/react'
 import type { Challenge, TestResult } from '../curriculum/types'
-import { FAIL_LINES, HINT_QUIPS, NUDGE_LINES, WIN_LINES, pick } from '../lib/copy'
 import { runChallenge } from '../lib/runner'
 import { ConfettiBurst } from './ConfettiBurst'
 
@@ -27,7 +26,6 @@ export function ChallengePanel({
   const [running, setRunning] = useState(false)
   const [celebrate, setCelebrate] = useState(false)
   const [shake, setShake] = useState(false)
-  const [banner, setBanner] = useState<string | null>(null)
   const [attempts, setAttempts] = useState(0)
 
   useEffect(() => {
@@ -38,7 +36,6 @@ export function ChallengePanel({
     setRuntimeError(null)
     setPassed(false)
     setCelebrate(false)
-    setBanner(null)
     setAttempts(0)
   }, [challenge.id, challenge.starterCode, savedCode])
 
@@ -59,14 +56,12 @@ export function ChallengePanel({
       if (outcome.compileError) {
         setResults(null)
         setCompileError(outcome.compileError)
-        setBanner(pick(FAIL_LINES, attempts + 1))
         pulseShake()
         return
       }
       if (outcome.runtimeError) {
         setResults(null)
         setRuntimeError(outcome.runtimeError)
-        setBanner(pick(FAIL_LINES, attempts + 2))
         pulseShake()
         return
       }
@@ -74,12 +69,10 @@ export function ChallengePanel({
       setResults(outcome.results)
       if (outcome.ok) {
         setPassed(true)
-        setBanner(pick(WIN_LINES, challenge.id.length + attempts))
         setCelebrate(true)
         onPassed()
       } else {
         setPassed(false)
-        setBanner(pick(FAIL_LINES, attempts + 3))
         pulseShake()
       }
     } finally {
@@ -96,26 +89,21 @@ export function ChallengePanel({
     setHintLevel((n) => Math.min(n + 1, challenge.hints.length))
   }
 
-  const nudge = pick(NUDGE_LINES, challenge.id.length)
-
   return (
     <div className={`challenge-grid ${shake ? 'is-shake' : ''}`}>
       <ConfettiBurst active={celebrate} />
 
       <div className="panel challenge-meta">
         <div className="panel-kicker">
-          <span className="chip chip-play">Your turn</span>
-          <span className="soft-meta">
-            {attempts === 0
-              ? 'First try energy welcome'
-              : `${attempts} run${attempts === 1 ? '' : 's'} so far`}
-          </span>
+          <span className="chip chip-play">Challenge</span>
+          {attempts > 0 && (
+            <span className="soft-meta">
+              {attempts} attempt{attempts === 1 ? '' : 's'}
+            </span>
+          )}
         </div>
         <h2>{challenge.title}</h2>
-        <div className="prompt">
-          <span className="prompt-label">Mission</span>
-          {challenge.prompt}
-        </div>
+        <div className="prompt">{challenge.prompt}</div>
 
         <div className="editor-wrap">
           <div className="editor-chrome">
@@ -148,14 +136,14 @@ export function ChallengePanel({
             onClick={handleRun}
             disabled={running}
           >
-            {running ? 'Checking…' : 'Run tests'}
+            {running ? 'Running…' : 'Run tests'}
           </button>
           <button className="btn btn-amber" onClick={showHint} type="button">
             {hintLevel === 0
-              ? 'Stuck? Get a hint'
+              ? 'Get hint'
               : hintLevel >= challenge.hints.length
                 ? 'All hints shown'
-                : 'Another hint'}
+                : 'Next hint'}
           </button>
           <button
             className="btn btn-ghost"
@@ -169,47 +157,38 @@ export function ChallengePanel({
 
       <div className={`panel results-panel ${passed ? 'is-win' : ''}`}>
         <div className="panel-kicker">
-          <span className="chip">Scoreboard</span>
+          <span className="chip">Results</span>
         </div>
-        <h2>Results</h2>
-
-        {banner && (
-          <div
-            className={`mood-banner ${passed ? 'win' : 'try'}`}
-            key={banner + String(passed)}
-          >
-            {banner}
-          </div>
-        )}
+        <h2 className="sr-only">Test results</h2>
 
         {compileError && (
           <div className="error-banner">
-            Compile hiccup{'\n'}
+            Compile error{'\n'}
             {compileError}
           </div>
         )}
         {runtimeError && (
           <div className="error-banner">
-            Runtime hiccup{'\n'}
+            Runtime error{'\n'}
             {runtimeError}
           </div>
         )}
 
         {passed && (
           <div className="success-banner pop-in">
-            All green. Next lesson is unlocked — go enjoy the win.
+            All tests passed. You can move on to the next lesson.
           </div>
         )}
 
         {results && (
-          <div className="results" style={{ marginTop: '0.75rem' }}>
+          <div className="results" style={{ marginTop: passed ? '0.75rem' : 0 }}>
             {results.map((r, i) => (
               <div
                 key={r.description}
                 className={`result-row ${r.passed ? 'pass' : 'fail'} pop-in`}
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <span className="badge">{r.passed ? 'YES' : 'NOPE'}</span>
+                <span className="badge">{r.passed ? 'PASS' : 'FAIL'}</span>
                 <div>
                   <div>{r.description}</div>
                   {r.error && (
@@ -223,19 +202,17 @@ export function ChallengePanel({
 
         {!results && !compileError && !runtimeError && (
           <div className="idle-results">
-            <div className="idle-orb" aria-hidden />
             <p>
-              Write something, then hit <strong>Run tests</strong>.
+              Write your solution, then click <strong>Run tests</strong>. You
+              need to pass every check before the next lesson unlocks.
             </p>
-            <p className="idle-nudge">{nudge}</p>
           </div>
         )}
 
         {hintLevel > 0 && (
           <div className="hint-box pop-in" style={{ marginTop: '1rem' }}>
             <strong>
-              {pick(HINT_QUIPS, Math.max(0, hintLevel - 1))} ({hintLevel}/
-              {challenge.hints.length})
+              Hint{hintLevel > 1 ? 's' : ''} ({hintLevel}/{challenge.hints.length})
             </strong>
             <ol>
               {challenge.hints.slice(0, hintLevel).map((h) => (

@@ -30,34 +30,11 @@
   align-items: center;
 }
 
-.mascot {
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 1rem;
-  background: linear-gradient(145deg, #2bd48a, #0f7a6c);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.05rem;
-  box-shadow: 0 8px 20px rgba(45, 212, 138, 0.28);
-  animation: mascot-bob 3.2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.mascot-face {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 700;
-  color: #062417;
-  font-size: 1.05rem;
-  line-height: 1;
-}
-
 .brand-mark {
-  font-family: 'Fraunces', Georgia, serif;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   color: #f2fff8;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .brand-tag {
@@ -71,18 +48,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-}
-
-.level-pill {
-  align-self: flex-start;
-  background: rgba(61, 220, 151, 0.14);
-  color: var(--brand);
-  border: 1px solid rgba(61, 220, 151, 0.28);
-  border-radius: 999px;
-  padding: 0.28rem 0.7rem;
-  font-size: 0.72rem;
-  font-weight: 650;
-  letter-spacing: 0.02em;
 }
 
 .progress-label {
@@ -241,10 +206,9 @@
 
 .topbar h1 {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
 }
 
 .topbar p:last-child {
@@ -372,9 +336,9 @@
 
 .panel h2 {
   margin: 0 0 0.75rem;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.15rem;
-  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
 }
 
 .lesson-body {
@@ -432,17 +396,6 @@
   border-radius: 14px;
   padding: 0.9rem 1rem;
   font-size: 0.94rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.prompt-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.75;
 }
 
 .editor-wrap {
@@ -571,26 +524,6 @@
   font-weight: 600;
 }
 
-.mood-banner {
-  border-radius: 12px;
-  padding: 0.7rem 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.65rem;
-  animation: pop-in 0.35s ease;
-}
-
-.mood-banner.win {
-  background: linear-gradient(135deg, #dff8ec, #e8fff4);
-  color: var(--teal-deep);
-  border: 1px solid #b7e8d2;
-}
-
-.mood-banner.try {
-  background: #fff7ea;
-  color: #8a5408;
-  border: 1px solid #efd19a;
-}
-
 .idle-results {
   display: grid;
   justify-items: start;
@@ -602,22 +535,6 @@
   margin: 0;
 }
 
-.idle-nudge {
-  font-size: 0.88rem;
-  font-style: italic;
-}
-
-.idle-orb {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 1rem;
-  background:
-    radial-gradient(circle at 30% 30%, #fff 0%, transparent 35%),
-    linear-gradient(145deg, #7af0c0, #4f8fd8);
-  margin-bottom: 0.35rem;
-  animation: mascot-bob 2.8s ease-in-out infinite;
-}
-
 .nav-row {
   display: flex;
   justify-content: space-between;
@@ -627,85 +544,36 @@
 }
 
 .welcome-hero {
-  padding: 1.55rem 1.6rem 1.45rem;
-  border-radius: calc(var(--radius) + 4px);
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--radius);
   background:
-    linear-gradient(135deg, rgba(15, 122, 108, 0.1), rgba(79, 143, 216, 0.1)),
+    linear-gradient(135deg, rgba(15, 122, 108, 0.08), rgba(79, 143, 216, 0.06)),
     rgba(255, 255, 255, 0.9);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-blobs span {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(2px);
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-.hero-blobs span:first-child {
-  width: 180px;
-  height: 180px;
-  background: #9af0cf;
-  right: -40px;
-  top: -50px;
-  animation: drift 8s ease-in-out infinite;
-}
-
-.hero-blobs span:last-child {
-  width: 120px;
-  height: 120px;
-  background: #b8d4ff;
-  right: 80px;
-  bottom: -40px;
-  animation: drift 10s ease-in-out infinite reverse;
 }
 
 .welcome-hero .eyebrow {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
   color: var(--teal);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin: 0 0 0.4rem;
-  position: relative;
+  margin: 0 0 0.35rem;
 }
 
 .welcome-hero h1 {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
-  letter-spacing: -0.035em;
-  line-height: 1.12;
-  max-width: 18ch;
-  position: relative;
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  max-width: 28ch;
 }
 
 .welcome-hero p {
-  margin: 0.65rem 0 0;
+  margin: 0.55rem 0 0;
   max-width: 40rem;
-  color: var(--ink-soft);
-  position: relative;
-}
-
-.hero-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 1rem;
-  position: relative;
-}
-
-.hero-pills span {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #cfe0d8;
-  border-radius: 999px;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
   color: var(--ink-soft);
 }
 
@@ -753,26 +621,6 @@
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes mascot-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-12px, 10px);
   }
 }
 
@@ -837,9 +685,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mascot,
-  .idle-orb,
-  .hero-blobs span,
   .float-in,
   .pop-in,
   .challenge-grid.is-shake,

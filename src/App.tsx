@@ -10,7 +10,6 @@ import {
   isLessonUnlocked,
   modules,
 } from './curriculum/modules'
-import { levelTitle } from './lib/copy'
 import {
   defaultProgress,
   loadProgress,
@@ -108,7 +107,7 @@ function App() {
   }
 
   function resetAll() {
-    if (!confirm('Start fresh? Progress and saved code will clear.')) {
+    if (!confirm('Reset all progress and saved code?')) {
       return
     }
     const fresh = defaultProgress()
@@ -124,21 +123,16 @@ function App() {
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-row">
-            <div className="mascot" aria-hidden>
-              <span className="mascot-face">:</span>
-              <span className="mascot-face">)</span>
-            </div>
-            <div>
+            <div className="brand-mark-block">
               <div className="brand-mark">TS Refresh</div>
-              <div className="brand-tag">Type. Run. High-five yourself.</div>
+              <div className="brand-tag">Learn TypeScript by writing it</div>
             </div>
           </div>
         </div>
 
         <div className="progress-block">
-          <div className="level-pill">{levelTitle(lessonPct)}</div>
           <div className="progress-label">
-            <span>Vibe check</span>
+            <span>Progress</span>
             <span>
               {completedLessons}/{totalLessonCount()} · {lessonPct}%
             </span>
@@ -150,7 +144,7 @@ function App() {
             />
           </div>
           <div className="progress-label">
-            <span>Challenges crushed</span>
+            <span>Challenges completed</span>
             <span>
               {completedChallenges}/{totalChallengeCount()}
             </span>
@@ -186,13 +180,13 @@ function App() {
                     <span
                       className={`lesson-status ${done ? 'done' : ''} ${!unlocked ? 'lock' : ''}`}
                     >
-                      {done ? '✓' : !unlocked ? '' : ''}
+                      {done ? '✓' : ''}
                     </span>
                     <span className="lesson-copy">
                       <strong>{l.title}</strong>
                       <span>
                         ~{l.minutes} min
-                        {l.challenge ? ' · code it' : ' · read'}
+                        {l.challenge ? ' · challenge' : ''}
                       </span>
                     </span>
                   </button>
@@ -207,16 +201,16 @@ function App() {
         <header className="topbar">
           <div>
             <p className="top-eyebrow">
-              Stop {lessonNumber} of {allLessons.length}
+              Lesson {lessonNumber} of {allLessons.length}
             </p>
             <h1>{lesson.title}</h1>
             <p>
-              {module.subtitle} · about {lesson.minutes} min of fun
+              {module.subtitle} · ~{lesson.minutes} min
             </p>
           </div>
           <div className="topbar-actions">
             <button className="btn btn-ghost" type="button" onClick={resetAll}>
-              Start over
+              Reset progress
             </button>
           </div>
         </header>
@@ -224,29 +218,19 @@ function App() {
         <div className="content" key={contentKey}>
           {showWelcomeHero && (
             <section className="welcome-hero float-in">
-              <div className="hero-blobs" aria-hidden>
-                <span />
-                <span />
-              </div>
-              <p className="eyebrow">Welcome back to TypeScript</p>
-              <h1>Rusty is temporary. Fluency is a few reps away.</h1>
+              <p className="eyebrow">TS Refresh</p>
+              <h1>Practice TypeScript from the basics.</h1>
               <p>
-                Short lessons, tiny wins, and challenges that unlock like a
-                game. No judgment if you smash the hint button — that is also
-                studying.
+                Short lessons, then coding challenges you run and test here.
+                Pass each challenge to unlock the next. Use hints if you get
+                stuck. Plan on about 6–8 hours to get through the course.
               </p>
-              <div className="hero-pills">
-                <span>Basics first</span>
-                <span>Hands-on coding</span>
-                <span>~6–8 hours total</span>
-              </div>
             </section>
           )}
 
           <section className="panel float-in learn-panel">
             <div className="panel-kicker">
-              <span className="chip chip-learn">Learn</span>
-              <span className="soft-meta">Snack-sized, promise</span>
+              <span className="chip chip-learn">Lesson</span>
             </div>
             <h2 className="sr-only">Lesson</h2>
             <LessonContent content={lesson.content} />
@@ -281,7 +265,7 @@ function App() {
               disabled={!prevId}
               onClick={() => prevId && goTo(prevId)}
             >
-              ← Back a step
+              Previous
             </button>
 
             {!lesson.challenge && !lessonDone && (
@@ -290,7 +274,7 @@ function App() {
                 type="button"
                 onClick={continueNext}
               >
-                Got it — next →
+                Continue
               </button>
             )}
 
@@ -300,19 +284,19 @@ function App() {
                 type="button"
                 onClick={continueNext}
               >
-                Keep the streak going →
+                Next lesson
               </button>
             )}
 
             {lesson.challenge && !challengeDone && (
               <button className="btn btn-wait" type="button" disabled>
-                Pass the challenge to unlock next
+                Pass the challenge to continue
               </button>
             )}
 
             {!nextId && lessonDone && (
               <button className="btn btn-primary" type="button" disabled>
-                You finished the gym. Go crush that test.
+                Course complete
               </button>
             )}
           </div>
