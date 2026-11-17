@@ -61,7 +61,7 @@ You write types after a colon: \`let x: string = "hi"\`.`,
           id: 'ch-hello',
           title: 'Hello variables',
           prompt:
-            'Declare `greeting` as a string equal to "Hello, TypeScript" and `year` as a number equal to 2026.',
+            'Declare `greeting` with an explicit `string` type equal to "Hello, TypeScript", and `year` with an explicit `number` type equal to 2026. (Not plain JavaScript — type annotations required.)',
           starterCode: `// Write your code below.
 
 `,
@@ -73,11 +73,11 @@ You write types after a colon: \`let x: string = "hi"\`.`,
           ],
           tests: [
             {
-              description: 'greeting is the correct string',
+              description: 'greeting equals "Hello, TypeScript"',
               run: (s) => eq(s.greeting, 'Hello, TypeScript', 'greeting'),
             },
             {
-              description: 'year is the number 2026',
+              description: 'year equals 2026 (number, not string)',
               run: (s) => eq(s.year, 2026, 'year'),
             },
           ],

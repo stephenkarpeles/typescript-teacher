@@ -1,4 +1,5 @@
 import type { Challenge, TestResult } from '../curriculum/types'
+import { missingTypeAnnotations } from './annotations'
 
 export type RunOutcome = {
   ok: boolean
@@ -59,7 +60,6 @@ export async function runChallenge(
 
   let scope: Record<string, unknown>
   try {
-    // Student code runs in a Function sandbox (no DOM access by default beyond what we pass).
     const factory = new Function(wrapped)
     scope = factory() as Record<string, unknown>
   } catch (err) {
@@ -80,7 +80,19 @@ export async function runChallenge(
     }
   }
 
-  const results: TestResult[] = challenge.tests.map((test) => {
+  const untyped = missingTypeAnnotations(ts, code, challenge.exports)
+  const annotationResults: TestResult[] = challenge.exports.map((name) => {
+    const ok = !untyped.includes(name)
+    return {
+      description: `${name} has an explicit TypeScript type`,
+      passed: ok,
+      error: ok
+        ? undefined
+        : `Add a type annotation — plain JavaScript is not enough. Example: \`let ${name}: string = ...\` or typed function params/return.`,
+    }
+  })
+
+  const valueResults: TestResult[] = challenge.tests.map((test) => {
     try {
       test.run(scope)
       return { description: test.description, passed: true }
@@ -92,6 +104,8 @@ export async function runChallenge(
       }
     }
   })
+
+  const results = [...annotationResults, ...valueResults]
 
   return {
     ok: results.every((r) => r.passed),
