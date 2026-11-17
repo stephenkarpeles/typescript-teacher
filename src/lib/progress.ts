@@ -1,7 +1,7 @@
 import { modules } from '../curriculum/modules'
 import type { ProgressState } from '../curriculum/types'
 
-const KEY = 'ts-refresh-progress-v3'
+const KEY = 'ts-refresh-progress-v4'
 
 const firstLessonId = modules[0].lessons[0].id
 

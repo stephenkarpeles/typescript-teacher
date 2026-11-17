@@ -2,7 +2,10 @@ import type { Challenge, TestResult } from '../curriculum/types'
 import {
   annotationErrorMessage,
   findAnnotationIssues,
+  findMissingConsts,
+  findMissingTypeAliases,
 } from './annotations'
+import { hasForbiddenEscapeHatches, typecheckStudentCode } from './typecheck'
 
 export type RunOutcome = {
   ok: boolean
@@ -16,6 +19,17 @@ export async function runChallenge(
   challenge: Challenge,
 ): Promise<RunOutcome> {
   const ts = await import('typescript')
+
+  const escapeHatch = hasForbiddenEscapeHatches(code)
+  if (escapeHatch) {
+    return { ok: false, compileError: escapeHatch, results: [] }
+  }
+
+  const typeError = typecheckStudentCode(ts, code)
+  if (typeError) {
+    return { ok: false, compileError: typeError, results: [] }
+  }
+
   let js: string
   try {
     const output = ts.transpileModule(code, {
@@ -24,26 +38,7 @@ export async function runChallenge(
         target: ts.ScriptTarget.ES2020,
         strict: true,
       },
-      reportDiagnostics: true,
     })
-
-    const diags = (output.diagnostics ?? []).filter(
-      (d) => d.category === ts.DiagnosticCategory.Error,
-    )
-    if (diags.length > 0) {
-      const msg = diags
-        .map((d) => {
-          const text = ts.flattenDiagnosticMessageText(d.messageText, '\n')
-          if (d.file && d.start != null) {
-            const { line } = d.file.getLineAndCharacterOfPosition(d.start)
-            return `Line ${line + 1}: ${text}`
-          }
-          return text
-        })
-        .join('\n')
-      return { ok: false, compileError: msg, results: [] }
-    }
-
     js = output.outputText
   } catch (err) {
     return {
@@ -73,47 +68,100 @@ export async function runChallenge(
   }
 
   for (const name of challenge.exports) {
-    if (scope[name] === undefined) {
+    if (!(name in scope)) {
       return {
         ok: false,
         runtimeError: `Missing \`${name}\`. Make sure you declared it with that exact name.`,
         results: [],
       }
     }
-  }
-
-  const issues = findAnnotationIssues(ts, code, challenge.exports)
-  const issueByName = new Map(issues.map((i) => [i.name, i]))
-
-  const annotationResults: TestResult[] = challenge.exports.map((name) => {
-    const issue = issueByName.get(name)
-    if (!issue) {
+    // false / 0 / '' are valid. Uninitialized bindings are undefined.
+    // Function exports are always function objects when declared.
+    if (scope[name] === undefined) {
       return {
-        description: `${name} has an explicit type annotation`,
-        passed: true,
+        ok: false,
+        runtimeError: `\`${name}\` is declared but has no value yet. Initialize it.`,
+        results: [],
       }
     }
-    return {
-      description: `${name} has an explicit type annotation`,
-      passed: false,
-      error: annotationErrorMessage(issue),
-    }
-  })
+  }
 
-  const valueResults: TestResult[] = challenge.tests.map((test) => {
+  const results: TestResult[] = []
+
+  const missingAliases = findMissingTypeAliases(
+    ts,
+    code,
+    challenge.requireTypeAlias ?? [],
+  )
+  for (const alias of missingAliases) {
+    results.push({
+      description: `defines type/interface \`${alias}\``,
+      passed: false,
+      error: `Declare \`type ${alias} = { ... }\` (or an interface with that name) before using it.`,
+    })
+  }
+  for (const alias of challenge.requireTypeAlias ?? []) {
+    if (!missingAliases.includes(alias)) {
+      results.push({
+        description: `defines type/interface \`${alias}\``,
+        passed: true,
+      })
+    }
+  }
+
+  const missingConsts = findMissingConsts(ts, code, challenge.requireConst ?? [])
+  for (const name of missingConsts) {
+    results.push({
+      description: `${name} is declared with const`,
+      passed: false,
+      error: `Use \`const\` for \`${name}\` (it should not be reassigned).`,
+    })
+  }
+  for (const name of challenge.requireConst ?? []) {
+    if (!missingConsts.includes(name)) {
+      results.push({
+        description: `${name} is declared with const`,
+        passed: true,
+      })
+    }
+  }
+
+  const issues = findAnnotationIssues(
+    ts,
+    code,
+    challenge.exports,
+    challenge.expectedTypes ?? {},
+  )
+  const issueByName = new Map(issues.map((i) => [i.name, i]))
+
+  for (const name of challenge.exports) {
+    const issue = issueByName.get(name)
+    if (!issue) {
+      results.push({
+        description: `${name} has the correct explicit type`,
+        passed: true,
+      })
+    } else {
+      results.push({
+        description: `${name} has the correct explicit type`,
+        passed: false,
+        error: annotationErrorMessage(issue),
+      })
+    }
+  }
+
+  for (const test of challenge.tests) {
     try {
       test.run(scope)
-      return { description: test.description, passed: true }
+      results.push({ description: test.description, passed: true })
     } catch (err) {
-      return {
+      results.push({
         description: test.description,
         passed: false,
         error: err instanceof Error ? err.message : String(err),
-      }
+      })
     }
-  })
-
-  const results = [...annotationResults, ...valueResults]
+  }
 
   return {
     ok: results.every((r) => r.passed),

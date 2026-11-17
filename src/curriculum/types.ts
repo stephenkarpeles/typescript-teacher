@@ -17,6 +17,16 @@ export type Challenge = {
   starterCode: string
   /** Names that must exist after the student code runs. */
   exports: string[]
+  /**
+   * Expected explicit type text per export (normalized loosely).
+   * Examples: "string", "number[]", "Person", "(a: number, b: number) => number"
+   * For functions we mainly enforce via starter + typecheck; this is used for variables.
+   */
+  expectedTypes?: Record<string, string>
+  /** These bindings must be declared with `const`. */
+  requireConst?: string[]
+  /** These type/interface names must be declared in the source. */
+  requireTypeAlias?: string[]
   hints: string[]
   tests: ChallengeTest[]
 }

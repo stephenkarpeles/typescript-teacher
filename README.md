@@ -37,3 +37,4 @@ Progress and your code drafts are saved in the browser (`localStorage`).
 - `npm run dev` — local teaching app
 - `npm run build` — production build
 - `npm run preview` — preview the build
+- `npm run audit:challenges` — verify every challenge solution passes and known wrong answers fail

@@ -6,8 +6,13 @@ function eq(actual: unknown, expected: unknown, label?: string) {
     (Number.isNaN(actual as number) && Number.isNaN(expected as number)) ||
     JSON.stringify(actual) === JSON.stringify(expected)
   if (!same) {
+    const prefix = label ? `${label}: ` : ''
+    const typeNote =
+      typeof actual !== typeof expected
+        ? ` (got type ${typeof actual}, expected ${typeof expected})`
+        : ''
     throw new Error(
-      `${label ? label + ': ' : ''}expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,
+      `${prefix}expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}${typeNote}`,
     )
   }
 }
@@ -39,12 +44,12 @@ How this course works:
 
 We start from the absolute basics.`,
         example: `// Plain JavaScript — easy to mess up later
-let name = "Alex"
-name = 42  // oops, still allowed in JS
+let label = "Alex"
+label = 42  // oops, still allowed in JS
 
 // TypeScript — you declare the shape
-let name: string = "Alex"
-// name = 42  // TypeScript error: number is not a string`,
+let label: string = "Alex"
+// label = 42  // TypeScript error: number is not a string`
       },
       {
         id: 'welcome-first-challenge',
@@ -66,6 +71,7 @@ You write types after a colon: \`let x: string = "hi"\`.`,
 
 `,
           exports: ['greeting', 'year'],
+          expectedTypes: { greeting: 'string', year: 'number' },
           hints: [
             'Put the type after the variable name with a colon, like `name: type`.',
             '`greeting` needs type `string`. `year` needs type `number` — and 2026 should not be in quotes.',
@@ -106,7 +112,7 @@ You can let TypeScript **infer** the type:
 Or you can **annotate** explicitly:
 \`let age: number = 30\`
 
-In interviews and learning, annotations make your intent obvious. We will use them a lot.`,
+In this course, challenges require **explicit** annotations (even when TypeScript could infer them). That is deliberate practice for interviews.`,
         example: `let title: string = "Engineer"
 let level: number = 3
 let hired: boolean = true`,
@@ -132,6 +138,12 @@ Both can have type annotations:
 
 `,
           exports: ['productName', 'inStock', 'quantity'],
+          expectedTypes: {
+            productName: 'string',
+            inStock: 'boolean',
+            quantity: 'number',
+          },
+          requireConst: ['productName'],
           hints: [
             'One of these should use `const` (it never changes). The other two should use `let`.',
             'Annotate each one: string, boolean, and number.',
@@ -162,8 +174,11 @@ Both can have type annotations:
           id: 'ch-status',
           title: 'Active flag + status',
           prompt: 'Declare isActive: boolean = false and status: string = "paused".',
-          starterCode: ``,
+          starterCode: `// Write your code below.
+
+`,
           exports: ['isActive', 'status'],
+          expectedTypes: { isActive: 'boolean', status: 'string' },
           hints: [
             '`isActive` is a yes/no value. `status` is text.',
             'Use `boolean` and `string` annotations. `false` has no quotes; `"paused"` does.',
@@ -212,8 +227,11 @@ names.push("Grace")
           id: 'ch-arrays',
           title: 'temps and cities',
           prompt: 'Create temps: number[] = [72, 68, 75] and cities: string[] = ["Austin", "Denver"].',
-          starterCode: ``,
+          starterCode: `// Write your code below.
+
+`,
           exports: ['temps', 'cities'],
+          expectedTypes: { temps: 'number[]', cities: 'string[]' },
           hints: [
             'Array types look like `number[]` or `string[]`.',
             'Fill `temps` with three numbers and `cities` with two city names from the lesson.',
@@ -289,6 +307,9 @@ const item: Product = {
 
 `,
           exports: ['player'],
+          expectedTypes: { player: 'Person' },
+          requireTypeAlias: ['Person'],
+          requireConst: ['player'],
           hints: [
             'First define a `type` alias with two fields, then create a value that uses it.',
             'The fields are `name` (string) and `score` (number).',
@@ -454,18 +475,15 @@ setStatus("loading")
       },
       {
         id: 'optional-intro',
-        title: 'Optional properties',
+        title: 'Challenge: union status helper',
         minutes: 10,
-        content: `Put \`?\` after a property name to make it optional:
+        content: `Optional properties use \`?\` (example: \`nickname?: string\`) and may be missing.
 
-\`\`\`
-type User = {
-  name: string
-  nickname?: string
-}
-\`\`\`
+This challenge focuses on **string literal unions** — a very common interview pattern:
 
-\`nickname\` may be missing. When you read it, it might be \`string | undefined\`.`,
+\`type LoadState = "idle" | "loading" | "error"\`
+
+Only those three values are allowed. You will write a helper that checks for one of them.`,
         challenge: {
           id: 'ch-union-status',
           title: 'Status union helper',
@@ -479,6 +497,7 @@ function isLoading(state: LoadState): boolean {
 
 `,
           exports: ['isLoading'],
+          requireTypeAlias: ['LoadState'],
           hints: [
             'You only need to check whether `state` equals one specific string.',
             'A comparison like `===` already returns a boolean — you can return that directly.',
@@ -635,6 +654,7 @@ function activeNames(users: User[]): string[] {
 
 `,
           exports: ['activeNames'],
+          requireTypeAlias: ['User'],
           hints: [
             'You need two steps: keep only active users, then get their names.',
             'Chain `filter` and then `map` on the result.',
@@ -702,6 +722,7 @@ function findById(items: Item[], id: number): Item | undefined {
 
 `,
           exports: ['findById'],
+          requireTypeAlias: ['Item'],
           hints: [
             'Look for an array method that returns the first matching element (or undefined).',
             "Compare each item's `id` to the `id` argument.",
@@ -950,6 +971,7 @@ function inStockTotal(items: CartItem[]): number {
 
 `,
           exports: ['inStockTotal'],
+          requireTypeAlias: ['CartItem'],
           hints: [
             'Ignore items that are not in stock first.',
             'Then add up the `price` values of what remains.',
@@ -1003,6 +1025,7 @@ function uniqueTags(posts: Post[]): string[] {
 
 `,
           exports: ['uniqueTags'],
+          requireTypeAlias: ['Post'],
           hints: [
             'First collect every tag from every post into one list.',
             '`flatMap` (or map + flat) helps flatten the nested tag arrays.',
@@ -1063,6 +1086,7 @@ function groupByRole(people: Person[]): Record<string, string[]> {
 
 `,
           exports: ['groupByRole'],
+          requireTypeAlias: ['Person'],
           hints: [
             'Build an object whose keys are roles and whose values are arrays of names.',
             'Loop (or reduce): for each person, make sure that role key exists as an array.',
