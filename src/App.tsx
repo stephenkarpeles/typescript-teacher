@@ -10,6 +10,7 @@ import {
   isLessonUnlocked,
   modules,
 } from './curriculum/modules'
+import { levelTitle } from './lib/copy'
 import {
   defaultProgress,
   loadProgress,
@@ -22,6 +23,7 @@ import type { ProgressState } from './curriculum/types'
 function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress())
   const [ready, setReady] = useState(false)
+  const [contentKey, setContentKey] = useState(0)
 
   useEffect(() => {
     setReady(true)
@@ -56,6 +58,7 @@ function App() {
       return
     }
     setProgress((p) => ({ ...p, currentLessonId: lessonId }))
+    setContentKey((k) => k + 1)
   }
 
   function markChallengePassed(challengeId: string) {
@@ -100,20 +103,18 @@ function App() {
         completedLessonIds,
         currentLessonId: nextId,
       }))
+      setContentKey((k) => k + 1)
     }
   }
 
   function resetAll() {
-    if (
-      !confirm(
-        'Reset all progress and saved code? This cannot be undone.',
-      )
-    ) {
+    if (!confirm('Start fresh? Progress and saved code will clear.')) {
       return
     }
     const fresh = defaultProgress()
     setProgress(fresh)
     saveProgress(fresh)
+    setContentKey((k) => k + 1)
   }
 
   const showWelcomeHero = lesson.id === modules[0].lessons[0].id
@@ -122,13 +123,22 @@ function App() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">TS Refresh</div>
-          <div className="brand-tag">Hands-on TypeScript, from zero</div>
+          <div className="brand-row">
+            <div className="mascot" aria-hidden>
+              <span className="mascot-face">:</span>
+              <span className="mascot-face">)</span>
+            </div>
+            <div>
+              <div className="brand-mark">TS Refresh</div>
+              <div className="brand-tag">Type. Run. High-five yourself.</div>
+            </div>
+          </div>
         </div>
 
         <div className="progress-block">
+          <div className="level-pill">{levelTitle(lessonPct)}</div>
           <div className="progress-label">
-            <span>Course progress</span>
+            <span>Vibe check</span>
             <span>
               {completedLessons}/{totalLessonCount()} · {lessonPct}%
             </span>
@@ -140,7 +150,7 @@ function App() {
             />
           </div>
           <div className="progress-label">
-            <span>Challenges cleared</span>
+            <span>Challenges crushed</span>
             <span>
               {completedChallenges}/{totalChallengeCount()}
             </span>
@@ -148,9 +158,12 @@ function App() {
         </div>
 
         <div className="module-list">
-          {modules.map((m) => (
-            <div key={m.id}>
-              <div className="module-title">{m.title}</div>
+          {modules.map((m, mi) => (
+            <div key={m.id} className="module-group">
+              <div className="module-title">
+                <span className="module-index">{String(mi + 1).padStart(2, '0')}</span>
+                {m.title.replace(/^Module \d+ — /, '')}
+              </div>
               {m.lessons.map((l) => {
                 const unlocked = isLessonUnlocked(
                   l.id,
@@ -165,7 +178,7 @@ function App() {
                 return (
                   <button
                     key={l.id}
-                    className={`lesson-btn ${active ? 'active' : ''}`}
+                    className={`lesson-btn ${active ? 'active' : ''} ${done ? 'done-row' : ''}`}
                     disabled={!unlocked}
                     onClick={() => goTo(l.id)}
                     type="button"
@@ -173,13 +186,13 @@ function App() {
                     <span
                       className={`lesson-status ${done ? 'done' : ''} ${!unlocked ? 'lock' : ''}`}
                     >
-                      {done ? '✓' : !unlocked ? '·' : ''}
+                      {done ? '✓' : !unlocked ? '' : ''}
                     </span>
                     <span className="lesson-copy">
                       <strong>{l.title}</strong>
                       <span>
                         ~{l.minutes} min
-                        {l.challenge ? ' · challenge' : ''}
+                        {l.challenge ? ' · code it' : ' · read'}
                       </span>
                     </span>
                   </button>
@@ -193,35 +206,49 @@ function App() {
       <div className="main">
         <header className="topbar">
           <div>
-            <h1>
-              Lesson {lessonNumber}: {lesson.title}
-            </h1>
+            <p className="top-eyebrow">
+              Stop {lessonNumber} of {allLessons.length}
+            </p>
+            <h1>{lesson.title}</h1>
             <p>
-              {module.subtitle} · ~{lesson.minutes} min
+              {module.subtitle} · about {lesson.minutes} min of fun
             </p>
           </div>
           <div className="topbar-actions">
             <button className="btn btn-ghost" type="button" onClick={resetAll}>
-              Reset progress
+              Start over
             </button>
           </div>
         </header>
 
-        <div className="content">
+        <div className="content" key={contentKey}>
           {showWelcomeHero && (
-            <section className="welcome-hero">
-              <p className="eyebrow">TS Refresh</p>
-              <h1>Get fluent again by writing TypeScript, not watching it.</h1>
+            <section className="welcome-hero float-in">
+              <div className="hero-blobs" aria-hidden>
+                <span />
+                <span />
+              </div>
+              <p className="eyebrow">Welcome back to TypeScript</p>
+              <h1>Rusty is temporary. Fluency is a few reps away.</h1>
               <p>
-                Absolute basics first. Then short challenges you must pass
-                before moving on. About 6–8 hours to interview-ready muscle
-                memory — map, filter, types, and the drills that show up live.
+                Short lessons, tiny wins, and challenges that unlock like a
+                game. No judgment if you smash the hint button — that is also
+                studying.
               </p>
+              <div className="hero-pills">
+                <span>Basics first</span>
+                <span>Hands-on coding</span>
+                <span>~6–8 hours total</span>
+              </div>
             </section>
           )}
 
-          <section className="panel">
-            <h2>Learn</h2>
+          <section className="panel float-in learn-panel">
+            <div className="panel-kicker">
+              <span className="chip chip-learn">Learn</span>
+              <span className="soft-meta">Snack-sized, promise</span>
+            </div>
+            <h2 className="sr-only">Lesson</h2>
             <LessonContent content={lesson.content} />
             {lesson.example && (
               <pre className="example-block" style={{ marginTop: '1rem' }}>
@@ -247,14 +274,14 @@ function App() {
             />
           )}
 
-          <div className="nav-row panel">
+          <div className="nav-row panel float-in">
             <button
               className="btn"
               type="button"
               disabled={!prevId}
               onClick={() => prevId && goTo(prevId)}
             >
-              ← Previous
+              ← Back a step
             </button>
 
             {!lesson.challenge && !lessonDone && (
@@ -263,7 +290,7 @@ function App() {
                 type="button"
                 onClick={continueNext}
               >
-                Mark read & continue →
+                Got it — next →
               </button>
             )}
 
@@ -273,19 +300,19 @@ function App() {
                 type="button"
                 onClick={continueNext}
               >
-                Next lesson →
+                Keep the streak going →
               </button>
             )}
 
             {lesson.challenge && !challengeDone && (
-              <button className="btn" type="button" disabled>
-                Pass the challenge to continue
+              <button className="btn btn-wait" type="button" disabled>
+                Pass the challenge to unlock next
               </button>
             )}
 
             {!nextId && lessonDone && (
               <button className="btn btn-primary" type="button" disabled>
-                Course complete
+                You finished the gym. Go crush that test.
               </button>
             )}
           </div>

@@ -1,29 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --ink: #14212b;
-  --ink-soft: #3a4a57;
-  --muted: #6b7c8a;
-  --paper: #f3f6f8;
+  --ink: #132029;
+  --ink-soft: #3d4f5c;
+  --muted: #6d7f8c;
+  --paper: #eef5f2;
   --panel: #ffffff;
-  --line: #d5dee6;
-  --teal: #0f7a6c;
-  --teal-deep: #0a554c;
-  --teal-soft: #d8f0eb;
-  --amber: #c47a16;
-  --amber-soft: #fff1d6;
-  --rose: #b42318;
-  --rose-soft: #fde8e6;
-  --ok: #1f7a3f;
-  --ok-soft: #e3f6ea;
-  --sidebar: #101820;
-  --sidebar-text: #c5d0d8;
-  --sidebar-active: #1c2a35;
+  --line: #cfe0d8;
+  --teal: #0d7c6c;
+  --teal-deep: #08584c;
+  --teal-soft: #d4f3ea;
+  --sky: #4f8fd8;
+  --amber: #d4890f;
+  --amber-soft: #fff3d6;
+  --rose: #c2413b;
+  --rose-soft: #ffe3df;
+  --ok: #1d7a45;
+  --ok-soft: #dff7e8;
+  --sidebar: #0c1a22;
+  --sidebar-text: #c8d5de;
+  --sidebar-active: #173041;
   --brand: #3ddc97;
-  --shadow: 0 12px 40px rgba(16, 24, 32, 0.08);
-  --radius: 14px;
+  --coral: #ff6b5b;
+  --shadow: 0 16px 48px rgba(12, 40, 36, 0.09);
+  --radius: 18px;
   font-family: 'DM Sans', sans-serif;
-  line-height: 1.5;
+  line-height: 1.55;
   font-weight: 400;
   color: var(--ink);
   background: var(--paper);
@@ -46,9 +48,11 @@ body,
 body {
   min-width: 320px;
   background:
-    radial-gradient(1200px 600px at 10% -10%, #d9efe9 0%, transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, #e7eef5 0%, transparent 50%),
-    var(--paper);
+    radial-gradient(900px 520px at 8% -8%, #c8f0df 0%, transparent 55%),
+    radial-gradient(700px 480px at 92% 0%, #d6e8ff 0%, transparent 50%),
+    radial-gradient(600px 400px at 70% 100%, #ffe8d6 0%, transparent 45%),
+    linear-gradient(180deg, #f4faf7 0%, #eaf3ef 100%);
+  background-attachment: fixed;
 }
 
 button,
@@ -64,4 +68,20 @@ pre,
 
 button {
   cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+::selection {
+  background: #b8efd8;
+  color: var(--ink);
 }

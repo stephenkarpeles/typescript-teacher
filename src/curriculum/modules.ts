@@ -22,22 +22,22 @@ export const modules: Module[] = [
         id: 'welcome-what',
         title: 'JavaScript… with seatbelts',
         minutes: 8,
-        content: `You used to know JavaScript. TypeScript is still JavaScript — it runs the same way in the browser and Node.
+        content: `You used to know JavaScript. TypeScript is still JavaScript — same runtime, same loops, same \`console.log\` energy.
 
-The difference: you add **types**. Types describe what kind of value something is supposed to be (a string, a number, an array of users, etc.).
+The twist: you add **types**. Types are sticky notes that say “this is a string” or “this is a list of users.” The compiler reads those notes and yells (politely) when something looks wrong.
 
 Why bother?
 - Catch bugs *before* you run the code
-- Autocomplete and docs while you type
-- Coding interviews and real codebases expect it
+- Autocomplete that feels like cheating
+- Interviews and real teams expect it
 
-In this gym you will:
-1. Read a short lesson
-2. Write TypeScript in the editor
-3. Run tests — you must pass before the next lesson unlocks
-4. Use **Get hint** if you are stuck (no shame)
+How this gym works:
+1. Read a short, snack-sized lesson
+2. Write TypeScript in the playground
+3. Run tests — pass to unlock the next stop
+4. Smash **Get hint** if you’re stuck (that counts as studying)
 
-Pretend you know nothing. We start from absolute zero.`,
+Pretend you know nothing. Absolute zero. Let’s go.`
         example: `// Plain JavaScript — easy to mess up later
 let name = "Alex"
 name = 42  // oops, still allowed in JS
