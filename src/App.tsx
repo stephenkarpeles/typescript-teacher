@@ -253,10 +253,7 @@ function App() {
                     </span>
                     <span className="lesson-copy">
                       <strong>{l.title}</strong>
-                      <span>
-                        ~{l.minutes} min
-                        {l.challenge ? ' · challenge' : ''}
-                      </span>
+                      {l.challenge ? <span>challenge</span> : null}
                     </span>
                   </button>
                 )
