@@ -21,19 +21,46 @@ import type { ProgressState } from './curriculum/types'
 
 type Phase = 'learn' | 'challenge'
 
+const SIDEBAR_KEY = 'ts-refresh-sidebar-open'
+
+function readSidebarOpen(): boolean {
+  try {
+    const raw = localStorage.getItem(SIDEBAR_KEY)
+    if (raw === null) return true
+    return raw === '1'
+  } catch {
+    return true
+  }
+}
+
 function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress())
   const [ready, setReady] = useState(false)
   const [contentKey, setContentKey] = useState(0)
   const [phase, setPhase] = useState<Phase>('learn')
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   useEffect(() => {
+    setSidebarOpen(readSidebarOpen())
     setReady(true)
   }, [])
 
   useEffect(() => {
     if (ready) saveProgress(progress)
   }, [progress, ready])
+
+  useEffect(() => {
+    if (!ready) return
+    try {
+      localStorage.setItem(SIDEBAR_KEY, sidebarOpen ? '1' : '0')
+    } catch {
+      // ignore
+    }
+  }, [sidebarOpen, ready])
+
+  function toggleSidebar() {
+    setSidebarOpen((open) => !open)
+  }
 
   const current = useMemo(
     () => getLessonById(progress.currentLessonId) ?? flattenLessons()[0],
@@ -148,14 +175,23 @@ function App() {
     showingLearn && lesson.id === modules[0].lessons[0].id
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
+    <div className={`app-shell ${sidebarOpen ? '' : 'sidebar-collapsed'}`.trim()}>
+      <aside id="course-sidebar" className="sidebar" aria-hidden={!sidebarOpen}>
         <div className="brand">
           <div className="brand-row">
             <div className="brand-mark-block">
               <div className="brand-mark">TS Refresh</div>
               <div className="brand-tag">Learn TypeScript by writing it</div>
             </div>
+            <button
+              className="btn btn-ghost sidebar-hide"
+              type="button"
+              onClick={toggleSidebar}
+              aria-label="Hide sidebar"
+              title="Hide sidebar"
+            >
+              Hide
+            </button>
           </div>
         </div>
 
@@ -247,6 +283,15 @@ function App() {
             </p>
           </div>
           <div className="topbar-actions">
+            <button
+              className="btn btn-ghost"
+              type="button"
+              onClick={toggleSidebar}
+              aria-expanded={sidebarOpen}
+              aria-controls="course-sidebar"
+            >
+              {sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+            </button>
             <button className="btn btn-ghost" type="button" onClick={resetAll}>
               Reset progress
             </button>
