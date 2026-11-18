@@ -55,19 +55,22 @@
   min-width: 0;
 }
 
-.sidebar-hide {
+.sidebar .btn.sidebar-hide {
   flex-shrink: 0;
-  color: #9bb5a8;
-  border-color: #2a4450;
-  padding: 0.35rem 0.7rem;
+  color: #d7e8df;
+  background: transparent;
+  border-color: #3d5c68;
+  padding: 0.35rem 0.75rem;
   font-size: 0.78rem;
+  white-space: nowrap;
 }
 
-.sidebar-hide:hover:not(:disabled) {
-  color: #f2fff8;
-  border-color: #3d5c68;
-  background: rgba(255, 255, 255, 0.04);
+.sidebar .btn.sidebar-hide:hover:not(:disabled) {
+  color: #ffffff;
+  border-color: #5a7d88;
+  background: rgba(255, 255, 255, 0.06);
   box-shadow: none;
+  transform: none;
 }
 
 .brand-mark {

@@ -190,7 +190,7 @@ function App() {
               aria-label="Hide sidebar"
               title="Hide sidebar"
             >
-              Hide
+              ← Hide
             </button>
           </div>
         </div>
@@ -290,7 +290,7 @@ function App() {
               aria-expanded={sidebarOpen}
               aria-controls="course-sidebar"
             >
-              {sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+              {sidebarOpen ? '← Hide sidebar' : 'Show sidebar →'}
             </button>
             <button className="btn btn-ghost" type="button" onClick={resetAll}>
               Reset progress
