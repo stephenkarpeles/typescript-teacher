@@ -471,14 +471,12 @@ function add(a: number, b: number): number {
 
 If the body returns the wrong type (or returns nothing when a type was promised), TypeScript errors.
 
-The starter code for the next challenge already has the signature filled in. Your job is the body: compute the right value and \`return\` it.`,
+In the challenge you will type the **whole function** yourself: name, parameter types, return type, and body. The prompt lists the required signature.`,
         challenge: {
           id: 'ch-multiply',
           title: 'multiply(a, b)',
-          prompt: 'Complete `multiply` so it returns the product of `a` and `b`.',
-          starterCode: `function multiply(a: number, b: number): number {
-
-}
+          prompt: 'Write `function multiply(a: number, b: number): number` that returns the product of `a` and `b`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['multiply'],
@@ -540,10 +538,8 @@ The challenge gives you a function signature. Fill in the return so the format m
           id: 'ch-format',
           title: 'formatLabel',
           prompt:
-            'Complete `formatLabel` so it returns a string like "Task (3)" — the name, a space, then the count in parentheses.',
-          starterCode: `function formatLabel(name: string, count: number): string {
-  
-}
+            'Write `function formatLabel(name: string, count: number): string` that returns a string like "Task (3)" — the name, a space, then the count in parentheses.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['formatLabel'],
@@ -624,12 +620,8 @@ You will also write a small helper that takes a \`LoadState\` and returns a \`bo
           id: 'ch-union-status',
           title: 'Status union helper',
           prompt:
-            'Finish `isLoading` so it returns true only when `state` is "loading". The `LoadState` union is already started for you.',
-          starterCode: `type LoadState = "idle" | "loading" | "error"
-
-function isLoading(state: LoadState): boolean {
-
-}
+            'Define `type LoadState = "idle" | "loading" | "error"`. Write `function isLoading(state: LoadState): boolean` that returns true only when `state` is "loading".',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['isLoading'],
@@ -699,22 +691,12 @@ const withTax = prices.map((p: number) => p * 1.1)`,
         minutes: 12,
         content: `Practice \`map\` on a typed function.
 
-You will get a starter like:
-
-\`\`\`
-function doubleAll(nums: number[]): number[] {
-  // ...
-}
-\`\`\`
-
-That signature already says: take an array of numbers, return an array of numbers. Inside, use \`map\` so each value becomes twice itself. An empty input should return an empty array (and \`map\` does that for free).`,
+You will write a full function that takes \`number[]\` and returns \`number[]\`. Inside, use \`map\` so each value becomes twice itself. An empty input should return an empty array (\`map\` does that for free). Type the whole signature yourself from the challenge prompt.`,
         challenge: {
           id: 'ch-double-all',
           title: 'doubleAll',
-          prompt: 'Complete `doubleAll` so it returns a new array where each number is doubled.',
-          starterCode: `function doubleAll(nums: number[]): number[] {
-  
-}
+          prompt: 'Write `function doubleAll(nums: number[]): number[]` that returns a new array where each number is doubled.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['doubleAll'],
@@ -761,10 +743,8 @@ Unlike \`map\`, the result can be shorter than the input. If nothing passes, you
         challenge: {
           id: 'ch-evens',
           title: 'onlyEvens',
-          prompt: 'Complete `onlyEvens` so it returns only the even numbers from `nums`.',
-          starterCode: `function onlyEvens(nums: number[]): number[] {
-  
-}
+          prompt: 'Write `function onlyEvens(nums: number[]): number[]` that returns only the even numbers from `nums`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['onlyEvens'],
@@ -816,12 +796,9 @@ Chaining reads left to right and returns one final array. You will do the same p
         challenge: {
           id: 'ch-active-names',
           title: 'activeNames',
-          prompt: 'Filter active users, then map to their name strings.',
-          starterCode: `type User = { name: string; active: boolean }
-
-function activeNames(users: User[]): string[] {
-  
-}
+          prompt:
+            'Define `type User = { name: string; active: boolean }`. Write `function activeNames(users: User[]): string[]` that returns the names of active users.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['activeNames'],
@@ -892,12 +869,8 @@ The challenge asks you to find by \`id\`. Prefer \`find\` over writing your own 
           id: 'ch-find-by-id',
           title: 'findById',
           prompt:
-            'Complete `findById` so it returns the item whose `id` matches, or `undefined` if none match.',
-          starterCode: `type Item = { id: number; label: string }
-
-function findById(items: Item[], id: number): Item | undefined {
-  
-}
+            'Define `type Item = { id: number; label: string }`. Write `function findById(items: Item[], id: number): Item | undefined` that returns the matching item or `undefined`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['findById'],
@@ -994,10 +967,8 @@ Next: write a function that sums a number array with \`reduce\`.`,
         challenge: {
           id: 'ch-sum',
           title: 'sumNumbers',
-          prompt: 'Complete `sumNumbers` so it returns the sum of all numbers. An empty array should return 0.',
-          starterCode: `function sumNumbers(nums: number[]): number {
-  
-}
+          prompt: 'Write `function sumNumbers(nums: number[]): number` that returns the sum of all numbers. An empty array should return 0.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['sumNumbers'],
@@ -1092,10 +1063,8 @@ Next you will narrow \`string | number\` and always return a \`string\`.`,
           id: 'ch-to-string',
           title: 'asString',
           prompt:
-            'Complete `asString`: if the value is a number, return it as a string; if it is already a string, return it unchanged.',
-          starterCode: `function asString(value: string | number): string {
-  
-}
+            'Write `function asString(value: string | number): string`. If the value is a number, return it as a string; if it is already a string, return it unchanged.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['asString'],
@@ -1174,18 +1143,13 @@ wrap(1)   // number[]`,
 
 **first item** — take an array \`T[]\`, return the element at index \`0\`. Empty arrays give \`undefined\` at index \`0\`, so the return type is usually \`T | undefined\`.
 
-The starter code already has both signatures. Fill in each body. Do not overthink — these are about the generic shape, not tricky logic.`,
+Type both full function signatures yourself (including \`<T>\`), then fill in each body. Do not overthink — these are about the generic shape, not tricky logic.`,
         challenge: {
           id: 'ch-generics',
           title: 'identity + firstItem',
-          prompt: 'Implement identity<T> and firstItem<T>.',
-          starterCode: `function identity<T>(value: T): T {
-  
-}
-
-function firstItem<T>(items: T[]): T | undefined {
-  
-}
+          prompt:
+            'Write `function identity<T>(value: T): T` and `function firstItem<T>(items: T[]): T | undefined`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['identity', 'firstItem'],
@@ -1292,10 +1256,8 @@ You annotate the empty array (\`number[]\`) so TypeScript knows what you are col
           id: 'ch-collect-odds',
           title: 'collectOdds',
           prompt:
-            'Complete `collectOdds(nums)` so it returns only the odd numbers, in the same order. Use a loop and `push` (not `filter`).',
-          starterCode: `function collectOdds(nums: number[]): number[] {
-  
-}
+            'Write `function collectOdds(nums: number[]): number[]` that returns only the odd numbers, in order. Use a loop and `push` (not `filter`).',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['collectOdds'],
@@ -1351,12 +1313,8 @@ That is the same \`map\` you already know — the output is \`string[]\` instead
           id: 'ch-product-labels',
           title: 'productLabels',
           prompt:
-            'Complete `productLabels` so each product becomes a string like "Mug — $12" (name, space, em dash, space, dollar sign, price).',
-          starterCode: `type Product = { name: string; price: number }
-
-function productLabels(products: Product[]): string[] {
-  
-}
+            'Define `type Product = { name: string; price: number }`. Write `function productLabels(products: Product[]): string[]` so each product becomes a string like "Mug — $12".',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['productLabels'],
@@ -1419,12 +1377,8 @@ const after = [...before, { id: 2, title: "Ship it" }]
           id: 'ch-add-task',
           title: 'addTask',
           prompt:
-            'Complete `addTask(tasks, task)` so it returns a new array with `task` appended. Do not mutate the original `tasks` array.',
-          starterCode: `type Task = { id: number; title: string }
-
-function addTask(tasks: Task[], task: Task): Task[] {
-  
-}
+            'Define `type Task = { id: number; title: string }`. Write `function addTask(tasks: Task[], task: Task): Task[]` that returns a new array with `task` appended. Do not mutate the original array.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['addTask'],
@@ -1510,16 +1464,8 @@ These two helpers are what sit behind “edit” and “delete” buttons in a l
           id: 'ch-crud-items',
           title: 'updateLabel + removeById',
           prompt:
-            'Complete `updateLabel(items, id, label)` to change that item’s label in a new array, and `removeById(items, id)` to return a new array without that item. Do not mutate the originals.',
-          starterCode: `type Item = { id: number; label: string }
-
-function updateLabel(items: Item[], id: number, label: string): Item[] {
-  
-}
-
-function removeById(items: Item[], id: number): Item[] {
-  
-}
+            'Define `type Item = { id: number; label: string }`. Write `updateLabel(items, id, label): Item[]` and `removeById(items, id): Item[]`. Do not mutate the originals.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['updateLabel', 'removeById'],
@@ -1611,21 +1557,13 @@ Approach to practice saying out loud:
 
 You could also loop with \`for...of\`. Either works; filter + reduce is short and common in take-homes.
 
-The \`CartItem\` type and function stub are already in the starter. Write the body.`,
+Write the \`CartItem\` type and the full \`inStockTotal\` function yourself from the challenge prompt.`,
         challenge: {
           id: 'ch-cart-total',
           title: 'inStockTotal',
           prompt:
-            'Complete `inStockTotal`: sum the `price` of items where `inStock` is true. Return 0 for an empty list.',
-          starterCode: `type CartItem = {
-  name: string
-  price: number
-  inStock: boolean
-}
-
-function inStockTotal(items: CartItem[]): number {
-  
-}
+            'Define `type CartItem = { name: string; price: number; inStock: boolean }`. Write `function inStockTotal(items: CartItem[]): number` that sums `price` for in-stock items only. Empty list → 0.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['inStockTotal'],
@@ -1684,12 +1622,9 @@ The challenge uses posts with an \`id\` and \`tags\`. Same idea.`,
         challenge: {
           id: 'ch-unique-tags',
           title: 'uniqueTags',
-          prompt: 'Flatten tags from all posts, then dedupe preserving order.',
-          starterCode: `type Post = { id: number; tags: string[] }
-
-function uniqueTags(posts: Post[]): string[] {
-  
-}
+          prompt:
+            'Define `type Post = { id: number; tags: string[] }`. Write `function uniqueTags(posts: Post[]): string[]` that flattens all tags and removes duplicates (first-seen order).',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['uniqueTags'],
@@ -1754,12 +1689,9 @@ The return type \`Record<string, string[]>\` means “an object whose keys are s
         challenge: {
           id: 'ch-group-by-role',
           title: 'groupByRole',
-          prompt: 'Return Record<string, string[]> grouping names by role.',
-          starterCode: `type Person = { name: string; role: string }
-
-function groupByRole(people: Person[]): Record<string, string[]> {
-  
-}
+          prompt:
+            'Define `type Person = { name: string; role: string }`. Write `function groupByRole(people: Person[]): Record<string, string[]>` grouping names by role.',
+          starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['groupByRole'],
