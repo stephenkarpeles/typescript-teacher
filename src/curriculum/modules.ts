@@ -55,11 +55,20 @@ let label: string = "Alex"
         id: 'welcome-first-challenge',
         title: 'Challenge: say hello with a type',
         minutes: 10,
-        content: `Time to write your first typed variables.
+        content: `A type annotation sits after the variable name, with a colon:
 
-Remember: the type goes after the name with a colon, like \`let x: string = "hi"\`.
+\`let label: string = "hi"\`
 
-When you start the challenge, this lesson text hides so you are not reading the answer while you code. Use the challenge prompt (and hints if needed).`,
+Read it left to right: declare \`label\`, say it must be a \`string\`, then give it a value.
+
+Rules that matter right away:
+- \`string\` values use quotes: \`"hello"\`
+- \`number\` values do **not** use quotes: \`2026\` (not \`"2026"\`)
+- Spelling and capitalization of string values must match exactly what is asked
+
+You can use \`let\` or \`const\`. For this first challenge either is fine — focus on getting the types and values right.
+
+When you click **Start challenge**, this lesson hides so you are not staring at the teaching text while you code. The challenge prompt has the exact names and values.`,
         challenge: {
           id: 'ch-hello',
           title: 'Hello variables',
@@ -98,19 +107,24 @@ When you start the challenge, this lesson text hides so you are not reading the 
         id: 'prim-basics',
         title: 'The three everyday types',
         minutes: 10,
-        content: `TypeScript's most common primitives:
+        content: `TypeScript’s everyday primitives:
 
-- \`string\` — text: \`"hello"\`
-- \`number\` — integers and decimals: \`3\`, \`3.14\` (no separate int/float)
-- \`boolean\` — \`true\` or \`false\`
+- \`string\` — text in quotes: \`"hello"\`
+- \`number\` — integers and decimals: \`3\`, \`3.14\` (there is no separate \`int\` / \`float\`)
+- \`boolean\` — \`true\` or \`false\` (no quotes)
 
-You can let TypeScript **infer** the type:
-\`let age = 30\` → TypeScript knows it is a number
+**Inference:** if you write \`let age = 30\`, TypeScript figures out it is a number.
 
-Or you can **annotate** explicitly:
-\`let age: number = 30\`
+**Annotation:** you write the type yourself: \`let age: number = 30\`.
 
-In this course, challenges require **explicit** annotations (even when TypeScript could infer them). That is deliberate practice for interviews.`,
+Both are valid TypeScript. In this course, challenges require **explicit** annotations even when inference would work. That is practice for interviews, where saying the type out loud matters.
+
+Wrong type → error:
+
+\`\`\`
+let title: string = "Engineer"
+// title = 3  // error: number is not assignable to string
+\`\`\``,
         example: `let title: string = "Engineer"
 let level: number = 3
 let hired: boolean = true`,
@@ -119,14 +133,23 @@ let hired: boolean = true`,
         id: 'prim-const',
         title: 'let vs const',
         minutes: 8,
-        content: `\`let\` — you can reassign later.
-\`const\` — you cannot reassign the variable itself (preferred when the value should not change).
+        content: `Two ways to declare a variable:
 
-Both can have type annotations:
+- \`let\` — you can assign a new value later
+- \`const\` — you cannot reassign that name (use this when the value should stay fixed)
 
-\`const pi: number = 3.14\`
-\`let count: number = 0\`
-\`count = 1\` // ok with let`,
+Both take the same type annotation style:
+
+\`\`\`
+const pi: number = 3.14
+let count: number = 0
+count = 1  // ok with let
+// pi = 3  // error: const cannot be reassigned
+\`\`\`
+
+\`const\` only blocks reassignment of the binding. For objects and arrays you can still change properties inside (you will see that later). For primitives like strings and numbers, \`const\` means the value stays put.
+
+Interview habit: default to \`const\`, switch to \`let\` only when you know you will reassign.`,
         challenge: {
           id: 'ch-primitives',
           title: 'Annotate three values',
@@ -167,9 +190,26 @@ Both can have type annotations:
         id: 'prim-union-preview',
         title: 'Challenge: type a status flag',
         minutes: 10,
-        content: `Booleans are for yes/no values (\`true\` / \`false\`). Strings are for text.
+        content: `Two primitives show up constantly:
 
-Next you will declare one of each with explicit annotations. Exact names and values stay on the challenge screen.`,
+- \`boolean\` — only \`true\` or \`false\` (no quotes)
+- \`string\` — text in quotes: \`"paused"\`, \`"ready"\`
+
+Examples:
+
+\`\`\`
+let ready: boolean = true
+ready = false  // still a boolean
+
+let mode: string = "idle"
+mode = "running"
+\`\`\`
+
+Common mistakes:
+- Writing \`"true"\` (a string) when you meant \`true\` (a boolean)
+- Forgetting the type annotation in this course — we want \`let ready: boolean = true\`, not bare JavaScript
+
+You will declare one boolean and one string next. Names and exact values are on the challenge screen.`,
         challenge: {
           id: 'ch-status',
           title: 'Active flag + status',
@@ -221,9 +261,24 @@ names.push("Grace")
         id: 'arr-challenge-build',
         title: 'Challenge: build two arrays',
         minutes: 12,
-        content: `You will build two typed arrays: one of numbers and one of strings.
+        content: `An array type says “a list of this kind of thing”:
 
-Use \`number[]\` or \`string[]\`. Exact values are only on the challenge screen.`,
+\`\`\`
+const scores: number[] = [90, 85, 100]
+const cities: string[] = ["Austin", "Denver"]
+\`\`\`
+
+The \`[]\` after the type means “array of.” So \`number[]\` is an array of numbers, \`string[]\` is an array of strings.
+
+Order matters when tests check the whole array — \`[1, 2]\` is not the same as \`[2, 1]\`.
+
+You can also write \`Array<number>\` instead of \`number[]\`. Same meaning. This course uses the shorter \`number[]\` form.
+
+Empty arrays usually need an annotation, or TypeScript falls back to \`any[]\`:
+
+\`const ids: number[] = []\`
+
+Next you will create two annotated arrays. Exact values are on the challenge screen.`,
         challenge: {
           id: 'ch-arrays',
           title: 'temps and cities',
@@ -259,9 +314,9 @@ Use \`number[]\` or \`string[]\`. Exact values are only on the challenge screen.
         id: 'obj-intro',
         title: 'Object types',
         minutes: 12,
-        content: `Real apps pass around objects: users, products, API responses.
+        content: `Real apps pass around objects: users, products, API responses. TypeScript lets you describe the **shape** — which fields exist and what type each is.
 
-You can annotate an object inline:
+**Inline** (fine for a one-off):
 
 \`\`\`
 const user: { name: string; age: number } = {
@@ -270,7 +325,7 @@ const user: { name: string; age: number } = {
 }
 \`\`\`
 
-For reuse, create a **type alias**:
+**Type alias** (better when you reuse the shape):
 
 \`\`\`
 type User = {
@@ -281,7 +336,14 @@ type User = {
 const user: User = { name: "Sam", age: 28 }
 \`\`\`
 
-Property names and types must match. Extra or missing required properties are errors.`,
+The colon after \`user\` is not a function call. It means “this value must match \`User\`.”
+
+Rules TypeScript enforces:
+- Required fields must be present
+- Field types must match (\`age: "28"\` fails if \`age\` is \`number\`)
+- Extra unknown fields are usually errors
+
+Semicolons between fields in an inline type (\`{ name: string; age: number }\`) are normal. In a \`type\` block, newlines between fields are enough.`,
         example: `type Product = {
   id: number
   title: string
@@ -298,9 +360,29 @@ const item: Product = {
         id: 'obj-challenge',
         title: 'Challenge: type a user',
         minutes: 15,
-        content: `You will define a type alias for an object shape, then create a value that uses that type.
+        content: `A **type alias** names an object shape so you can reuse it:
 
-Field names and values are on the challenge screen — not here.`,
+\`\`\`
+type Product = {
+  id: number
+  title: string
+}
+
+const item: Product = {
+  id: 1,
+  title: "Mug",
+}
+\`\`\`
+
+Steps:
+1. Write \`type SomeName = { ... }\` with each field and its type
+2. Create a value annotated with that name: \`const x: SomeName = { ... }\`
+
+TypeScript checks that every required field is present and has the right type. Extra unknown fields are also errors.
+
+You do **not** call or invoke the type. The colon (\`: Product\`) is an annotation, same idea as \`: number\` on a variable.
+
+The challenge asks you to define one alias and one value that uses it. Exact field names and values are on the challenge screen.`,
         challenge: {
           id: 'ch-person',
           title: 'Person type + player',
@@ -347,7 +429,7 @@ Field names and values are on the challenge screen — not here.`,
         id: 'fn-intro',
         title: 'Typing functions',
         minutes: 12,
-        content: `Functions are where interviews live. Annotate parameters and the return type:
+        content: `Functions are where most live coding time goes. Annotate each parameter and the return type:
 
 \`\`\`
 function add(a: number, b: number): number {
@@ -355,13 +437,17 @@ function add(a: number, b: number): number {
 }
 \`\`\`
 
-Arrow form:
+Reading the signature:
+- Inputs: \`a\` and \`b\` must be numbers
+- Output: whatever you \`return\` must be a number (the \`): number\` after the \`)\`)
+
+Arrow function form is the same idea:
 
 \`\`\`
 const add = (a: number, b: number): number => a + b
 \`\`\`
 
-If you return the wrong type, TypeScript complains. That is the point.`,
+If you return a string from a function typed to return \`number\`, TypeScript errors before you run anything. That is the point of the annotations.`,
         example: `function greet(name: string): string {
   return "Hi, " + name
 }
@@ -372,9 +458,20 @@ greet("Dev") // "Hi, Dev"`,
         id: 'fn-challenge-add',
         title: 'Challenge: multiply',
         minutes: 12,
-        content: `Functions should annotate parameter types and the return type.
+        content: `A typed function has types on the inputs **and** on the output:
 
-You will implement a small math function. The required signature is on the challenge screen.`,
+\`\`\`
+function add(a: number, b: number): number {
+  return a + b
+}
+\`\`\`
+
+- \`a: number\` and \`b: number\` — what you pass in
+- \`): number\` after the parameter list — what \`return\` must produce
+
+If the body returns the wrong type (or returns nothing when a type was promised), TypeScript errors.
+
+The starter code for the next challenge already has the signature filled in. Your job is the body: compute the right value and \`return\` it.`,
         challenge: {
           id: 'ch-multiply',
           title: 'multiply(a, b)',
@@ -411,9 +508,34 @@ You will implement a small math function. The required signature is on the chall
         id: 'fn-challenge-format',
         title: 'Challenge: format label',
         minutes: 12,
-        content: `You will build a label string from a name and a count.
+        content: `Functions that build text usually return \`string\`.
 
-Template literals (backticks with \`\${...}\`) help. Spacing matters — tests are exact. Details are on the challenge screen.`,
+Two ways to combine pieces into one string:
+
+**1. Concatenation with \`+\`**
+
+\`\`\`
+function label(name: string, n: number): string {
+  return name + " (" + n + ")"
+}
+\`\`\`
+
+**2. Template literals** (usually cleaner)
+
+Wrap the string in **backticks** (\`...\`), not quotes. Inside, \`\${expression}\` inserts a value:
+
+\`\`\`
+function label(name: string, n: number): string {
+  return \`\${name} (\${n})\`
+}
+\`\`\`
+
+Things to watch:
+- Backticks look like quotes but are a different key
+- Spaces and punctuation inside the backticks are kept exactly — \`"Task (3)"\` is not the same as \`"Task(3)"\`
+- \`\${n}\` works for numbers; TypeScript still checks that the whole return is a \`string\`
+
+The challenge gives you a function signature. Fill in the return so the format matches what the prompt describes.`,
         challenge: {
           id: 'ch-format',
           title: 'formatLabel',
@@ -483,13 +605,21 @@ setStatus("loading")
         id: 'optional-intro',
         title: 'Challenge: union status helper',
         minutes: 10,
-        content: `Optional properties use \`?\` (example: \`nickname?: string\`) and may be missing.
+        content: `A quick note on optionals: \`nickname?: string\` means the property may be missing. You will use that more later.
 
-This challenge focuses on **string literal unions** — a very common interview pattern:
+This lesson’s challenge is about **string literal unions** — a type that allows only a fixed set of strings:
 
-\`type LoadState = "idle" | "loading" | "error"\`
+\`\`\`
+type LoadState = "idle" | "loading" | "error"
 
-Only those three values are allowed. You will write a helper that checks for one of them.`,
+let state: LoadState = "idle"
+state = "loading"  // ok
+// state = "banana"  // error — not in the union
+\`\`\`
+
+Why interviewers like this: it documents the allowed states and catches typos.
+
+You will also write a small helper that takes a \`LoadState\` and returns a \`boolean\` — for example, whether the current state is the loading one. Comparing with \`===\` already produces a boolean, so you can return that comparison directly.`,
         challenge: {
           id: 'ch-union-status',
           title: 'Status union helper',
@@ -544,18 +674,22 @@ function isLoading(state: LoadState): boolean {
         id: 'map-intro',
         title: 'map — transform every item',
         minutes: 15,
-        content: `\`map\` builds a **new array** by running a function on each element.
+        content: `\`map\` transforms every item in an array and returns a **new** array. The original is left alone.
 
 \`\`\`
 const nums = [1, 2, 3]
-const doubled = nums.map((n) => n * 2) // [2, 4, 6]
+const doubled = nums.map((n) => n * 2)  // [2, 4, 6]
 \`\`\`
 
-In TypeScript, annotate the callback parameter when inference is unclear:
+How to read it: “for each \`n\` in \`nums\`, produce \`n * 2\`, collect those results.”
+
+In TypeScript you can annotate the callback when you want to be explicit:
 
 \`nums.map((n: number): number => n * 2)\`
 
-You almost never mutate the original array in interview solutions — return a new one.`,
+Often inference is enough: TypeScript already knows \`nums\` is \`number[]\`, so \`n\` is a number.
+
+Interview habit: prefer \`map\` over a manual \`for\` loop when you are building a new array of the same length. Do not push into the original array and return it — return what \`map\` gives you.`,
         example: `const prices = [10, 20]
 const withTax = prices.map((p: number) => p * 1.1)`,
       },
@@ -563,7 +697,17 @@ const withTax = prices.map((p: number) => p * 1.1)`,
         id: 'map-challenge',
         title: 'Challenge: doubleAll',
         minutes: 12,
-        content: `Write \`doubleAll(nums: number[]): number[]\` that returns each number doubled.`,
+        content: `Practice \`map\` on a typed function.
+
+You will get a starter like:
+
+\`\`\`
+function doubleAll(nums: number[]): number[] {
+  // ...
+}
+\`\`\`
+
+That signature already says: take an array of numbers, return an array of numbers. Inside, use \`map\` so each value becomes twice itself. An empty input should return an empty array (and \`map\` does that for free).`,
         challenge: {
           id: 'ch-double-all',
           title: 'doubleAll',
@@ -600,14 +744,20 @@ const withTax = prices.map((p: number) => p * 1.1)`,
         id: 'filter-intro',
         title: 'filter — keep some items',
         minutes: 15,
-        content: `\`filter\` returns a **new array** with only the items that pass a test.
+        content: `\`filter\` keeps only the items that pass a test. It returns a **new** array.
 
 \`\`\`
 const nums = [1, 2, 3, 4]
-const evens = nums.filter((n) => n % 2 === 0) // [2, 4]
+const evens = nums.filter((n) => n % 2 === 0)  // [2, 4]
 \`\`\`
 
-Callback returns a boolean. \`true\` keeps the item.`,
+The callback must return a boolean (or something TypeScript treats as yes/no):
+- \`true\` → keep that item
+- \`false\` → drop it
+
+\`%\` is remainder. \`n % 2 === 0\` means “\`n\` divides evenly by 2,” i.e. even.
+
+Unlike \`map\`, the result can be shorter than the input. If nothing passes, you get \`[]\`.`,
         challenge: {
           id: 'ch-evens',
           title: 'onlyEvens',
@@ -644,10 +794,25 @@ Callback returns a boolean. \`true\` keeps the item.`,
         id: 'map-filter-combo',
         title: 'Challenge: filter then map (classic)',
         minutes: 18,
-        content: `Interview classic: chain \`filter\` and \`map\`.
+        content: `Coding tests often ask you to **chain** array methods: filter first, then map.
 
-Write \`activeNames(users)\` where each user is \`{ name: string; active: boolean }\`.
-Return the names of users where \`active\` is \`true\`.`,
+Example with books:
+
+\`\`\`
+type Book = { title: string; inPrint: boolean }
+
+function printedTitles(books: Book[]): string[] {
+  return books
+    .filter((b) => b.inPrint)
+    .map((b) => b.title)
+}
+\`\`\`
+
+Order matters:
+1. \`filter\` — keep only the objects you care about
+2. \`map\` — pull out the field you want (often a string)
+
+Chaining reads left to right and returns one final array. You will do the same pattern with users who have a name and an active flag — details on the challenge screen.`,
         challenge: {
           id: 'ch-active-names',
           title: 'activeNames',
@@ -706,15 +871,23 @@ function activeNames(users: User[]): string[] {
         id: 'find-intro',
         title: 'find, some, every',
         minutes: 12,
-        content: `- \`find\` — first match, or \`undefined\`
-- \`some\` — \`true\` if **any** item passes
-- \`every\` — \`true\` if **all** items pass
+        content: `Three related array methods for searching:
+
+- \`find\` — returns the **first** matching item, or \`undefined\` if none match
+- \`some\` — returns \`true\` if **any** item passes the test
+- \`every\` — returns \`true\` if **all** items pass the test
 
 \`\`\`
 const users = [{ id: 1 }, { id: 2 }]
-users.find((u) => u.id === 2) // { id: 2 }
-users.some((u) => u.id === 9) // false
-\`\`\``,
+users.find((u) => u.id === 2)  // { id: 2 }
+users.find((u) => u.id === 9)  // undefined
+users.some((u) => u.id === 9)  // false
+users.every((u) => u.id > 0)   // true
+\`\`\`
+
+Return type for \`find\` is often a union: \`Item | undefined\`. That is honest — the item might not be there. Callers should handle the missing case.
+
+The challenge asks you to find by \`id\`. Prefer \`find\` over writing your own loop when you only need the first match.`,
         challenge: {
           id: 'ch-find-by-id',
           title: 'findById',
@@ -764,16 +937,25 @@ function findById(items: Item[], id: number): Item | undefined {
         id: 'reduce-intro',
         title: 'reduce — fold into one value',
         minutes: 15,
-        content: `\`reduce\` turns an array into a single value (sum, object, string…).
+        content: `\`reduce\` walks an array and builds up one result (a sum, an object, a string, etc.).
 
 \`\`\`
 const sum = [1, 2, 3].reduce((total, n) => total + n, 0)
 // 6
 \`\`\`
 
-Arguments: \`(accumulator, currentValue) => nextAccumulator\`, plus an **initial value**.
+Pieces:
+1. Callback \`(total, n) => nextTotal\` — combine the running result with the current item
+2. Initial value (\`0\` here) — what \`total\` starts as
 
-Interview tip: start with \`0\` for sums, \`{}\` for grouping, \`[]\` for building arrays.`,
+Why the initial value matters: for an empty array, \`reduce\` without an initial value throws. With \`0\`, \`[].reduce(...)\` correctly returns \`0\`.
+
+Common starting points:
+- \`0\` for sums
+- \`{}\` when grouping into an object
+- \`[]\` when building a new array piece by piece
+
+Next you will sum a number array. Use \`reduce\` and start at \`0\`.`,
         challenge: {
           id: 'ch-sum',
           title: 'sumNumbers',
@@ -817,18 +999,24 @@ Interview tip: start with \`0\` for sums, \`{}\` for grouping, \`[]\` for buildi
         id: 'narrow-intro',
         title: 'typeof checks',
         minutes: 12,
-        content: `When a value is a union, you **narrow** it before using it as one branch.
+        content: `If a value is a union like \`string | number\`, TypeScript will not let you treat it as only one of those until you prove which it is. That proof is called **narrowing**.
+
+The usual tool for primitives is \`typeof\`:
 
 \`\`\`
 function len(value: string | string[]): number {
   if (typeof value === "string") {
-    return value.length // string here
+    return value.length  // TypeScript knows: string
   }
-  return value.length // string[] here
+  return value.length    // TypeScript knows: string[]
 }
 \`\`\`
 
-\`typeof\` works for primitives. For objects/arrays you may use \`Array.isArray\`.`,
+Inside the \`if\`, the type is narrowed to that branch. After the \`if\`, TypeScript knows it must be the other branch.
+
+For arrays vs objects, \`typeof\` is not enough (both are \`"object"\`). Use \`Array.isArray(value)\` instead.
+
+You will write a function that accepts \`string | number\` and always returns a \`string\` — convert numbers, leave strings alone.`,
         challenge: {
           id: 'ch-to-string',
           title: 'asString',
@@ -874,25 +1062,30 @@ function len(value: string | string[]): number {
         id: 'interface-intro',
         title: 'interface vs type',
         minutes: 10,
-        content: `\`interface\` is another way to name an object shape:
+        content: `\`interface\` is another way to name an object shape — very similar to \`type\`:
 
 \`\`\`
 interface Animal {
   name: string
 }
+
+const dog: Animal = { name: "Rex" }
 \`\`\`
 
-For object shapes, \`interface\` and \`type\` are often interchangeable in interviews. Prefer whichever the codebase uses.
+For plain object shapes in interviews, \`interface\` and \`type\` are usually interchangeable. Follow whatever the prompt or codebase uses.
 
-**Generics** let a function work with many types safely:
+**Generics** are for functions that should work with many types without losing type info. \`T\` is a placeholder:
 
 \`\`\`
 function first<T>(items: T[]): T | undefined {
   return items[0]
 }
+
+first(["a", "b"])  // string | undefined
+first([1, 2])      // number | undefined
 \`\`\`
 
-\`T\` is a placeholder filled in when you call the function.`,
+When you call \`first\` with strings, \`T\` becomes \`string\`. With numbers, \`T\` becomes \`number\`. One function, many safe uses — better than writing everything as \`any\`.`,
         example: `function wrap<T>(value: T): T[] {
   return [value]
 }
@@ -904,9 +1097,13 @@ wrap(1)   // number[]`,
         id: 'generic-challenge',
         title: 'Challenge: identity & first',
         minutes: 15,
-        content: `Write a generic function \`identity<T>(value: T): T\` that returns the value unchanged.
+        content: `Two classic generic helpers show up in interviews:
 
-Then write \`firstItem<T>(items: T[]): T | undefined\` that returns the first element (or undefined if empty).`,
+**identity** — take a value of type \`T\`, return that same value (still typed as \`T\`). The body is tiny; the point is getting comfortable with \`<T>\` on the function.
+
+**first item** — take an array \`T[]\`, return the element at index \`0\`. Empty arrays give \`undefined\` at index \`0\`, so the return type is usually \`T | undefined\`.
+
+The starter code already has both signatures. Fill in each body. Do not overthink — these are about the generic shape, not tricky logic.`,
         challenge: {
           id: 'ch-generics',
           title: 'identity + firstItem',
@@ -957,9 +1154,17 @@ function firstItem<T>(items: T[]): T | undefined {
         id: 'drill-cart',
         title: 'Drill: cart total',
         minutes: 20,
-        content: `You are given cart line items. Compute the total price for items that are in stock only.
+        content: `Interview shape: typed objects in, one number out.
 
-This is a typical take-home / live-test shape: typed data in, number out, use filter + map/reduce.`,
+You get cart lines with a price and an in-stock flag. Sum the prices of items that are in stock. Ignore the rest. Empty list → \`0\`.
+
+Approach to practice saying out loud:
+1. Keep only in-stock items (\`filter\`)
+2. Add up their prices (\`reduce\` starting at \`0\`)
+
+You could also loop with \`for...of\`. Either works; filter + reduce is short and common in take-homes.
+
+The \`CartItem\` type and function stub are already in the starter. Write the body.`,
         challenge: {
           id: 'ch-cart-total',
           title: 'inStockTotal',
@@ -1016,9 +1221,19 @@ function inStockTotal(items: CartItem[]): number {
         id: 'drill-group',
         title: 'Drill: pluck and unique',
         minutes: 20,
-        content: `Write \`uniqueTags(posts)\` where each post is \`{ id: number; tags: string[] }\`.
+        content: `You have posts. Each post has a list of tags. You need one flat list of every tag, with duplicates removed, keeping first-seen order.
 
-Return a \`string[]\` of all tags across posts with duplicates removed (first occurrence order).`,
+Two steps:
+1. **Flatten** — turn \`string[][]\` into \`string[]\`. \`flatMap((p) => p.tags)\` (or \`map\` then \`flat\`) does this.
+2. **Dedupe** — a \`Set\` keeps unique values in insertion order; \`Array.from(new Set(...))\` turns it back into an array.
+
+\`\`\`
+const nested = [["a", "b"], ["b", "c"]]
+const flat = nested.flatMap((tags) => tags)  // ["a", "b", "b", "c"]
+const unique = Array.from(new Set(flat))     // ["a", "b", "c"]
+\`\`\`
+
+The challenge uses posts with an \`id\` and \`tags\`. Same idea.`,
         challenge: {
           id: 'ch-unique-tags',
           title: 'uniqueTags',
@@ -1069,17 +1284,26 @@ function uniqueTags(posts: Post[]): string[] {
         id: 'drill-groupby',
         title: 'Final drill: group by key',
         minutes: 25,
-        content: `Harder interview favorite.
+        content: `Group a list of people by role into an object:
 
-Write \`groupByRole(people)\` where person is \`{ name: string; role: string }\`.
+- Keys = role strings (\`"dev"\`, \`"design"\`, …)
+- Values = arrays of names in that role
 
-Return an object whose keys are roles and values are arrays of names.
+Example:
 
-Example input:
-\`[{ name: "A", role: "dev" }, { name: "B", role: "design" }, { name: "C", role: "dev" }]\`
+Input: \`[{ name: "A", role: "dev" }, { name: "B", role: "design" }, { name: "C", role: "dev" }]\`
 
-Example output:
-\`{ dev: ["A", "C"], design: ["B"] }\``,
+Output: \`{ dev: ["A", "C"], design: ["B"] }\`
+
+A solid approach:
+1. Start with an empty object typed as \`Record<string, string[]>\`
+2. For each person, make sure \`result[person.role]\` exists as an array
+3. Push \`person.name\` into that array
+4. Return the object
+
+You can use a \`for...of\` loop or \`reduce\`. Empty input should return \`{}\`.
+
+The return type \`Record<string, string[]>\` means “an object whose keys are strings and whose values are string arrays.”`,
         challenge: {
           id: 'ch-group-by-role',
           title: 'groupByRole',
