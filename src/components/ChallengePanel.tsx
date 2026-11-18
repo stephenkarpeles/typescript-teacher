@@ -129,6 +129,7 @@ export function ChallengePanel({
               automaticLayout: true,
               tabSize: 2,
               padding: { top: 12 },
+              wordWrap: 'on',
               // Let the page scroll when the editor has nothing left to scroll.
               scrollbar: {
                 alwaysConsumeMouseWheel: false,
