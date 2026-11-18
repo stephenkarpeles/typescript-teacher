@@ -91,6 +91,44 @@ function firstItem<T>(items: T[]): T | undefined {
 }
 `,
 
+  'ch-collect-odds': `function collectOdds(nums: number[]): number[] {
+  const result: number[] = []
+  for (const n of nums) {
+    if (n % 2 !== 0) {
+      result.push(n)
+    }
+  }
+  return result
+}
+`,
+
+  'ch-product-labels': `type Product = { name: string; price: number }
+
+function productLabels(products: Product[]): string[] {
+  return products.map((p) => \`\${p.name} — $\${p.price}\`)
+}
+`,
+
+  'ch-add-task': `type Task = { id: number; title: string }
+
+function addTask(tasks: Task[], task: Task): Task[] {
+  return [...tasks, task]
+}
+`,
+
+  'ch-crud-items': `type Item = { id: number; label: string }
+
+function updateLabel(items: Item[], id: number, label: string): Item[] {
+  return items.map((item) =>
+    item.id === id ? { ...item, label } : item,
+  )
+}
+
+function removeById(items: Item[], id: number): Item[] {
+  return items.filter((item) => item.id !== id)
+}
+`,
+
   'ch-cart-total': `type CartItem = {
   name: string
   price: number
@@ -204,6 +242,33 @@ let quantity: number = 12
       reason: 'wrong doubling logic should fail',
       code: `function doubleAll(nums: number[]): number[] {
   return nums.map((n) => n + 2)
+}
+`,
+    },
+  ],
+  'ch-add-task': [
+    {
+      reason: 'mutating push should fail non-mutation test',
+      code: `type Task = { id: number; title: string }
+
+function addTask(tasks: Task[], task: Task): Task[] {
+  tasks.push(task)
+  return tasks
+}
+`,
+    },
+  ],
+  'ch-collect-odds': [
+    {
+      reason: 'keeping evens should fail',
+      code: `function collectOdds(nums: number[]): number[] {
+  const result: number[] = []
+  for (const n of nums) {
+    if (n % 2 === 0) {
+      result.push(n)
+    }
+  }
+  return result
 }
 `,
     },

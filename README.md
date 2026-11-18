@@ -30,7 +30,8 @@ Progress and your code drafts are saved in the browser (`localStorage`).
 8. `find` / `reduce`  
 9. Narrowing  
 10. Interfaces & light generics  
-11. Interview drills (cart total, unique tags, group by)
+11. Loops, `push`, mapping datasets, list CRUD (add / update / delete)  
+12. Interview drills (cart total, unique tags, group by)
 
 ## Scripts
 

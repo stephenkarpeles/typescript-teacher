@@ -1146,8 +1146,384 @@ function firstItem<T>(items: T[]): T | undefined {
     ],
   },
   {
+    id: 'loops-lists',
+    title: 'Module 11 — Loops, push & lists',
+    subtitle: 'for loops, building arrays, mapping data to UI lists',
+    lessons: [
+      {
+        id: 'loop-intro',
+        title: 'for and for...of',
+        minutes: 14,
+        content: `You already used \`map\` / \`filter\`. Live tests also expect plain loops.
+
+**\`for...of\`** — walk each value in an array:
+
+\`\`\`
+const nums = [10, 20, 30]
+for (const n of nums) {
+  console.log(n)
+}
+\`\`\`
+
+**Classic \`for\`** — when you need an index or a counted range:
+
+\`\`\`
+for (let i = 0; i < nums.length; i++) {
+  console.log(i, nums[i])
+}
+
+let total = 0
+for (let i = 1; i <= 5; i++) {
+  total += i  // 1+2+3+4+5
+}
+\`\`\`
+
+When to use which:
+- Transform every item → often \`map\`
+- Keep some items → often \`filter\`
+- Build a result with custom logic, early \`break\`, or indexes → \`for\` / \`for...of\`
+
+Next you will build a new array inside a loop.`,
+        example: `const words = ["a", "bb", "ccc"]
+for (const w of words) {
+  console.log(w.length)
+}`,
+      },
+      {
+        id: 'loop-push-challenge',
+        title: 'Challenge: loop + push',
+        minutes: 15,
+        content: `\`push\` adds an item to the **end** of an array (and mutates that array):
+
+\`\`\`
+const result: number[] = []
+result.push(1)
+result.push(3)
+// result is [1, 3]
+\`\`\`
+
+A common pattern in interviews:
+
+\`\`\`
+const out: number[] = []
+for (const n of nums) {
+  if (/* some test */) {
+    out.push(n)
+  }
+}
+return out
+\`\`\`
+
+You annotate the empty array (\`number[]\`) so TypeScript knows what you are collecting.
+
+\`filter\` can do the same job in one line. Learning the loop + \`push\` version still matters — many take-homes mix both styles.`,
+        challenge: {
+          id: 'ch-collect-odds',
+          title: 'collectOdds',
+          prompt:
+            'Complete `collectOdds(nums)` so it returns only the odd numbers, in the same order. Use a loop and `push` (not `filter`).',
+          starterCode: `function collectOdds(nums: number[]): number[] {
+  
+}
+
+`,
+          exports: ['collectOdds'],
+          hints: [
+            'Start with an empty typed array, then loop over `nums`.',
+            'A number is odd when `n % 2 !== 0` (remainder is not zero).',
+            '`push` each odd value onto your result array, then return it.',
+          ],
+          tests: [
+            {
+              description: 'collectOdds([1, 2, 3, 4, 5])',
+              run: (s) => {
+                const collectOdds = s.collectOdds as (n: number[]) => number[]
+                eq(collectOdds([1, 2, 3, 4, 5]), [1, 3, 5])
+              },
+            },
+            {
+              description: 'collectOdds([2, 4]) is empty',
+              run: (s) => {
+                const collectOdds = s.collectOdds as (n: number[]) => number[]
+                eq(collectOdds([2, 4]), [])
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'map-dataset',
+        title: 'Map a dataset into a list',
+        minutes: 14,
+        content: `UI code constantly turns raw data into a list of display strings (sidebar items, dropdown labels, table cells).
+
+Example dataset:
+
+\`\`\`
+type Product = { name: string; price: number }
+
+const products: Product[] = [
+  { name: "Mug", price: 12 },
+  { name: "Tea", price: 4 },
+]
+\`\`\`
+
+Map each object into one label string:
+
+\`\`\`
+products.map((p) => \`\${p.name}: $\${p.price}\`)
+// ["Mug: $12", "Tea: $4"]
+\`\`\`
+
+That is the same \`map\` you already know — the output is \`string[]\` instead of numbers. Spacing and punctuation in the template must match what the prompt asks for.`,
+        challenge: {
+          id: 'ch-product-labels',
+          title: 'productLabels',
+          prompt:
+            'Complete `productLabels` so each product becomes a string like "Mug — $12" (name, space, em dash, space, dollar sign, price).',
+          starterCode: `type Product = { name: string; price: number }
+
+function productLabels(products: Product[]): string[] {
+  
+}
+
+`,
+          exports: ['productLabels'],
+          requireTypeAlias: ['Product'],
+          hints: [
+            'Use `map` to turn each product into one string.',
+            'Build the string from `product.name` and `product.price`.',
+            'The separator is a space, an em dash (—), then another space before the `$`.',
+          ],
+          tests: [
+            {
+              description: 'formats two products',
+              run: (s) => {
+                const productLabels = s.productLabels as (
+                  products: { name: string; price: number }[],
+                ) => string[]
+                eq(productLabels([
+                  { name: 'Mug', price: 12 },
+                  { name: 'Tea', price: 4 },
+                ]), ['Mug — $12', 'Tea — $4'])
+              },
+            },
+            {
+              description: 'empty list',
+              run: (s) => {
+                const productLabels = s.productLabels as (
+                  products: { name: string; price: number }[],
+                ) => string[]
+                eq(productLabels([]), [])
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'crud-add',
+        title: 'Add to a list (button-click pattern)',
+        minutes: 15,
+        content: `In a UI, “click Add” usually means: take the current list, produce a **new** list with one more item, then render that.
+
+In TypeScript (and React state), prefer **not** mutating the original array:
+
+\`\`\`
+function addTask(tasks: Task[], task: Task): Task[] {
+  return [...tasks, task]
+}
+\`\`\`
+
+\`[...tasks, task]\` copies every existing task, then puts the new one at the end.
+
+Mutating with \`tasks.push(task)\` changes the old array in place. That breaks React state updates and surprises callers who still hold a reference to the old list.
+
+Interview phrasing: “I’ll return a new array so the previous state stays unchanged.”`,
+        example: `type Task = { id: number; title: string }
+
+const before: Task[] = [{ id: 1, title: "Write tests" }]
+const after = [...before, { id: 2, title: "Ship it" }]
+// before is still length 1; after has 2 items`,
+        challenge: {
+          id: 'ch-add-task',
+          title: 'addTask',
+          prompt:
+            'Complete `addTask(tasks, task)` so it returns a new array with `task` appended. Do not mutate the original `tasks` array.',
+          starterCode: `type Task = { id: number; title: string }
+
+function addTask(tasks: Task[], task: Task): Task[] {
+  
+}
+
+`,
+          exports: ['addTask'],
+          requireTypeAlias: ['Task'],
+          hints: [
+            'Return a new array that contains every existing task plus the new one.',
+            'Spread helps: `[...tasks, task]`.',
+            'Avoid `tasks.push(task)` — that mutates the original list.',
+          ],
+          tests: [
+            {
+              description: 'appends the task',
+              run: (s) => {
+                const addTask = s.addTask as (
+                  tasks: { id: number; title: string }[],
+                  task: { id: number; title: string },
+                ) => { id: number; title: string }[]
+                eq(addTask([{ id: 1, title: 'A' }], { id: 2, title: 'B' }), [
+                  { id: 1, title: 'A' },
+                  { id: 2, title: 'B' },
+                ])
+              },
+            },
+            {
+              description: 'does not mutate the original',
+              run: (s) => {
+                const addTask = s.addTask as (
+                  tasks: { id: number; title: string }[],
+                  task: { id: number; title: string },
+                ) => { id: number; title: string }[]
+                const original = [{ id: 1, title: 'A' }]
+                const snapshot = JSON.stringify(original)
+                addTask(original, { id: 2, title: 'B' })
+                eq(JSON.stringify(original), snapshot, 'original tasks')
+              },
+            },
+            {
+              description: 'empty start',
+              run: (s) => {
+                const addTask = s.addTask as (
+                  tasks: { id: number; title: string }[],
+                  task: { id: number; title: string },
+                ) => { id: number; title: string }[]
+                eq(addTask([], { id: 1, title: 'First' }), [
+                  { id: 1, title: 'First' },
+                ])
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'crud-update-delete',
+        title: 'Update & delete by id (CRUD)',
+        minutes: 18,
+        content: `CRUD on a list in memory:
+
+- **Create** — add an item (previous lesson)
+- **Update** — change one item, usually by \`id\`
+- **Delete** — remove one item by \`id\`
+- **Read** — find / filter (you already practiced)
+
+**Update** without mutating:
+
+\`\`\`
+items.map((item) =>
+  item.id === id ? { ...item, label: newLabel } : item
+)
+\`\`\`
+
+Spread \`{ ...item, label: newLabel }\` copies the object and overrides \`label\`.
+
+**Delete** without mutating:
+
+\`\`\`
+items.filter((item) => item.id !== id)
+\`\`\`
+
+Keep every item whose id is **not** the one you want to remove.
+
+These two helpers are what sit behind “edit” and “delete” buttons in a lot of UI code.`,
+        challenge: {
+          id: 'ch-crud-items',
+          title: 'updateLabel + removeById',
+          prompt:
+            'Complete `updateLabel(items, id, label)` to change that item’s label in a new array, and `removeById(items, id)` to return a new array without that item. Do not mutate the originals.',
+          starterCode: `type Item = { id: number; label: string }
+
+function updateLabel(items: Item[], id: number, label: string): Item[] {
+  
+}
+
+function removeById(items: Item[], id: number): Item[] {
+  
+}
+
+`,
+          exports: ['updateLabel', 'removeById'],
+          requireTypeAlias: ['Item'],
+          hints: [
+            '`updateLabel`: map over items; when `id` matches, return a new object with the new label.',
+            'Object spread helps for the updated copy: `{ ...item, label }`.',
+            '`removeById`: filter out the item whose `id` matches.',
+          ],
+          tests: [
+            {
+              description: 'updateLabel changes the matching item',
+              run: (s) => {
+                const updateLabel = s.updateLabel as (
+                  items: { id: number; label: string }[],
+                  id: number,
+                  label: string,
+                ) => { id: number; label: string }[]
+                eq(
+                  updateLabel(
+                    [
+                      { id: 1, label: 'A' },
+                      { id: 2, label: 'B' },
+                    ],
+                    2,
+                    'Beta',
+                  ),
+                  [
+                    { id: 1, label: 'A' },
+                    { id: 2, label: 'Beta' },
+                  ],
+                )
+              },
+            },
+            {
+              description: 'removeById drops the matching item',
+              run: (s) => {
+                const removeById = s.removeById as (
+                  items: { id: number; label: string }[],
+                  id: number,
+                ) => { id: number; label: string }[]
+                eq(
+                  removeById(
+                    [
+                      { id: 1, label: 'A' },
+                      { id: 2, label: 'B' },
+                    ],
+                    1,
+                  ),
+                  [{ id: 2, label: 'B' }],
+                )
+              },
+            },
+            {
+              description: 'updateLabel does not mutate',
+              run: (s) => {
+                const updateLabel = s.updateLabel as (
+                  items: { id: number; label: string }[],
+                  id: number,
+                  label: string,
+                ) => { id: number; label: string }[]
+                const original = [{ id: 1, label: 'A' }]
+                const snapshot = JSON.stringify(original)
+                updateLabel(original, 1, 'Z')
+                eq(JSON.stringify(original), snapshot, 'original items')
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
+  {
     id: 'interview-drills',
-    title: 'Module 11 — Interview drills',
+    title: 'Module 12 — Interview drills',
     subtitle: 'Put it together under pressure',
     lessons: [
       {
@@ -1362,13 +1738,16 @@ function groupByRole(people: Person[]): Record<string, string[]> {
 - Functions with params/returns
 - Unions & optionals
 - map / filter / find / reduce
+- for loops, push, and building lists
+- CRUD-style add / update / remove on arrays
+- Mapping datasets into display lists
 - Narrowing
 - Light generics
 - Small data-transform drills
 
 For the next few days before your test:
 1. Re-do any challenge without looking at hints
-2. Time yourself on Module 11 (aim under 15 minutes each)
+2. Time yourself on Module 12 (aim under 15 minutes each)
 3. Say your types out loud as you type — interviewers listen for that fluency
 
 Reset progress anytime from the header if you want a clean run.`,
