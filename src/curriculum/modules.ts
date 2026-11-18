@@ -1040,19 +1040,54 @@ Next: write a function that sums a number array with \`reduce\`.`,
 The usual tool for primitives is \`typeof\`:
 
 \`\`\`
-function len(value: string | string[]): number {
+function label(value: string | number): string {
   if (typeof value === "string") {
-    return value.length  // TypeScript knows: string
+    return value.toUpperCase()  // string here
   }
-  return value.length    // TypeScript knows: string[]
+  return String(value)          // number here
 }
 \`\`\`
 
-Inside the \`if\`, the type is narrowed to that branch. After the \`if\`, TypeScript knows it must be the other branch.
+Inside the \`if\`, TypeScript narrows to that branch. After the \`if\`, it knows it must be the other branch.
 
-For arrays vs objects, \`typeof\` is not enough (both are \`"object"\`). Use \`Array.isArray(value)\` instead.
+**Why \`typeof\` fails for arrays vs objects**
 
-You will write a function that accepts \`string | number\` and always returns a \`string\` — convert numbers, leave strings alone.`,
+\`typeof\` returns a short string like \`"string"\`, \`"number"\`, \`"boolean"\`, \`"object"\`.
+
+In JavaScript, **arrays are objects under the hood**. So:
+
+\`\`\`
+typeof { name: "Sam" }  // "object"
+typeof [1, 2, 3]        // "object"  ← same answer!
+typeof null             // "object"  ← weird historical quirk
+\`\`\`
+
+You cannot write \`if (typeof value === "array")\` — that never works. Both a plain object and an array report \`"object"\`.
+
+**Use \`Array.isArray\` when one branch is an array**
+
+\`\`\`
+function len(value: string | string[]): number {
+  if (typeof value === "string") {
+    return value.length
+  }
+  // Here value must be string[]
+  return value.length
+}
+
+function first(value: { id: number } | number[]): number | undefined {
+  if (Array.isArray(value)) {
+    return value[0]      // number[] here
+  }
+  return value.id        // { id: number } here
+}
+\`\`\`
+
+Rule of thumb:
+- string / number / boolean → \`typeof\`
+- array vs object → \`Array.isArray\`
+
+Next you will narrow \`string | number\` and always return a \`string\`.`,
         challenge: {
           id: 'ch-to-string',
           title: 'asString',
