@@ -460,7 +460,7 @@
 
 .challenge-grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 1.5fr 0.7fr;
   gap: 1rem;
   position: relative;
 }
