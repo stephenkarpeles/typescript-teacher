@@ -1,7 +1,8 @@
 .app-shell {
   display: grid;
   grid-template-columns: 310px 1fr;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -179,6 +180,31 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.main::-webkit-scrollbar {
+  width: 10px;
+}
+
+.main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: #a8c4b6;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background: #7fa896;
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 .topbar {
@@ -674,12 +700,19 @@
 @media (max-width: 980px) {
   .app-shell {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .sidebar {
     position: relative;
     height: auto;
     max-height: none;
+  }
+
+  .main {
+    height: auto;
+    overflow: visible;
   }
 
   .challenge-grid {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Editor from '@monaco-editor/react'
 import type { Challenge, TestResult } from '../curriculum/types'
+import { configurePlaygroundMonaco } from '../lib/monaco'
 import { runChallenge } from '../lib/runner'
 import { ConfettiBurst } from './ConfettiBurst'
 
@@ -115,9 +116,11 @@ export function ChallengePanel({
           <Editor
             height="320px"
             defaultLanguage="typescript"
+            path={`file:///playground/${challenge.id}.ts`}
             theme="vs-dark"
             value={code}
             onChange={(v) => updateCode(v ?? '')}
+            beforeMount={configurePlaygroundMonaco}
             options={{
               minimap: { enabled: false },
               fontSize: 14,
@@ -126,6 +129,12 @@ export function ChallengePanel({
               automaticLayout: true,
               tabSize: 2,
               padding: { top: 12 },
+              // Let the page scroll when the editor has nothing left to scroll.
+              scrollbar: {
+                alwaysConsumeMouseWheel: false,
+                verticalScrollbarSize: 10,
+                horizontalScrollbarSize: 10,
+              },
             }}
           />
         </div>
