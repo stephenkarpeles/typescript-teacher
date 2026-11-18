@@ -60,6 +60,10 @@ function App() {
 
   function toggleSidebar() {
     setSidebarOpen((open) => !open)
+    // Monaco keeps a stale width unless layout is nudged after the grid changes.
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('resize'))
+    })
   }
 
   const current = useMemo(
