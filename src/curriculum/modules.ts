@@ -936,26 +936,61 @@ function findById(items: Item[], id: number): Item | undefined {
       {
         id: 'reduce-intro',
         title: 'reduce — fold into one value',
-        minutes: 15,
-        content: `\`reduce\` walks an array and builds up one result (a sum, an object, a string, etc.).
+        minutes: 18,
+        content: `\`map\` and \`filter\` return arrays. **\`reduce\` returns one value** — a sum, a string, an object, whatever you build.
+
+Think of it as a running total you update once per item.
+
+**Same idea as a loop**
+
+\`\`\`
+let total = 0
+for (const n of [1, 2, 3]) {
+  total = total + n
+}
+// total is 6
+\`\`\`
+
+With \`reduce\`:
 
 \`\`\`
 const sum = [1, 2, 3].reduce((total, n) => total + n, 0)
 // 6
 \`\`\`
 
-Pieces:
-1. Callback \`(total, n) => nextTotal\` — combine the running result with the current item
-2. Initial value (\`0\` here) — what \`total\` starts as
+**What each piece means**
 
-Why the initial value matters: for an empty array, \`reduce\` without an initial value throws. With \`0\`, \`[].reduce(...)\` correctly returns \`0\`.
+\`array.reduce((accumulator, current) => nextAccumulator, initialValue)\`
 
-Common starting points:
-- \`0\` for sums
-- \`{}\` when grouping into an object
-- \`[]\` when building a new array piece by piece
+- \`initialValue\` (\`0\` above) — where the running result starts, **before** any items
+- \`accumulator\` (\`total\`) — the running result so far
+- \`current\` (\`n\`) — the item you are looking at right now
+- whatever you **return** from the callback becomes the \`accumulator\` for the next item
 
-Next you will sum a number array. Use \`reduce\` and start at \`0\`.`,
+**Step by step for \`[1, 2, 3]\` starting at \`0\`**
+
+1. Start: \`total = 0\`
+2. See \`1\` → return \`0 + 1\` → \`total\` is now \`1\`
+3. See \`2\` → return \`1 + 2\` → \`total\` is now \`3\`
+4. See \`3\` → return \`3 + 3\` → \`total\` is now \`6\`
+5. Done — \`reduce\` returns \`6\`
+
+**Always pass an initial value for sums**
+
+\`\`\`
+[].reduce((total, n) => total + n, 0)  // 0 — good
+// [].reduce((total, n) => total + n)  // throws — no starting value
+\`\`\`
+
+Common initial values:
+- \`0\` for adding numbers
+- \`""\` for building a string
+- \`{}\` for building an object
+- \`[]\` for building an array by hand
+
+Next: write a function that sums a number array with \`reduce\`.`,
+        example: `// Read it as: start at 0, keep adding each number
+[10, 5, 2].reduce((total, n) => total + n, 0)  // 17`,
         challenge: {
           id: 'ch-sum',
           title: 'sumNumbers',
@@ -967,8 +1002,9 @@ Next you will sum a number array. Use \`reduce\` and start at \`0\`.`,
 `,
           exports: ['sumNumbers'],
           hints: [
-            'Use `reduce` to fold the array into one number.',
-            'Start the accumulator at 0 so an empty array still works.',
+            'Call `nums.reduce(...)` and return what it gives you.',
+            'The callback should add the current number to the running total.',
+            'Pass `0` as the initial value so an empty array still returns 0.',
           ],
           tests: [
             {
