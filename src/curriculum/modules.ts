@@ -131,7 +131,7 @@ Both can have type annotations:
           id: 'ch-primitives',
           title: 'Annotate three values',
           prompt:
-            'Create const productName: string = "Widget", let inStock: boolean = true, and let quantity: number = 12.',
+            'Declare three variables with explicit types: `productName` (string "Widget", must be `const`), `inStock` (boolean `true`, use `let`), and `quantity` (number `12`, use `let`).',
           starterCode: `// Write your code below.
 
 `,
@@ -143,9 +143,9 @@ Both can have type annotations:
           },
           requireConst: ['productName'],
           hints: [
-            'One of these should use `const` (it never changes). The other two should use `let`.',
-            'Annotate each one: string, boolean, and number.',
-            'Values: "Widget", true, and 12.',
+            'One name never changes — that one needs `const`. The other two need `let`.',
+            'Put a type after each name with a colon: string, boolean, or number.',
+            'Check the prompt again for the exact values of each variable.',
           ],
           tests: [
             {
@@ -173,7 +173,8 @@ Next you will declare one of each with explicit annotations. Exact names and val
         challenge: {
           id: 'ch-status',
           title: 'Active flag + status',
-          prompt: 'Declare isActive: boolean = false and status: string = "paused".',
+          prompt:
+            'Declare `isActive` as a boolean set to false, and `status` as a string set to "paused". Explicit type annotations required.',
           starterCode: `// Write your code below.
 
 `,
@@ -181,7 +182,7 @@ Next you will declare one of each with explicit annotations. Exact names and val
           expectedTypes: { isActive: 'boolean', status: 'string' },
           hints: [
             '`isActive` is a yes/no value. `status` is text.',
-            'Use `boolean` and `string` annotations. `false` has no quotes; `"paused"` does.',
+            'Annotate with `boolean` and `string`. Boolean literals have no quotes; string literals do.',
           ],
           tests: [
             { description: 'isActive is false', run: (s) => eq(s.isActive, false) },
@@ -226,7 +227,8 @@ Use \`number[]\` or \`string[]\`. Exact values are only on the challenge screen.
         challenge: {
           id: 'ch-arrays',
           title: 'temps and cities',
-          prompt: 'Create temps: number[] = [72, 68, 75] and cities: string[] = ["Austin", "Denver"].',
+          prompt:
+            'Create `temps` as a number array containing 72, 68, and 75. Create `cities` as a string array containing "Austin" and "Denver". Explicit array type annotations required.',
           starterCode: `// Write your code below.
 
 `,
@@ -234,7 +236,7 @@ Use \`number[]\` or \`string[]\`. Exact values are only on the challenge screen.
           expectedTypes: { temps: 'number[]', cities: 'string[]' },
           hints: [
             'Array types look like `number[]` or `string[]`.',
-            'Fill `temps` with three numbers and `cities` with two city names from the lesson.',
+            'Use square brackets for the values, in the order listed in the prompt.',
             'Order matters for the tests.',
           ],
           tests: [
@@ -303,7 +305,7 @@ Field names and values are on the challenge screen — not here.`,
           id: 'ch-person',
           title: 'Person type + player',
           prompt:
-            'Define type Person = { name: string; score: number } and const player: Person = { name: "Riley", score: 42 }.',
+            'Define a type alias `Person` with fields `name` (string) and `score` (number). Then create a `const` `player` of type `Person` with name "Riley" and score 42.',
           starterCode: `// Write your code below.
 
 `,
@@ -314,7 +316,7 @@ Field names and values are on the challenge screen — not here.`,
           hints: [
             'First define a `type` alias with two fields, then create a value that uses it.',
             'The fields are `name` (string) and `score` (number).',
-            'Create `player` with name "Riley" and score 42, typed as `Person`.',
+            'Annotate `player` as `Person`, and match the name/score values from the prompt.',
           ],
           tests: [
             {
@@ -376,7 +378,7 @@ You will implement a small math function. The required signature is on the chall
         challenge: {
           id: 'ch-multiply',
           title: 'multiply(a, b)',
-          prompt: 'Implement function multiply(a: number, b: number): number',
+          prompt: 'Complete `multiply` so it returns the product of `a` and `b`.',
           starterCode: `function multiply(a: number, b: number): number {
 
 }
@@ -415,7 +417,8 @@ Template literals (backticks with \`\${...}\`) help. Spacing matters — tests a
         challenge: {
           id: 'ch-format',
           title: 'formatLabel',
-          prompt: 'Return `${name} (${count})` from formatLabel.',
+          prompt:
+            'Complete `formatLabel` so it returns a string like "Task (3)" — the name, a space, then the count in parentheses.',
           starterCode: `function formatLabel(name: string, count: number): string {
   
 }
@@ -491,7 +494,7 @@ Only those three values are allowed. You will write a helper that checks for one
           id: 'ch-union-status',
           title: 'Status union helper',
           prompt:
-            'Create type LoadState = "idle" | "loading" | "error". Then write function isLoading(state: LoadState): boolean that returns true only for "loading".',
+            'Finish `isLoading` so it returns true only when `state` is "loading". The `LoadState` union is already started for you.',
           starterCode: `type LoadState = "idle" | "loading" | "error"
 
 function isLoading(state: LoadState): boolean {
@@ -564,7 +567,7 @@ const withTax = prices.map((p: number) => p * 1.1)`,
         challenge: {
           id: 'ch-double-all',
           title: 'doubleAll',
-          prompt: 'Use map to return nums with each value * 2.',
+          prompt: 'Complete `doubleAll` so it returns a new array where each number is doubled.',
           starterCode: `function doubleAll(nums: number[]): number[] {
   
 }
@@ -608,7 +611,7 @@ Callback returns a boolean. \`true\` keeps the item.`,
         challenge: {
           id: 'ch-evens',
           title: 'onlyEvens',
-          prompt: 'Write onlyEvens(nums: number[]): number[] using filter.',
+          prompt: 'Complete `onlyEvens` so it returns only the even numbers from `nums`.',
           starterCode: `function onlyEvens(nums: number[]): number[] {
   
 }
@@ -716,7 +719,7 @@ users.some((u) => u.id === 9) // false
           id: 'ch-find-by-id',
           title: 'findById',
           prompt:
-            'Write findById(items: { id: number; label: string }[], id: number) that returns the matching item or undefined.',
+            'Complete `findById` so it returns the item whose `id` matches, or `undefined` if none match.',
           starterCode: `type Item = { id: number; label: string }
 
 function findById(items: Item[], id: number): Item | undefined {
@@ -774,7 +777,7 @@ Interview tip: start with \`0\` for sums, \`{}\` for grouping, \`[]\` for buildi
         challenge: {
           id: 'ch-sum',
           title: 'sumNumbers',
-          prompt: 'Write sumNumbers(nums: number[]): number using reduce. Empty array → 0.',
+          prompt: 'Complete `sumNumbers` so it returns the sum of all numbers. An empty array should return 0.',
           starterCode: `function sumNumbers(nums: number[]): number {
   
 }
@@ -830,7 +833,7 @@ function len(value: string | string[]): number {
           id: 'ch-to-string',
           title: 'asString',
           prompt:
-            'Write asString(value: string | number): string — if number, convert with String(value); if string, return as-is.',
+            'Complete `asString`: if the value is a number, return it as a string; if it is already a string, return it unchanged.',
           starterCode: `function asString(value: string | number): string {
   
 }
@@ -961,7 +964,7 @@ This is a typical take-home / live-test shape: typed data in, number out, use fi
           id: 'ch-cart-total',
           title: 'inStockTotal',
           prompt:
-            'type CartItem = { name: string; price: number; inStock: boolean }. Write inStockTotal(items: CartItem[]): number — sum price for inStock items only.',
+            'Complete `inStockTotal`: sum the `price` of items where `inStock` is true. Return 0 for an empty list.',
           starterCode: `type CartItem = {
   name: string
   price: number
