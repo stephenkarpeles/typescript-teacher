@@ -1730,28 +1730,678 @@ The return type \`Record<string, string[]>\` means “an object whose keys are s
           ],
         },
       },
+    ],
+  },
+  {
+    id: 'optionals-callbacks',
+    title: 'Module 13 — Optionals, nullish & callbacks',
+    subtitle: '?, ??, optional chaining, and functions as values',
+    lessons: [
+      {
+        id: 'optional-params',
+        title: 'Optional properties and parameters',
+        minutes: 14,
+        content: `A \`?\` means “this might be missing.”
+
+**On an object field:**
+
+\`\`\`
+type User = {
+  name: string
+  nickname?: string
+}
+\`\`\`
+
+\`nickname\` can be left out. When you read it, the type is \`string | undefined\`.
+
+**On a function parameter:**
+
+\`\`\`
+function greet(name: string, title?: string): string {
+  if (title) {
+    return title + " " + name
+  }
+  return name
+}
+
+greet("Sam")        // "Sam"
+greet("Sam", "Dr.") // "Dr. Sam"
+\`\`\`
+
+Optional parameters must come **after** required ones.
+
+Next you will write a greeting helper that uses an optional title.`,
+        challenge: {
+          id: 'ch-greet-optional',
+          title: 'greet',
+          prompt:
+            'Write `function greet(name: string, title?: string): string`. If `title` is provided, return `title + " " + name`. Otherwise return just `name`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
+
+`,
+          exports: ['greet'],
+          hints: [
+            'Make the second parameter optional with `?`.',
+            'If `title` is present, join it to the name with a space.',
+            'If there is no title, return `name` alone.',
+          ],
+          tests: [
+            {
+              description: 'greet("Sam")',
+              run: (s) => {
+                const greet = s.greet as (name: string, title?: string) => string
+                eq(greet('Sam'), 'Sam')
+              },
+            },
+            {
+              description: 'greet("Sam", "Dr.")',
+              run: (s) => {
+                const greet = s.greet as (name: string, title?: string) => string
+                eq(greet('Sam', 'Dr.'), 'Dr. Sam')
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'nullish-optional-chain',
+        title: '?? and optional chaining',
+        minutes: 14,
+        content: `**Nullish coalescing (\`??\`)** picks the right side only when the left is \`null\` or \`undefined\`:
+
+\`\`\`
+const label = name ?? "Guest"
+// null/undefined → "Guest"
+// "" stays ""
+// 0 stays 0
+\`\`\`
+
+That is different from \`||\`, which also treats \`""\` and \`0\` as missing.
+
+**Optional chaining (\`?.\`)** safely reads a nested field that might not exist:
+
+\`\`\`
+user.profile?.email
+// if profile is undefined → undefined (no crash)
+\`\`\`
+
+You can combine them:
+
+\`\`\`
+user.profile?.email ?? "none"
+\`\`\`
+
+Next: return a display name from a possibly missing / null name.`,
+        challenge: {
+          id: 'ch-display-name',
+          title: 'displayName',
+          prompt:
+            'Write `function displayName(user: { name?: string | null }): string` that returns `user.name` when it is a real string, otherwise `"Guest"`. Prefer `??`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
+
+`,
+          exports: ['displayName'],
+          hints: [
+            'Read `user.name` and provide a fallback.',
+            '`??` treats only null/undefined as missing.',
+            'Fallback string should be exactly "Guest".',
+          ],
+          tests: [
+            {
+              description: 'uses the name when present',
+              run: (s) => {
+                const displayName = s.displayName as (u: {
+                  name?: string | null
+                }) => string
+                eq(displayName({ name: 'Riley' }), 'Riley')
+              },
+            },
+            {
+              description: 'Guest when missing',
+              run: (s) => {
+                const displayName = s.displayName as (u: {
+                  name?: string | null
+                }) => string
+                eq(displayName({}), 'Guest')
+              },
+            },
+            {
+              description: 'Guest when null',
+              run: (s) => {
+                const displayName = s.displayName as (u: {
+                  name?: string | null
+                }) => string
+                eq(displayName({ name: null }), 'Guest')
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'callback-params',
+        title: 'Functions as parameters (callbacks)',
+        minutes: 15,
+        content: `In TypeScript you can type a parameter that is itself a function:
+
+\`\`\`
+function applyAll(
+  nums: number[],
+  fn: (n: number) => number,
+): number[] {
+  return nums.map(fn)
+}
+\`\`\`
+
+Read \`fn: (n: number) => number\` as: “a function that takes a number and returns a number.”
+
+Callers pass the behavior in:
+
+\`\`\`
+applyAll([1, 2, 3], (n) => n * 10)  // [10, 20, 30]
+\`\`\`
+
+This is how \`map\`, \`filter\`, and \`reduce\` are typed under the hood.
+
+Next you will write \`applyAll\` yourself.`,
+        challenge: {
+          id: 'ch-apply-all',
+          title: 'applyAll',
+          prompt:
+            'Write `function applyAll(nums: number[], fn: (n: number) => number): number[]` that returns `nums.map(fn)`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
+
+`,
+          exports: ['applyAll'],
+          hints: [
+            'The second parameter is a function type: `(n: number) => number`.',
+            'Return the result of mapping `fn` over `nums`.',
+          ],
+          tests: [
+            {
+              description: 'doubles with a callback',
+              run: (s) => {
+                const applyAll = s.applyAll as (
+                  nums: number[],
+                  fn: (n: number) => number,
+                ) => number[]
+                eq(
+                  applyAll([1, 2, 3], (n) => n * 2),
+                  [2, 4, 6],
+                )
+              },
+            },
+            {
+              description: 'empty array',
+              run: (s) => {
+                const applyAll = s.applyAll as (
+                  nums: number[],
+                  fn: (n: number) => number,
+                ) => number[]
+                eq(
+                  applyAll([], (n) => n + 1),
+                  [],
+                )
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    id: 'disc-unions-utils',
+    title: 'Module 14 — Discriminated unions & Partial',
+    subtitle: 'Tagged states and patch updates',
+    lessons: [
+      {
+        id: 'disc-union-intro',
+        title: 'Discriminated unions',
+        minutes: 16,
+        content: `A **discriminated union** (tagged union) is a union of objects that share one literal field — the tag — so TypeScript can tell the branches apart.
+
+\`\`\`
+type Result =
+  | { ok: true; data: string }
+  | { ok: false; error: string }
+\`\`\`
+
+Check the tag, then use the fields for that branch:
+
+\`\`\`
+function messageFrom(result: Result): string {
+  if (result.ok) {
+    return result.data
+  }
+  return result.error
+}
+\`\`\`
+
+After \`if (result.ok)\`, TypeScript knows \`data\` exists. In the else branch, \`error\` exists.
+
+This pattern shows up everywhere: loading/success/error UI state, API responses, Redux-style actions.`,
+        example: `type Shape =
+  | { kind: "circle"; radius: number }
+  | { kind: "square"; size: number }
+
+function area(shape: Shape): number {
+  if (shape.kind === "circle") {
+    return Math.PI * shape.radius * shape.radius
+  }
+  return shape.size * shape.size
+}`,
+        challenge: {
+          id: 'ch-result-message',
+          title: 'messageFrom',
+          prompt:
+            'Define `type Result = { ok: true; data: string } | { ok: false; error: string }`. Write `function messageFrom(result: Result): string` that returns `data` when ok, otherwise `error`.',
+          starterCode: `// Write your full type + function below.
+
+`,
+          exports: ['messageFrom'],
+          requireTypeAlias: ['Result'],
+          hints: [
+            'Model success and failure as two object shapes that share an `ok` field.',
+            'Narrow with `if (result.ok)` (or `=== true`).',
+            'Return `result.data` on success and `result.error` on failure.',
+          ],
+          tests: [
+            {
+              description: 'success branch',
+              run: (s) => {
+                const messageFrom = s.messageFrom as (
+                  r: { ok: true; data: string } | { ok: false; error: string },
+                ) => string
+                eq(messageFrom({ ok: true, data: 'saved' }), 'saved')
+              },
+            },
+            {
+              description: 'error branch',
+              run: (s) => {
+                const messageFrom = s.messageFrom as (
+                  r: { ok: true; data: string } | { ok: false; error: string },
+                ) => string
+                eq(messageFrom({ ok: false, error: 'nope' }), 'nope')
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'partial-patch',
+        title: 'Partial for updates',
+        minutes: 14,
+        content: `\`Partial<T>\` makes every property of \`T\` optional. It is the usual type for “patch” / update payloads:
+
+\`\`\`
+type User = { id: number; name: string; email: string }
+
+function applyPatch(user: User, patch: Partial<User>): User {
+  return { ...user, ...patch }
+}
+\`\`\`
+
+Callers can send only the fields that change:
+
+\`\`\`
+applyPatch(user, { name: "Alex" })
+\`\`\`
+
+\`id\` and \`email\` stay the same. Spreading \`patch\` second means its fields overwrite the originals.
+
+Do not mutate \`user\` in place — return a new object.`,
+        challenge: {
+          id: 'ch-apply-patch',
+          title: 'applyPatch',
+          prompt:
+            'Define `type User = { id: number; name: string; email: string }`. Write `function applyPatch(user: User, patch: Partial<User>): User` that returns a new user with patch fields applied.',
+          starterCode: `// Write your full type + function below.
+
+`,
+          exports: ['applyPatch'],
+          requireTypeAlias: ['User'],
+          hints: [
+            'Use object spread: start with `user`, then spread `patch`.',
+            'Return a new object — do not assign into `user` directly.',
+          ],
+          tests: [
+            {
+              description: 'patches name only',
+              run: (s) => {
+                const applyPatch = s.applyPatch as (
+                  user: { id: number; name: string; email: string },
+                  patch: Partial<{ id: number; name: string; email: string }>,
+                ) => { id: number; name: string; email: string }
+                eq(
+                  applyPatch(
+                    { id: 1, name: 'Sam', email: 's@x.com' },
+                    { name: 'Alex' },
+                  ),
+                  { id: 1, name: 'Alex', email: 's@x.com' },
+                )
+              },
+            },
+            {
+              description: 'empty patch returns same fields',
+              run: (s) => {
+                const applyPatch = s.applyPatch as (
+                  user: { id: number; name: string; email: string },
+                  patch: Partial<{ id: number; name: string; email: string }>,
+                ) => { id: number; name: string; email: string }
+                eq(
+                  applyPatch({ id: 2, name: 'Jo', email: 'j@x.com' }, {}),
+                  { id: 2, name: 'Jo', email: 'j@x.com' },
+                )
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    id: 'real-problems',
+    title: 'Module 15 — Real problems',
+    subtitle: 'Practice problems that look like work / interviews',
+    lessons: [
+      {
+        id: 'real-search',
+        title: 'Problem: search products',
+        minutes: 20,
+        content: `Real UI feature: search a product list.
+
+Given products with \`name\` and \`price\`, return those whose name contains a query (case-insensitive). Optionally also enforce a max price.
+
+Approach:
+1. Normalize the query with \`toLowerCase()\`
+2. \`filter\` products where \`name.toLowerCase().includes(query)\`
+3. If \`maxPrice\` is provided, also require \`price <= maxPrice\`
+
+This combines optional params, string methods, and \`filter\`.`,
+        challenge: {
+          id: 'ch-search-products',
+          title: 'searchProducts',
+          prompt:
+            'Define `type Product = { name: string; price: number }`. Write `function searchProducts(products: Product[], query: string, maxPrice?: number): Product[]` — case-insensitive name match; if `maxPrice` is set, also require `price <= maxPrice`.',
+          starterCode: `// Write your full type + function below.
+
+`,
+          exports: ['searchProducts'],
+          requireTypeAlias: ['Product'],
+          hints: [
+            'Compare lowercased name against a lowercased query with `includes`.',
+            'If `maxPrice` is undefined, skip the price check.',
+            'Use `filter` and return the matching products in original order.',
+          ],
+          tests: [
+            {
+              description: 'filters by query',
+              run: (s) => {
+                const searchProducts = s.searchProducts as (
+                  products: { name: string; price: number }[],
+                  query: string,
+                  maxPrice?: number,
+                ) => { name: string; price: number }[]
+                eq(
+                  searchProducts(
+                    [
+                      { name: 'Green Tea', price: 4 },
+                      { name: 'Coffee', price: 5 },
+                      { name: 'Black Tea', price: 3 },
+                    ],
+                    'tea',
+                  ),
+                  [
+                    { name: 'Green Tea', price: 4 },
+                    { name: 'Black Tea', price: 3 },
+                  ],
+                )
+              },
+            },
+            {
+              description: 'applies maxPrice when provided',
+              run: (s) => {
+                const searchProducts = s.searchProducts as (
+                  products: { name: string; price: number }[],
+                  query: string,
+                  maxPrice?: number,
+                ) => { name: string; price: number }[]
+                eq(
+                  searchProducts(
+                    [
+                      { name: 'Green Tea', price: 4 },
+                      { name: 'Black Tea', price: 3 },
+                    ],
+                    'tea',
+                    3,
+                  ),
+                  [{ name: 'Black Tea', price: 3 }],
+                )
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'real-paginate',
+        title: 'Problem: paginate a list',
+        minutes: 18,
+        content: `APIs and tables often show one “page” of a list.
+
+For 1-based \`page\` and a \`pageSize\`:
+
+- page 1 → items \`0\` through \`pageSize - 1\`
+- page 2 → next \`pageSize\` items
+- Use \`slice(start, end)\`
+
+\`\`\`
+const start = (page - 1) * pageSize
+items.slice(start, start + pageSize)
+\`\`\`
+
+If the page is past the end, \`slice\` just returns \`[]\`.`,
+        challenge: {
+          id: 'ch-paginate',
+          title: 'paginate',
+          prompt:
+            'Write `function paginate<T>(items: T[], page: number, pageSize: number): T[]` for 1-based pages using `slice`.',
+          starterCode: `// Write your full function below (name, params, types, and body).
+
+`,
+          exports: ['paginate'],
+          hints: [
+            'Start index is `(page - 1) * pageSize`.',
+            'End index is start + pageSize.',
+            '`items.slice(start, end)` returns that window.',
+          ],
+          tests: [
+            {
+              description: 'page 1',
+              run: (s) => {
+                const paginate = s.paginate as <T>(
+                  items: T[],
+                  page: number,
+                  pageSize: number,
+                ) => T[]
+                eq(paginate(['a', 'b', 'c', 'd'], 1, 2), ['a', 'b'])
+              },
+            },
+            {
+              description: 'page 2',
+              run: (s) => {
+                const paginate = s.paginate as <T>(
+                  items: T[],
+                  page: number,
+                  pageSize: number,
+                ) => T[]
+                eq(paginate(['a', 'b', 'c', 'd'], 2, 2), ['c', 'd'])
+              },
+            },
+            {
+              description: 'past the end',
+              run: (s) => {
+                const paginate = s.paginate as <T>(
+                  items: T[],
+                  page: number,
+                  pageSize: number,
+                ) => T[]
+                eq(paginate(['a'], 3, 2), [])
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'real-merge',
+        title: 'Problem: merge records by id',
+        minutes: 20,
+        content: `You have a local list and a newer list from the server. Merge by \`id\`: items in the incoming list overwrite matching ids; new ids are appended.
+
+Keep a stable approach:
+1. Start from a copy of the existing list
+2. For each incoming item, replace if the id exists, otherwise push
+
+Or build a \`Record\` / map keyed by id, write existing then incoming, then collect values.
+
+Order: existing order first, then any brand-new ids from incoming in the order they appear.`,
+        challenge: {
+          id: 'ch-merge-by-id',
+          title: 'mergeById',
+          prompt:
+            'Define `type Item = { id: number; label: string }`. Write `function mergeById(existing: Item[], incoming: Item[]): Item[]` — same id gets replaced by incoming; new ids append. Do not mutate the inputs.',
+          starterCode: `// Write your full type + function below.
+
+`,
+          exports: ['mergeById'],
+          requireTypeAlias: ['Item'],
+          hints: [
+            'Copy `existing` first so you do not mutate the original array.',
+            'For each incoming item, find the same id; replace or push.',
+            '`findIndex` + copy, or a loop building a new array, both work.',
+          ],
+          tests: [
+            {
+              description: 'overwrites matching id and appends new',
+              run: (s) => {
+                const mergeById = s.mergeById as (
+                  existing: { id: number; label: string }[],
+                  incoming: { id: number; label: string }[],
+                ) => { id: number; label: string }[]
+                eq(
+                  mergeById(
+                    [
+                      { id: 1, label: 'A' },
+                      { id: 2, label: 'B' },
+                    ],
+                    [
+                      { id: 2, label: 'B2' },
+                      { id: 3, label: 'C' },
+                    ],
+                  ),
+                  [
+                    { id: 1, label: 'A' },
+                    { id: 2, label: 'B2' },
+                    { id: 3, label: 'C' },
+                  ],
+                )
+              },
+            },
+            {
+              description: 'does not mutate existing',
+              run: (s) => {
+                const mergeById = s.mergeById as (
+                  existing: { id: number; label: string }[],
+                  incoming: { id: number; label: string }[],
+                ) => { id: number; label: string }[]
+                const existing = [{ id: 1, label: 'A' }]
+                const snapshot = JSON.stringify(existing)
+                mergeById(existing, [{ id: 1, label: 'Z' }])
+                eq(JSON.stringify(existing), snapshot, 'existing')
+              },
+            },
+          ],
+        },
+      },
+      {
+        id: 'real-leaderboard',
+        title: 'Problem: top N leaderboard',
+        minutes: 18,
+        content: `Given scored entries, return the names of the top \`n\` by score (highest first).
+
+Steps:
+1. Copy the array before sorting (\`sort\` mutates)
+2. Sort descending: \`(a, b) => b.score - a.score\`
+3. \`slice(0, n)\`
+4. \`map\` to names
+
+Ties: whatever stable order your sort leaves is fine for these tests if scores differ.`,
+        challenge: {
+          id: 'ch-top-n',
+          title: 'topNames',
+          prompt:
+            'Define `type Entry = { name: string; score: number }`. Write `function topNames(entries: Entry[], n: number): string[]` — names of the top `n` scores, highest first.',
+          starterCode: `// Write your full type + function below.
+
+`,
+          exports: ['topNames'],
+          requireTypeAlias: ['Entry'],
+          hints: [
+            'Copy before sorting so you do not mutate the input.',
+            'Sort by score descending, then take the first `n`.',
+            'Map the sliced entries to their `name` fields.',
+          ],
+          tests: [
+            {
+              description: 'returns top 2 names',
+              run: (s) => {
+                const topNames = s.topNames as (
+                  entries: { name: string; score: number }[],
+                  n: number,
+                ) => string[]
+                eq(
+                  topNames(
+                    [
+                      { name: 'A', score: 3 },
+                      { name: 'B', score: 9 },
+                      { name: 'C', score: 6 },
+                    ],
+                    2,
+                  ),
+                  ['B', 'C'],
+                )
+              },
+            },
+            {
+              description: 'n larger than length',
+              run: (s) => {
+                const topNames = s.topNames as (
+                  entries: { name: string; score: number }[],
+                  n: number,
+                ) => string[]
+                eq(topNames([{ name: 'A', score: 1 }], 5), ['A'])
+              },
+            },
+          ],
+        },
+      },
       {
         id: 'graduation',
         title: 'You made it — keep drilling',
         minutes: 5,
-        content: `You just covered what most live coding screens expect from TypeScript:
+        content: `You covered basic → intermediate TypeScript for live coding:
 
-- Primitive annotations
-- Arrays & object types
-- Functions with params/returns
-- Unions & optionals
-- map / filter / find / reduce
-- for loops, push, and building lists
-- CRUD-style add / update / remove on arrays
-- Mapping datasets into display lists
-- Narrowing
-- Light generics
-- Small data-transform drills
+- Primitive annotations, let / const
+- Arrays, objects, type aliases
+- Functions (params, returns, callbacks, generics)
+- Unions, optionals, \`??\`, optional chaining
+- Discriminated unions and \`Partial\` patches
+- map / filter / find / reduce / sort / slice
+- for loops, push, list CRUD
+- Real problems: search, pagination, merge-by-id, leaderboard
 
 For the next few days before your test:
-1. Re-do any challenge without looking at hints
-2. Time yourself on Module 12 (aim under 15 minutes each)
-3. Say your types out loud as you type — interviewers listen for that fluency
+1. Re-do Module 12 and Module 15 timed (aim under 15–20 minutes each)
+2. Say types out loud as you type
+3. Prefer immutable updates (\`map\` / spread) in UI-style answers
 
 Reset progress anytime from the header if you want a clean run.`,
       },

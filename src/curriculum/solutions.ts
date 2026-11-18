@@ -162,6 +162,91 @@ function groupByRole(people: Person[]): Record<string, string[]> {
   return result
 }
 `,
+
+  'ch-greet-optional': `function greet(name: string, title?: string): string {
+  if (title) {
+    return title + " " + name
+  }
+  return name
+}
+`,
+
+  'ch-display-name': `function displayName(user: { name?: string | null }): string {
+  return user.name ?? "Guest"
+}
+`,
+
+  'ch-apply-all': `function applyAll(nums: number[], fn: (n: number) => number): number[] {
+  return nums.map(fn)
+}
+`,
+
+  'ch-result-message': `type Result =
+  | { ok: true; data: string }
+  | { ok: false; error: string }
+
+function messageFrom(result: Result): string {
+  if (result.ok) {
+    return result.data
+  }
+  return result.error
+}
+`,
+
+  'ch-apply-patch': `type User = { id: number; name: string; email: string }
+
+function applyPatch(user: User, patch: Partial<User>): User {
+  return { ...user, ...patch }
+}
+`,
+
+  'ch-search-products': `type Product = { name: string; price: number }
+
+function searchProducts(
+  products: Product[],
+  query: string,
+  maxPrice?: number,
+): Product[] {
+  const q = query.toLowerCase()
+  return products.filter((p) => {
+    const matchesName = p.name.toLowerCase().includes(q)
+    if (maxPrice === undefined) return matchesName
+    return matchesName && p.price <= maxPrice
+  })
+}
+`,
+
+  'ch-paginate': `function paginate<T>(items: T[], page: number, pageSize: number): T[] {
+  const start = (page - 1) * pageSize
+  return items.slice(start, start + pageSize)
+}
+`,
+
+  'ch-merge-by-id': `type Item = { id: number; label: string }
+
+function mergeById(existing: Item[], incoming: Item[]): Item[] {
+  const result = existing.map((item) => ({ ...item }))
+  for (const item of incoming) {
+    const idx = result.findIndex((e) => e.id === item.id)
+    if (idx >= 0) {
+      result[idx] = item
+    } else {
+      result.push(item)
+    }
+  }
+  return result
+}
+`,
+
+  'ch-top-n': `type Entry = { name: string; score: number }
+
+function topNames(entries: Entry[], n: number): string[] {
+  return [...entries]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .map((e) => e.name)
+}
+`,
 }
 
 /** Known incorrect snippets that must fail. */

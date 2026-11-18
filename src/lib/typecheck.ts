@@ -16,6 +16,10 @@ interface Object {}
 interface RegExp {}
 interface String {
   readonly length: number
+  toLowerCase(): string
+  toUpperCase(): string
+  trim(): string
+  includes(searchString: string, position?: number): boolean
 }
 interface Array<T> {
   readonly length: number
@@ -24,6 +28,7 @@ interface Array<T> {
   map<U>(callbackfn: (value: T, index: number, array: T[]) => U): U[]
   filter(predicate: (value: T, index: number, array: T[]) => unknown): T[]
   find(predicate: (value: T, index: number, array: T[]) => unknown): T | undefined
+  findIndex(predicate: (value: T, index: number, array: T[]) => unknown): number
   some(predicate: (value: T, index: number, array: T[]) => unknown): boolean
   every(predicate: (value: T, index: number, array: T[]) => unknown): boolean
   reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T, initialValue: T): T
@@ -32,6 +37,10 @@ interface Array<T> {
   flatMap<U>(callbackfn: (value: T, index: number, array: T[]) => U | readonly U[]): U[]
   flat<D extends number = 1>(depth?: D): any[]
   indexOf(searchElement: T, fromIndex?: number): number
+  includes(searchElement: T, fromIndex?: number): boolean
+  slice(start?: number, end?: number): T[]
+  sort(compareFn?: (a: T, b: T) => number): T[]
+  join(separator?: string): string
 }
 interface ReadonlyArray<T> {
   readonly length: number
@@ -58,7 +67,22 @@ interface IteratorResult<T> { done?: boolean; value: T }
 interface SymbolConstructor { readonly iterator: unique symbol }
 declare var Symbol: SymbolConstructor
 declare var console: { log(...args: unknown[]): void }
+declare var Math: {
+  floor(x: number): number
+  ceil(x: number): number
+  min(...values: number[]): number
+  max(...values: number[]): number
+  abs(x: number): number
+}
+interface ObjectConstructor {
+  keys(o: object): string[]
+  values<T>(o: { [s: string]: T }): T[]
+  entries<T>(o: { [s: string]: T }): [string, T][]
+}
+declare var Object: ObjectConstructor
 type Record<K extends keyof any, T> = { [P in K]: T }
+type Partial<T> = { [P in keyof T]?: T[P] }
+type Pick<T, K extends keyof T> = { [P in K]: T[P] }
 `
 
 export function typecheckStudentCode(
