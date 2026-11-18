@@ -384,7 +384,8 @@
   font-weight: 650;
 }
 
-.lesson-body code {
+/* Inline `code` only — not fenced blocks inside <pre>. */
+.lesson-body :not(pre) > code {
   background: #e7f3ee;
   color: var(--teal-deep);
   padding: 0.1rem 0.35rem;
@@ -402,6 +403,14 @@
   font-size: 0.82rem;
   line-height: 1.55;
   border: 1px solid #243844;
+}
+
+.example-block code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
 }
 
 .challenge-meta {
