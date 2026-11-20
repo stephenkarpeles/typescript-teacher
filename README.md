@@ -1,6 +1,6 @@
 # TS Refresh
 
-A hands-on TypeScript teaching gym for rebuilding fluency before a live coding interview.
+A hands-on TypeScript teaching gym.
 
 ## How to use
 

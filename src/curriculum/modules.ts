@@ -73,16 +73,22 @@ When you click **Start challenge**, this lesson hides so you are not staring at 
           id: 'ch-hello',
           title: 'Hello variables',
           prompt:
-            'Declare `greeting` with an explicit `string` type equal to "Hello, TypeScript", and `year` with an explicit `number` type equal to 2026. (Not plain JavaScript — type annotations required.)',
+            
+            `Create two typed variables:
+
+1. \`greeting\` — a string whose value is exactly "Hello, TypeScript"
+2. \`year\` — a number whose value is 2026
+
+Use explicit type annotations (not bare JavaScript). Spelling and punctuation for \`greeting\` must match exactly.`,
           starterCode: `// Write your code below.
 
 `,
           exports: ['greeting', 'year'],
           expectedTypes: { greeting: 'string', year: 'number' },
           hints: [
-            'Put the type after the variable name with a colon, like `name: type`.',
-            '`greeting` needs type `string`. `year` needs type `number` — and 2026 should not be in quotes.',
-            'Match the text exactly for greeting, including the comma and space.',
+            'Annotate each variable with a type after the name (colon + type).',
+            '`greeting` is text; `year` is a numeric value — numbers are not written in quotes.',
+            'Re-check the exact greeting text, including the comma and space.',
           ],
           tests: [
             {
@@ -154,7 +160,14 @@ Interview habit: default to \`const\`, switch to \`let\` only when you know you 
           id: 'ch-primitives',
           title: 'Annotate three values',
           prompt:
-            'Declare three variables with explicit types: `productName` (string "Widget", must be `const`), `inStock` (boolean `true`, use `let`), and `quantity` (number `12`, use `let`).',
+            
+            `Create three typed variables with these exact names and values:
+
+- \`productName\` — the text "Widget" (this one should not be reassigned later)
+- \`inStock\` — the boolean true (may be reassigned later)
+- \`quantity\` — the number 12 (may be reassigned later)
+
+Choose \`const\` vs \`let\` appropriately, and include explicit type annotations.`,
           starterCode: `// Write your code below.
 
 `,
@@ -166,9 +179,9 @@ Interview habit: default to \`const\`, switch to \`let\` only when you know you 
           },
           requireConst: ['productName'],
           hints: [
-            'One name never changes — that one needs `const`. The other two need `let`.',
-            'Put a type after each name with a colon: string, boolean, or number.',
-            'Check the prompt again for the exact values of each variable.',
+            'Pick `const` for the name that should never be reassigned; use `let` for the other two.',
+            'Each declaration needs a type annotation: string, boolean, or number.',
+            'Match the three values from the prompt exactly.',
           ],
           tests: [
             {
@@ -214,15 +227,21 @@ You will declare one boolean and one string next. Names and exact values are on 
           id: 'ch-status',
           title: 'Active flag + status',
           prompt:
-            'Declare `isActive` as a boolean set to false, and `status` as a string set to "paused". Explicit type annotations required.',
+            
+            `Create two typed variables:
+
+- \`isActive\` — a boolean set to false
+- \`status\` — a string set to "paused"
+
+Include explicit type annotations on both.`,
           starterCode: `// Write your code below.
 
 `,
           exports: ['isActive', 'status'],
           expectedTypes: { isActive: 'boolean', status: 'string' },
           hints: [
-            '`isActive` is a yes/no value. `status` is text.',
-            'Annotate with `boolean` and `string`. Boolean literals have no quotes; string literals do.',
+            '`isActive` is a yes/no value; `status` is text in quotes.',
+            'Boolean literals are not quoted; string literals are.',
           ],
           tests: [
             { description: 'isActive is false', run: (s) => eq(s.isActive, false) },
@@ -283,15 +302,21 @@ Next you will create two annotated arrays. Exact values are on the challenge scr
           id: 'ch-arrays',
           title: 'temps and cities',
           prompt:
-            'Create `temps` as a number array containing 72, 68, and 75. Create `cities` as a string array containing "Austin" and "Denver". Explicit array type annotations required.',
+            
+            `Create two typed arrays:
+
+- \`temps\` — numbers in this order: 72, 68, 75
+- \`cities\` — strings in this order: "Austin", "Denver"
+
+Annotate each with an array type (not just a bare list).`,
           starterCode: `// Write your code below.
 
 `,
           exports: ['temps', 'cities'],
           expectedTypes: { temps: 'number[]', cities: 'string[]' },
           hints: [
-            'Array types look like `number[]` or `string[]`.',
-            'Use square brackets for the values, in the order listed in the prompt.',
+            'Array types name the element type, then show it is a list.',
+            'Put the values in square brackets, in the order listed above.',
             'Order matters for the tests.',
           ],
           tests: [
@@ -387,7 +412,11 @@ The challenge asks you to define one alias and one value that uses it. Exact fie
           id: 'ch-person',
           title: 'Person type + player',
           prompt:
-            'Define a type alias `Person` with fields `name` (string) and `score` (number). Then create a `const` `player` of type `Person` with name "Riley" and score 42.',
+            
+            `Do two things:
+
+1. Define a type alias named \`Person\` with fields \`name\` (string) and \`score\` (number).
+2. Create a \`const\` named \`player\`, annotated as \`Person\`, with name "Riley" and score 42.`,
           starterCode: `// Write your code below.
 
 `,
@@ -396,9 +425,9 @@ The challenge asks you to define one alias and one value that uses it. Exact fie
           requireTypeAlias: ['Person'],
           requireConst: ['player'],
           hints: [
-            'First define a `type` alias with two fields, then create a value that uses it.',
-            'The fields are `name` (string) and `score` (number).',
-            'Annotate `player` as `Person`, and match the name/score values from the prompt.',
+            'Define the type alias first, then create a value that uses it.',
+            'The object fields must be named `name` and `score`.',
+            'Annotate `player` with your `Person` type and match the values from the prompt.',
           ],
           tests: [
             {
@@ -471,18 +500,23 @@ function add(a: number, b: number): number {
 
 If the body returns the wrong type (or returns nothing when a type was promised), TypeScript errors.
 
-In the challenge you will type the **whole function** yourself: name, parameter types, return type, and body. The prompt lists the required signature.`,
+In the challenge you will type the **whole function** yourself: name, parameter types, return type, and body. The prompt describes what the function must do — you choose how to write it.`,
         challenge: {
           id: 'ch-multiply',
           title: 'multiply(a, b)',
-          prompt: 'Write `function multiply(a: number, b: number): number` that returns the product of `a` and `b`.',
+          prompt: 
+            `Create a function named \`multiply\`.
+
+It takes two numbers and returns a number: the product of those two inputs.
+
+Type both parameters and the return value. Examples the tests check: multiply(3, 4) → 12, multiply(-2, 5) → -10.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['multiply'],
           hints: [
-            'The body only needs to return the product of the two parameters.',
-            'Use `*` and make sure the function name is exactly `multiply`.',
+            'Name the function exactly `multiply`.',
+            'The body should return the product of the two parameters.',
           ],
           tests: [
             {
@@ -538,15 +572,23 @@ The challenge gives you a function signature. Fill in the return so the format m
           id: 'ch-format',
           title: 'formatLabel',
           prompt:
-            'Write `function formatLabel(name: string, count: number): string` that returns a string like "Task (3)" — the name, a space, then the count in parentheses.',
+            
+            `Create a function named \`formatLabel\`.
+
+It takes a name (string) and a count (number), and returns one string shaped like:
+
+- formatLabel("Task", 3) → "Task (3)"
+- formatLabel("Item", 0) → "Item (0)"
+
+That is: the name, a space, then the count inside parentheses. Type the parameters and the return value.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['formatLabel'],
           hints: [
-            'Build one string that includes both the name and the count.',
-            'A template literal helps: backticks with `${...}` inside.',
-            'There should be a space before the opening parenthesis: "Task (3)".',
+            'Build a single string that includes both inputs.',
+            'Watch spacing: there is a space before the opening parenthesis.',
+            'Template literals (backticks) or concatenation both work — match the format exactly.',
           ],
           tests: [
             {
@@ -620,15 +662,20 @@ You will also write a small helper that takes a \`LoadState\` and returns a \`bo
           id: 'ch-union-status',
           title: 'Status union helper',
           prompt:
-            'Define `type LoadState = "idle" | "loading" | "error"`. Write `function isLoading(state: LoadState): boolean` that returns true only when `state` is "loading".',
+            
+            `1. Define a type alias \`LoadState\` that allows only these three strings: "idle", "loading", "error".
+2. Create a function \`isLoading\` that takes a \`LoadState\` and returns a boolean: true only when the state is "loading", otherwise false.
+
+Examples: isLoading("loading") → true; isLoading("idle") → false.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['isLoading'],
           requireTypeAlias: ['LoadState'],
           hints: [
-            'You only need to check whether `state` equals one specific string.',
-            'A comparison like `===` already returns a boolean — you can return that directly.',
+            'A string literal union lists the allowed values separated by `|`.',
+            'You only need to check whether the input equals one specific string.',
+            'A comparison already produces a boolean — you can return that result.',
           ],
           tests: [
             {
@@ -695,14 +742,19 @@ You will write a full function that takes \`number[]\` and returns \`number[]\`.
         challenge: {
           id: 'ch-double-all',
           title: 'doubleAll',
-          prompt: 'Write `function doubleAll(nums: number[]): number[]` that returns a new array where each number is doubled.',
+          prompt: 
+            `Create a function named \`doubleAll\`.
+
+It takes an array of numbers and returns a new array where each number is doubled.
+
+Examples: doubleAll([1, 2, 3]) → [2, 4, 6]; doubleAll([]) → []. Type the parameter and return value.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['doubleAll'],
           hints: [
-            'Use an array method that transforms every element into a new array.',
-            'In the callback, multiply each number by 2.',
+            'Prefer an array method that transforms every element into a new array.',
+            'Each output element should be twice the corresponding input.',
           ],
           tests: [
             {
@@ -743,14 +795,19 @@ Unlike \`map\`, the result can be shorter than the input. If nothing passes, you
         challenge: {
           id: 'ch-evens',
           title: 'onlyEvens',
-          prompt: 'Write `function onlyEvens(nums: number[]): number[]` that returns only the even numbers from `nums`.',
+          prompt: 
+            `Create a function named \`onlyEvens\`.
+
+It takes an array of numbers and returns a new array containing only the even numbers, in the same order.
+
+Examples: onlyEvens([1, 2, 3, 4, 5]) → [2, 4]; onlyEvens([1, 3]) → []. Type the parameter and return value.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['onlyEvens'],
           hints: [
-            'Use an array method that keeps only some elements.',
-            'Keep a number when dividing by 2 leaves no remainder (`%`).',
+            'Prefer an array method that keeps only some elements.',
+            'A number is even when dividing by 2 leaves no remainder.',
           ],
           tests: [
             {
@@ -797,16 +854,20 @@ Chaining reads left to right and returns one final array. You will do the same p
           id: 'ch-active-names',
           title: 'activeNames',
           prompt:
-            'Define `type User = { name: string; active: boolean }`. Write `function activeNames(users: User[]): string[]` that returns the names of active users.',
+            
+            `1. Define a type alias \`User\` with fields \`name\` (string) and \`active\` (boolean).
+2. Create a function \`activeNames\` that takes an array of \`User\` and returns a string array: the names of users where \`active\` is true, in original order.
+
+Example: users A(true), B(false), C(true) → ["A", "C"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['activeNames'],
           requireTypeAlias: ['User'],
           hints: [
-            'You need two steps: keep only active users, then get their names.',
-            'Chain `filter` and then `map` on the result.',
-            'Filter with `u.active`, map with `u.name`.',
+            'Two steps: keep only active users, then collect their names.',
+            'You can chain those steps with the array methods from this module.',
+            'Use the `active` field to decide who stays; use the `name` field for the output.',
           ],
           tests: [
             {
@@ -869,15 +930,20 @@ The challenge asks you to find by \`id\`. Prefer \`find\` over writing your own 
           id: 'ch-find-by-id',
           title: 'findById',
           prompt:
-            'Define `type Item = { id: number; label: string }`. Write `function findById(items: Item[], id: number): Item | undefined` that returns the matching item or `undefined`.',
+            
+            `1. Define a type alias \`Item\` with fields \`id\` (number) and \`label\` (string).
+2. Create a function \`findById\` that takes an array of \`Item\` and an \`id\` number.
+   Return the matching item, or \`undefined\` if none match.
+
+Type the return as “item or undefined.”`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['findById'],
           requireTypeAlias: ['Item'],
           hints: [
-            'Look for an array method that returns the first matching element (or undefined).',
-            "Compare each item's `id` to the `id` argument.",
+            'Look for an array method that returns the first match, or undefined when nothing matches.',
+            'Compare each item’s `id` to the `id` you were given.',
           ],
           tests: [
             {
@@ -967,15 +1033,20 @@ Next: write a function that sums a number array with \`reduce\`.`,
         challenge: {
           id: 'ch-sum',
           title: 'sumNumbers',
-          prompt: 'Write `function sumNumbers(nums: number[]): number` that returns the sum of all numbers. An empty array should return 0.',
+          prompt: 
+            `Create a function named \`sumNumbers\`.
+
+It takes an array of numbers and returns their sum as a number. An empty array should return 0.
+
+Examples: sumNumbers([1, 2, 3]) → 6; sumNumbers([]) → 0. Type the parameter and return value.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['sumNumbers'],
           hints: [
-            'Call `nums.reduce(...)` and return what it gives you.',
-            'The callback should add the current number to the running total.',
-            'Pass `0` as the initial value so an empty array still returns 0.',
+            'Use the array method from this lesson that folds many values into one.',
+            'Keep a running total and add each number into it.',
+            'Start the total at 0 so an empty list still works.',
           ],
           tests: [
             {
@@ -1063,15 +1134,24 @@ Next you will narrow \`string | number\` and always return a \`string\`.`,
           id: 'ch-to-string',
           title: 'asString',
           prompt:
-            'Write `function asString(value: string | number): string`. If the value is a number, return it as a string; if it is already a string, return it unchanged.',
+            
+            `Create a function named \`asString\`.
+
+It takes one value that may be either a string or a number, and always returns a string.
+
+Behavior:
+- If the value is a number, return it as text (example: 42 → "42").
+- If the value is already a string, return it unchanged (example: "hi" → "hi").
+
+Type the parameter as a union, type the return as string, and narrow before you treat the value as one type or the other.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['asString'],
           hints: [
-            'Narrow with `typeof` so you know whether you have a number or a string.',
-            'If it is a number, convert it to a string (for example with `String(...)`).',
-            'If it is already a string, return it unchanged.',
+            'Use the narrowing tool from the lesson for primitives.',
+            'Handle the number case by producing text; handle the string case by returning the same value.',
+            'After you prove which branch you are in, TypeScript will treat the value as that type.',
           ],
           tests: [
             {
@@ -1148,15 +1228,21 @@ Type both full function signatures yourself (including \`<T>\`), then fill in ea
           id: 'ch-generics',
           title: 'identity + firstItem',
           prompt:
-            'Write `function identity<T>(value: T): T` and `function firstItem<T>(items: T[]): T | undefined`.',
+            
+            `Create two generic functions:
+
+1. \`identity\` — takes a value of some type \`T\` and returns that same value (still typed as \`T\`).
+2. \`firstItem\` — takes an array of \`T\` and returns the first element, or \`undefined\` if the array is empty.
+
+Both functions should use a type parameter \`<T>\`. Keep the bodies simple; the point is the generic signatures.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['identity', 'firstItem'],
           hints: [
-            '`identity` should return whatever it received, unchanged.',
-            '`firstItem` should return the element at index 0.',
-            'For an empty array, index 0 is `undefined` — that is fine.',
+            '`identity` returns whatever it received, unchanged.',
+            '`firstItem` returns the element at index 0.',
+            'For an empty array, index 0 is `undefined` — that is expected.',
           ],
           tests: [
             {
@@ -1256,15 +1342,22 @@ You annotate the empty array (\`number[]\`) so TypeScript knows what you are col
           id: 'ch-collect-odds',
           title: 'collectOdds',
           prompt:
-            'Write `function collectOdds(nums: number[]): number[]` that returns only the odd numbers, in order. Use a loop and `push` (not `filter`).',
+            
+            `Create a function named \`collectOdds\`.
+
+It takes an array of numbers and returns only the odd numbers, in order.
+
+Constraint: build the result with a loop and \`push\` — do not use \`filter\`.
+
+Examples: collectOdds([1, 2, 3, 4, 5]) → [1, 3, 5]; collectOdds([2, 4]) → [].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['collectOdds'],
           hints: [
-            'Start with an empty typed array, then loop over `nums`.',
-            'A number is odd when `n % 2 !== 0` (remainder is not zero).',
-            '`push` each odd value onto your result array, then return it.',
+            'Start with an empty typed result array, then walk the input.',
+            'Decide whether each number is odd before adding it.',
+            'Push matching values onto your result, then return it.',
           ],
           tests: [
             {
@@ -1313,16 +1406,22 @@ That is the same \`map\` you already know — the output is \`string[]\` instead
           id: 'ch-product-labels',
           title: 'productLabels',
           prompt:
-            'Define `type Product = { name: string; price: number }`. Write `function productLabels(products: Product[]): string[]` so each product becomes a string like "Mug — $12".',
+            
+            `1. Define a type alias \`Product\` with fields \`name\` (string) and \`price\` (number).
+2. Create a function \`productLabels\` that takes an array of \`Product\` and returns a string array — one label per product.
+
+Format each label like: "Mug — $12" (name, space, em dash —, space, dollar sign, price).
+
+Example: Mug/12 and Tea/4 → ["Mug — $12", "Tea — $4"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['productLabels'],
           requireTypeAlias: ['Product'],
           hints: [
-            'Use `map` to turn each product into one string.',
-            'Build the string from `product.name` and `product.price`.',
-            'The separator is a space, an em dash (—), then another space before the `$`.',
+            'Transform each product into one string.',
+            'Pull the name and price from each product object.',
+            'Match the separator exactly: space, em dash (—), space, then `$` and the price.',
           ],
           tests: [
             {
@@ -1377,16 +1476,19 @@ const after = [...before, { id: 2, title: "Ship it" }]
           id: 'ch-add-task',
           title: 'addTask',
           prompt:
-            'Define `type Task = { id: number; title: string }`. Write `function addTask(tasks: Task[], task: Task): Task[]` that returns a new array with `task` appended. Do not mutate the original array.',
+            
+            `1. Define a type alias \`Task\` with fields \`id\` (number) and \`title\` (string).
+2. Create a function \`addTask\` that takes the current task list and a new task, and returns a new array with that task appended.
+
+Do not mutate the original array. Example: starting with [{id:1,title:"A"}] and adding {id:2,title:"B"} → both tasks, originals unchanged.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['addTask'],
           requireTypeAlias: ['Task'],
           hints: [
-            'Return a new array that contains every existing task plus the new one.',
-            'Spread helps: `[...tasks, task]`.',
-            'Avoid `tasks.push(task)` — that mutates the original list.',
+            'Return a brand-new array that contains the old tasks plus the new one.',
+            'Avoid mutating methods that change the input list in place.',
           ],
           tests: [
             {
@@ -1464,16 +1566,21 @@ These two helpers are what sit behind “edit” and “delete” buttons in a l
           id: 'ch-crud-items',
           title: 'updateLabel + removeById',
           prompt:
-            'Define `type Item = { id: number; label: string }`. Write `updateLabel(items, id, label): Item[]` and `removeById(items, id): Item[]`. Do not mutate the originals.',
+            
+            `1. Define a type alias \`Item\` with fields \`id\` (number) and \`label\` (string).
+2. Create \`updateLabel(items, id, label)\` — return a new array where the item with that \`id\` has the new \`label\`. Other items stay the same.
+3. Create \`removeById(items, id)\` — return a new array without the item that has that \`id\`.
+
+Do not mutate the original arrays or objects.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['updateLabel', 'removeById'],
           requireTypeAlias: ['Item'],
           hints: [
-            '`updateLabel`: map over items; when `id` matches, return a new object with the new label.',
-            'Object spread helps for the updated copy: `{ ...item, label }`.',
-            '`removeById`: filter out the item whose `id` matches.',
+            'For updates: walk every item and, when the id matches, produce a replaced object.',
+            'The updated object should keep other fields and only change `label`.',
+            'For deletes: keep every item whose id is not the one you want to remove.',
           ],
           tests: [
             {
@@ -1562,16 +1669,18 @@ Write the \`CartItem\` type and the full \`inStockTotal\` function yourself from
           id: 'ch-cart-total',
           title: 'inStockTotal',
           prompt:
-            'Define `type CartItem = { name: string; price: number; inStock: boolean }`. Write `function inStockTotal(items: CartItem[]): number` that sums `price` for in-stock items only. Empty list → 0.',
+            
+            `1. Define a type alias \`CartItem\` with fields \`name\` (string), \`price\` (number), and \`inStock\` (boolean).
+2. Create a function \`inStockTotal\` that takes an array of \`CartItem\` and returns a number: the sum of \`price\` for items that are in stock. Ignore out-of-stock items. Empty list → 0.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['inStockTotal'],
           requireTypeAlias: ['CartItem'],
           hints: [
-            'Ignore items that are not in stock first.',
-            'Then add up the `price` values of what remains.',
-            'A `filter` followed by `reduce` (starting at 0) is a solid approach.',
+            'First ignore items that are not in stock.',
+            'Then add up the prices of what remains.',
+            'Make sure an empty list still returns 0.',
           ],
           tests: [
             {
@@ -1623,16 +1732,19 @@ The challenge uses posts with an \`id\` and \`tags\`. Same idea.`,
           id: 'ch-unique-tags',
           title: 'uniqueTags',
           prompt:
-            'Define `type Post = { id: number; tags: string[] }`. Write `function uniqueTags(posts: Post[]): string[]` that flattens all tags and removes duplicates (first-seen order).',
+            
+            `1. Define a type alias \`Post\` with fields \`id\` (number) and \`tags\` (string array).
+2. Create a function \`uniqueTags\` that takes an array of posts and returns one string array: every tag from every post, with duplicates removed, keeping first-seen order.
+
+Example: tags ["ts","react"] then ["react","node"] → ["ts","react","node"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['uniqueTags'],
           requireTypeAlias: ['Post'],
           hints: [
-            'First collect every tag from every post into one list.',
-            '`flatMap` (or map + flat) helps flatten the nested tag arrays.',
-            'Then remove duplicates while keeping first-seen order (a `Set` can help).',
+            'First gather every tag from every post into one flat list.',
+            'Then remove duplicates while preserving the order they first appeared.',
           ],
           tests: [
             {
@@ -1690,16 +1802,24 @@ The return type \`Record<string, string[]>\` means “an object whose keys are s
           id: 'ch-group-by-role',
           title: 'groupByRole',
           prompt:
-            'Define `type Person = { name: string; role: string }`. Write `function groupByRole(people: Person[]): Record<string, string[]>` grouping names by role.',
+            
+            `1. Define a type alias \`Person\` with fields \`name\` (string) and \`role\` (string).
+2. Create a function \`groupByRole\` that takes an array of people and returns an object:
+   - keys are role strings
+   - values are arrays of names in that role (original encounter order)
+
+Example: A/dev, B/design, C/dev → { dev: ["A","C"], design: ["B"] }. Empty input → {}.
+
+Type the return as a record of string keys to string arrays.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['groupByRole'],
           requireTypeAlias: ['Person'],
           hints: [
-            'Build an object whose keys are roles and whose values are arrays of names.',
-            'Loop (or reduce): for each person, make sure that role key exists as an array.',
-            "Push the person's name into the array for their role, then return the object.",
+            'Build an object whose keys are roles and whose values are name lists.',
+            'For each person, ensure that role already has an array, then add their name.',
+            'Return the finished object.',
           ],
           tests: [
             {
@@ -1775,15 +1895,23 @@ Next you will write a greeting helper that uses an optional title.`,
           id: 'ch-greet-optional',
           title: 'greet',
           prompt:
-            'Write `function greet(name: string, title?: string): string`. If `title` is provided, return `title + " " + name`. Otherwise return just `name`.',
+            
+            `Create a function named \`greet\`.
+
+It takes a required \`name\` (string) and an optional \`title\` (string), and returns a string:
+
+- If a title is provided: title, then a space, then name (example: "Dr." + "Sam" → "Dr. Sam")
+- If no title: just the name (example: greet("Sam") → "Sam")
+
+Mark the title parameter as optional and type the return as string.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['greet'],
           hints: [
-            'Make the second parameter optional with `?`.',
-            'If `title` is present, join it to the name with a space.',
-            'If there is no title, return `name` alone.',
+            'Optional parameters are marked with `?` and come after required ones.',
+            'Branch on whether a title was provided.',
+            'When joining title and name, put a single space between them.',
           ],
           tests: [
             {
@@ -1836,15 +1964,23 @@ Next: return a display name from a possibly missing / null name.`,
           id: 'ch-display-name',
           title: 'displayName',
           prompt:
-            'Write `function displayName(user: { name?: string | null }): string` that returns `user.name` when it is a real string, otherwise `"Guest"`. Prefer `??`.',
+            
+            `Create a function named \`displayName\`.
+
+It takes a \`user\` object that may have a \`name\` field (string, null, or missing). Return a string:
+
+- If \`name\` is a real string, return it
+- Otherwise return "Guest"
+
+Prefer the nullish coalescing operator from the lesson.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['displayName'],
           hints: [
-            'Read `user.name` and provide a fallback.',
-            '`??` treats only null/undefined as missing.',
-            'Fallback string should be exactly "Guest".',
+            'Read `user.name` and supply a fallback when it is missing.',
+            'Nullish coalescing treats only null/undefined as missing (empty string stays).',
+            'The fallback text must be exactly "Guest".',
           ],
           tests: [
             {
@@ -1907,14 +2043,23 @@ Next you will write \`applyAll\` yourself.`,
           id: 'ch-apply-all',
           title: 'applyAll',
           prompt:
-            'Write `function applyAll(nums: number[], fn: (n: number) => number): number[]` that returns `nums.map(fn)`.',
+            
+            `Create a function named \`applyAll\`.
+
+It takes:
+- an array of numbers
+- a callback function that takes a number and returns a number
+
+Return a new number array by applying that callback to every element.
+
+Example: applyAll([1, 2, 3], n => n * 2) → [2, 4, 6]. Type the callback parameter as a function type.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['applyAll'],
           hints: [
-            'The second parameter is a function type: `(n: number) => number`.',
-            'Return the result of mapping `fn` over `nums`.',
+            'The second parameter’s type should describe “a function from number to number.”',
+            'Apply the callback to each element and return the resulting array.',
           ],
           tests: [
             {
@@ -1993,7 +2138,13 @@ function area(shape: Shape): number {
           id: 'ch-result-message',
           title: 'messageFrom',
           prompt:
-            'Define `type Result = { ok: true; data: string } | { ok: false; error: string }`. Write `function messageFrom(result: Result): string` that returns `data` when ok, otherwise `error`.',
+            
+            `1. Define a discriminated union type \`Result\`:
+   - success: \`ok\` is true and there is a \`data\` string
+   - failure: \`ok\` is false and there is an \`error\` string
+2. Create a function \`messageFrom\` that takes a \`Result\` and returns a string: the \`data\` on success, or the \`error\` on failure.
+
+Narrow on the \`ok\` tag before reading the branch-specific field.`,
           starterCode: `// Write your full type + function below.
 
 `,
@@ -2001,8 +2152,8 @@ function area(shape: Shape): number {
           requireTypeAlias: ['Result'],
           hints: [
             'Model success and failure as two object shapes that share an `ok` field.',
-            'Narrow with `if (result.ok)` (or `=== true`).',
-            'Return `result.data` on success and `result.error` on failure.',
+            'Check `ok` first so TypeScript knows which other field exists.',
+            'Return the success payload or the error message depending on the branch.',
           ],
           tests: [
             {
@@ -2053,15 +2204,20 @@ Do not mutate \`user\` in place — return a new object.`,
           id: 'ch-apply-patch',
           title: 'applyPatch',
           prompt:
-            'Define `type User = { id: number; name: string; email: string }`. Write `function applyPatch(user: User, patch: Partial<User>): User` that returns a new user with patch fields applied.',
+            
+            `1. Define a type alias \`User\` with fields \`id\` (number), \`name\` (string), and \`email\` (string).
+2. Create a function \`applyPatch\` that takes a full \`User\` and a \`Partial<User>\` patch, and returns a new \`User\` with any provided patch fields applied on top.
+
+Do not mutate the original user. Example: patching only \`{ name: "Alex" }\` keeps id and email the same.`,
           starterCode: `// Write your full type + function below.
 
 `,
           exports: ['applyPatch'],
           requireTypeAlias: ['User'],
           hints: [
-            'Use object spread: start with `user`, then spread `patch`.',
-            'Return a new object — do not assign into `user` directly.',
+            'Combine the original user with the patch into a new object.',
+            'Fields from the patch should override matching fields from the user.',
+            'Return the new object; do not assign into the original.',
           ],
           tests: [
             {
@@ -2121,16 +2277,19 @@ This combines optional params, string methods, and \`filter\`.`,
           id: 'ch-search-products',
           title: 'searchProducts',
           prompt:
-            'Define `type Product = { name: string; price: number }`. Write `function searchProducts(products: Product[], query: string, maxPrice?: number): Product[]` — case-insensitive name match; if `maxPrice` is set, also require `price <= maxPrice`.',
+            
+            `1. Define a type alias \`Product\` with fields \`name\` (string) and \`price\` (number).
+2. Create a function \`searchProducts\` that takes products, a query string, and an optional \`maxPrice\` number.
+   Return products whose name contains the query (case-insensitive). If \`maxPrice\` is provided, also require \`price <= maxPrice\`. Keep original order.`,
           starterCode: `// Write your full type + function below.
 
 `,
           exports: ['searchProducts'],
           requireTypeAlias: ['Product'],
           hints: [
-            'Compare lowercased name against a lowercased query with `includes`.',
-            'If `maxPrice` is undefined, skip the price check.',
-            'Use `filter` and return the matching products in original order.',
+            'Normalize casing before comparing name text to the query.',
+            'Only enforce the price limit when `maxPrice` was actually passed.',
+            'Keep products that pass the checks, in the same order they appeared.',
           ],
           tests: [
             {
@@ -2203,15 +2362,23 @@ If the page is past the end, \`slice\` just returns \`[]\`.`,
           id: 'ch-paginate',
           title: 'paginate',
           prompt:
-            'Write `function paginate<T>(items: T[], page: number, pageSize: number): T[]` for 1-based pages using `slice`.',
+            
+            `Create a generic function named \`paginate\`.
+
+It takes an array of \`T\`, a 1-based \`page\` number, and a \`pageSize\`, and returns that page’s slice of items (still typed as \`T[]\`).
+
+Examples with ["a","b","c","d"], pageSize 2:
+- page 1 → ["a","b"]
+- page 2 → ["c","d"]
+- a page past the end → []`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['paginate'],
           hints: [
-            'Start index is `(page - 1) * pageSize`.',
-            'End index is start + pageSize.',
-            '`items.slice(start, end)` returns that window.',
+            'Page 1 starts at index 0; page 2 starts after one pageSize of items.',
+            'Compute a start index from page and pageSize, then take that many items.',
+            'Prefer the array method that returns a window of elements without mutating.',
           ],
           tests: [
             {
@@ -2267,16 +2434,22 @@ Order: existing order first, then any brand-new ids from incoming in the order t
           id: 'ch-merge-by-id',
           title: 'mergeById',
           prompt:
-            'Define `type Item = { id: number; label: string }`. Write `function mergeById(existing: Item[], incoming: Item[]): Item[]` — same id gets replaced by incoming; new ids append. Do not mutate the inputs.',
+            
+            `1. Define a type alias \`Item\` with fields \`id\` (number) and \`label\` (string).
+2. Create a function \`mergeById\` that takes \`existing\` and \`incoming\` item arrays and returns a merged array:
+   - If an incoming item shares an id with an existing one, replace it with the incoming version
+   - If the id is new, append it
+   - Keep existing order for old ids; append brand-new ids in incoming order
+
+Do not mutate the input arrays.`,
           starterCode: `// Write your full type + function below.
 
 `,
           exports: ['mergeById'],
           requireTypeAlias: ['Item'],
           hints: [
-            'Copy `existing` first so you do not mutate the original array.',
-            'For each incoming item, find the same id; replace or push.',
-            '`findIndex` + copy, or a loop building a new array, both work.',
+            'Work from a copy (or build a new list) so the originals stay unchanged.',
+            'For each incoming item, decide: replace a matching id, or append as new.',
           ],
           tests: [
             {
@@ -2338,16 +2511,20 @@ Ties: whatever stable order your sort leaves is fine for these tests if scores d
           id: 'ch-top-n',
           title: 'topNames',
           prompt:
-            'Define `type Entry = { name: string; score: number }`. Write `function topNames(entries: Entry[], n: number): string[]` — names of the top `n` scores, highest first.',
+            
+            `1. Define a type alias \`Entry\` with fields \`name\` (string) and \`score\` (number).
+2. Create a function \`topNames\` that takes entries and a number \`n\`, and returns the names of the top \`n\` scores, highest first.
+
+Do not mutate the input array. Example: scores A:3, B:9, C:6 with n=2 → ["B","C"].`,
           starterCode: `// Write your full type + function below.
 
 `,
           exports: ['topNames'],
           requireTypeAlias: ['Entry'],
           hints: [
-            'Copy before sorting so you do not mutate the input.',
-            'Sort by score descending, then take the first `n`.',
-            'Map the sliced entries to their `name` fields.',
+            'Sort by score from high to low, but do not mutate the original list.',
+            'After sorting, keep only the first `n` entries.',
+            'Return just their names.',
           ],
           tests: [
             {
