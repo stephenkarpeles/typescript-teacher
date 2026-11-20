@@ -351,6 +351,17 @@
   color: #8a5408;
 }
 
+.btn-amber:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.btn-answer {
+  background: #e8eefc;
+  border-color: #c5d2f5;
+  color: #2f4f9c;
+}
+
 .btn-wait {
   background: #f3f7f5;
   color: var(--muted);
@@ -495,6 +506,8 @@
   border-radius: 14px;
   padding: 0.9rem 1rem;
   font-size: 0.94rem;
+  white-space: pre-wrap;
+  line-height: 1.45;
 }
 
 .editor-wrap {
@@ -604,6 +617,42 @@
 .hint-box ol {
   margin: 0.4rem 0 0;
   padding-left: 1.1rem;
+}
+
+.answer-box {
+  background: #eef2fb;
+  border: 1px solid #c5d2f5;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  color: #24345f;
+  font-size: 0.9rem;
+}
+
+.answer-explain {
+  margin: 0.45rem 0 0.7rem;
+  line-height: 1.45;
+  color: #33446e;
+}
+
+.answer-code {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: #1e2433;
+  color: #e8edf7;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.answer-code code {
+  font-family: inherit;
+  white-space: pre;
+}
+
+.btn-fill-answer {
+  margin-top: 0.7rem;
 }
 
 .error-banner {

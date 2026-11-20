@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 import Editor from '@monaco-editor/react'
+import {
+  solutionExplanations,
+  solutions,
+} from '../curriculum/solutions'
 import type { Challenge, TestResult } from '../curriculum/types'
 import { configurePlaygroundMonaco } from '../lib/monaco'
 import { runChallenge } from '../lib/runner'
@@ -20,6 +24,7 @@ export function ChallengePanel({
 }: Props) {
   const [code, setCode] = useState(savedCode ?? challenge.starterCode)
   const [hintLevel, setHintLevel] = useState(0)
+  const [answerRevealed, setAnswerRevealed] = useState(false)
   const [results, setResults] = useState<TestResult[] | null>(null)
   const [compileError, setCompileError] = useState<string | null>(null)
   const [runtimeError, setRuntimeError] = useState<string | null>(null)
@@ -29,9 +34,16 @@ export function ChallengePanel({
   const [shake, setShake] = useState(false)
   const [attempts, setAttempts] = useState(0)
 
+  const allHintsShown =
+    challenge.hints.length > 0 && hintLevel >= challenge.hints.length
+  const answerCode = solutions[challenge.id]
+  const answerExplanation = solutionExplanations[challenge.id]
+  const canRevealAnswer = allHintsShown && Boolean(answerCode)
+
   useEffect(() => {
     setCode(savedCode ?? challenge.starterCode)
     setHintLevel(0)
+    setAnswerRevealed(false)
     setResults(null)
     setCompileError(null)
     setRuntimeError(null)
@@ -88,6 +100,15 @@ export function ChallengePanel({
 
   function showHint() {
     setHintLevel((n) => Math.min(n + 1, challenge.hints.length))
+  }
+
+  function revealAnswer() {
+    setAnswerRevealed(true)
+  }
+
+  function fillAnswer() {
+    if (!answerCode) return
+    updateCode(answerCode)
   }
 
   return (
@@ -148,13 +169,23 @@ export function ChallengePanel({
           >
             {running ? 'Running…' : 'Run tests'}
           </button>
-          <button className="btn btn-amber" onClick={showHint} type="button">
+          <button
+            className="btn btn-amber"
+            onClick={showHint}
+            type="button"
+            disabled={allHintsShown}
+          >
             {hintLevel === 0
               ? 'Get hint'
-              : hintLevel >= challenge.hints.length
+              : allHintsShown
                 ? 'All hints shown'
                 : 'Next hint'}
           </button>
+          {canRevealAnswer && !answerRevealed && (
+            <button className="btn btn-answer" onClick={revealAnswer} type="button">
+              Show me the answer
+            </button>
+          )}
           <button
             className="btn btn-ghost"
             type="button"
@@ -229,6 +260,19 @@ export function ChallengePanel({
                 <li key={h}>{h}</li>
               ))}
             </ol>
+          </div>
+        )}
+
+        {answerRevealed && answerCode && (
+          <div className="answer-box pop-in" style={{ marginTop: '1rem' }}>
+            <strong>Answer</strong>
+            {answerExplanation && <p className="answer-explain">{answerExplanation}</p>}
+            <pre className="answer-code">
+              <code>{answerCode.trimEnd()}</code>
+            </pre>
+            <button className="btn btn-ghost btn-fill-answer" type="button" onClick={fillAnswer}>
+              Fill editor with answer
+            </button>
           </div>
         )}
       </div>

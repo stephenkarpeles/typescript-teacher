@@ -1,4 +1,4 @@
-/** Canonical solutions for audit only — never shown in the UI. */
+/** Canonical solutions + explanations — revealed in the UI only after all hints. */
 export const solutions: Record<string, string> = {
   'ch-hello': `let greeting: string = "Hello, TypeScript"
 let year: number = 2026
@@ -247,6 +247,72 @@ function topNames(entries: Entry[], n: number): string[] {
     .map((e) => e.name)
 }
 `,
+}
+
+/** Short teaching notes shown with the revealed solution. */
+export const solutionExplanations: Record<string, string> = {
+  'ch-hello':
+    'Type annotations sit after the name (`name: type`). Strings use quotes; numbers do not. The greeting must match the prompt character-for-character.',
+  'ch-primitives':
+    '`productName` is fixed, so use `const`. `inStock` and `quantity` can change, so `let` is fine. Each binding still gets an explicit type.',
+  'ch-status':
+    'Booleans are `true` / `false` with no quotes. Annotating `isActive: boolean` lets you assign `false` safely; `status` is ordinary text.',
+  'ch-arrays':
+    '`number[]` and `string[]` mean “array of that element type.” Write the values in square brackets with commas between them.',
+  'ch-person':
+    'Declare a `Person` type alias with the shape, then annotate `player` as `Person`. That teaches reusable object shapes instead of one-off inline types.',
+  'ch-multiply':
+    'Parameter and return types go on the function signature. Inside the body you just multiply and return — TypeScript already knows the result is a `number`.',
+  'ch-format':
+    'A template literal (`\`...\${...}\``) builds the label string. Both parameters are typed so callers cannot pass the wrong kinds of values.',
+  'ch-union-status':
+    'A string-literal union limits `LoadState` to three exact values. `isLoading` is a simple equality check against `"loading"`.',
+  'ch-double-all':
+    '`map` walks every element and returns a new array. Multiplying by 2 keeps the array length the same while transforming each number.',
+  'ch-evens':
+    '`filter` keeps only items that pass a test. `n % 2 === 0` is the usual “even number” check.',
+  'ch-active-names':
+    'Chain `filter` then `map`: first drop inactive users, then project each remaining user down to just their `name`.',
+  'ch-find-by-id':
+    '`find` returns the first match or `undefined`. The return type `Item | undefined` reflects that the id might not exist.',
+  'ch-sum':
+    '`reduce` folds an array into one value. Start the accumulator at `0`, then add each number as you go.',
+  'ch-to-string':
+    'Narrow the union with `typeof`. Once you know it is a `number`, convert it; otherwise it is already a `string` and you can return it.',
+  'ch-generics':
+    '`<T>` is a type parameter: whatever type goes in comes back out. `firstItem` returns `T | undefined` because an empty array has no first element.',
+  'ch-collect-odds':
+    'A manual loop builds a new array. Push only when `n % 2 !== 0` so you collect odds without mutating the input.',
+  'ch-product-labels':
+    '`map` turns each product into a display string. The template literal inserts `name` and `price` in the required format.',
+  'ch-add-task':
+    'Spread (`...tasks`) copies the old list into a new array, then appends `task`. That avoids mutating the original array with `push`.',
+  'ch-crud-items':
+    '`updateLabel` uses `map` plus a spread to replace one item immutably. `removeById` uses `filter` to drop the matching id.',
+  'ch-cart-total':
+    'Filter to in-stock items first, then `reduce` their prices. Splitting the steps keeps the intent clear: select, then sum.',
+  'ch-unique-tags':
+    '`flatMap` gathers every tag into one list; `Set` removes duplicates; `Array.from` turns the set back into an array.',
+  'ch-group-by-role':
+    'Build a `Record<string, string[]>` while iterating. Initialize each role’s array the first time you see it, then push names into that bucket.',
+  'ch-greet-optional':
+    '`title?` means the argument may be omitted. If it is present (truthy), prefix the name; otherwise return the name alone.',
+  'ch-display-name':
+    'Nullish coalescing (`??`) falls back only for `null` or `undefined`, so an empty string would still count as a provided name — here we treat missing names as `"Guest"`.',
+  'ch-apply-all':
+    'Higher-order functions take a callback. Passing `fn` straight into `map` applies that transformer to every number.',
+  'ch-result-message':
+    'A discriminated union uses `ok` as the tag. Checking `result.ok` narrows the type so TypeScript knows whether `data` or `error` exists.',
+  'ch-apply-patch':
+    '`Partial<User>` makes every field optional. Spreading `user` then `patch` overlays only the fields the patch actually provided.',
+  'ch-search-products':
+    'Normalize the query with `toLowerCase`, then filter. If `maxPrice` is omitted, name match alone is enough; otherwise also enforce the price cap.',
+  'ch-paginate':
+    'Page 1 starts at index 0. The start index is `(page - 1) * pageSize`, and `slice` returns that window of the array.',
+  'ch-merge-by-id':
+    'Copy `existing` first so you do not mutate inputs. For each incoming item, replace by id if found; otherwise append it.',
+  'ch-top-n':
+    'Copy before sorting so the original stays intact. Sort by score descending, take the first `n` with `slice`, then map to names.',
 }
 
 /** Known incorrect snippets that must fail. */
