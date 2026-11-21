@@ -46,3 +46,11 @@ Progress and your code drafts are saved in the browser (`localStorage`).
 - `npm run build` — production build
 - `npm run preview` — preview the build
 - `npm run audit:challenges` — verify every challenge solution passes and known wrong answers fail
+
+## Contributing
+
+1. Fork the repo and clone your fork.
+2. Create a branch: `git checkout -b my-change`
+3. Install and run locally: `npm install` then `npm run dev`
+4. Make your changes. For lesson/challenge edits, run `npm run audit:challenges` to check them.
+5. Push your branch and open a pull request against `main`.
