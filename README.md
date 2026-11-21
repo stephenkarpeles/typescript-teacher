@@ -2,6 +2,10 @@
 
 A hands-on TypeScript teaching gym.
 
+## License
+
+MIT — see [LICENSE](LICENSE).
+
 ## How to use
 
 ```bash
