@@ -264,7 +264,7 @@ export const solutionExplanations: Record<string, string> = {
   'ch-multiply':
     'Parameter and return types go on the function signature. Inside the body you just multiply and return — TypeScript already knows the result is a `number`.',
   'ch-format':
-    'A template literal (`\`...\${...}\``) builds the label string. Both parameters are typed so callers cannot pass the wrong kinds of values.',
+    'A template literal (`\`...\${...}\``) builds the label string. The parameter types stop you from passing the wrong kind of value.',
   'ch-union-status':
     'A string-literal union limits `LoadState` to three exact values. `isLoading` is a simple equality check against `"loading"`.',
   'ch-double-all':
@@ -272,9 +272,9 @@ export const solutionExplanations: Record<string, string> = {
   'ch-evens':
     '`filter` keeps only items that pass a test. `n % 2 === 0` is the usual “even number” check.',
   'ch-active-names':
-    'Chain `filter` then `map`: first drop inactive users, then project each remaining user down to just their `name`.',
+    'Chain `filter` and then `map`. First keep only the active users, then take each remaining user\'s `name`.',
   'ch-find-by-id':
-    '`find` returns the first match or `undefined`. The return type `Item | undefined` reflects that the id might not exist.',
+    '`find` returns the first match, or `undefined` if nothing matches. The return type `Item | undefined` says the id might not be there.',
   'ch-sum':
     '`reduce` folds an array into one value. Start the accumulator at `0`, then add each number as you go.',
   'ch-to-string':
@@ -282,37 +282,37 @@ export const solutionExplanations: Record<string, string> = {
   'ch-generics':
     '`<T>` is a type parameter: whatever type goes in comes back out. `firstItem` returns `T | undefined` because an empty array has no first element.',
   'ch-collect-odds':
-    'A manual loop builds a new array. Push only when `n % 2 !== 0` so you collect odds without mutating the input.',
+    'A loop builds a new array. Push a number only when it is odd (`n % 2 !== 0`), so you don\'t change the array you were given.',
   'ch-product-labels':
     '`map` turns each product into a display string. The template literal inserts `name` and `price` in the required format.',
   'ch-add-task':
-    'Spread (`...tasks`) copies the old list into a new array, then appends `task`. That avoids mutating the original array with `push`.',
+    'The spread (`...tasks`) copies the old list into a new array, then adds `task` at the end. Unlike `push`, this does not change the original array.',
   'ch-crud-items':
-    '`updateLabel` uses `map` plus a spread to replace one item immutably. `removeById` uses `filter` to drop the matching id.',
+    '`updateLabel` uses `map` and a spread to return a new array with one item replaced. `removeById` uses `filter` to leave out the matching id.',
   'ch-cart-total':
-    'Filter to in-stock items first, then `reduce` their prices. Splitting the steps keeps the intent clear: select, then sum.',
+    'Keep the in-stock items first, then add up their prices with `reduce`. Doing it in two steps makes the plan obvious: choose the items, then total them.',
   'ch-unique-tags':
-    '`flatMap` gathers every tag into one list; `Set` removes duplicates; `Array.from` turns the set back into an array.',
+    '`flatMap` gathers every tag into one list. A `Set` removes the duplicates. `Array.from` turns that set back into an array.',
   'ch-group-by-role':
-    'Build a `Record<string, string[]>` while iterating. Initialize each role’s array the first time you see it, then push names into that bucket.',
+    'Build an object of string keys to string arrays as you go. The first time you see a role, start an empty array for it, then add each name to that array.',
   'ch-greet-optional':
-    '`title?` means the argument may be omitted. If it is present (truthy), prefix the name; otherwise return the name alone.',
+    '`title?` means that argument can be left out. If a title was passed in, put it in front of the name. Otherwise return just the name.',
   'ch-display-name':
-    'Nullish coalescing (`??`) falls back only for `null` or `undefined`, so an empty string would still count as a provided name — here we treat missing names as `"Guest"`.',
+    '`??` uses the right-hand side only when the left side is `null` or `undefined`. An empty string still counts as a name. Here, a missing name becomes `"Guest"`.',
   'ch-apply-all':
-    'Higher-order functions take a callback. Passing `fn` straight into `map` applies that transformer to every number.',
+    'This function takes another function as an argument. Passing `fn` into `map` runs that function on every number.',
   'ch-result-message':
-    'A discriminated union uses `ok` as the tag. Checking `result.ok` narrows the type so TypeScript knows whether `data` or `error` exists.',
+    'The `ok` field tells the two shapes apart. After you check `result.ok`, TypeScript knows whether you have `data` or `error`.',
   'ch-apply-patch':
-    '`Partial<User>` makes every field optional. Spreading `user` then `patch` overlays only the fields the patch actually provided.',
+    '`Partial<User>` makes every field optional. Spreading `user` and then `patch` copies the user and replaces only the fields the patch includes.',
   'ch-search-products':
-    'Normalize the query with `toLowerCase`, then filter. If `maxPrice` is omitted, name match alone is enough; otherwise also enforce the price cap.',
+    'Make the query lowercase with `toLowerCase`, then filter. If `maxPrice` was left out, matching the name is enough. If it was passed in, the price also has to be at or below that number.',
   'ch-paginate':
-    'Page 1 starts at index 0. The start index is `(page - 1) * pageSize`, and `slice` returns that window of the array.',
+    'Page 1 starts at index 0. The start index is `(page - 1) * pageSize`. `slice` returns that section of the array and leaves the original alone.',
   'ch-merge-by-id':
-    'Copy `existing` first so you do not mutate inputs. For each incoming item, replace by id if found; otherwise append it.',
+    'Copy `existing` first so you don\'t change the arrays you were given. For each incoming item, replace the one with the same id, or add it if that id is new.',
   'ch-top-n':
-    'Copy before sorting so the original stays intact. Sort by score descending, take the first `n` with `slice`, then map to names.',
+    'Copy the array before you sort it, so the original stays the same. Sort by score from high to low, keep the first `n` with `slice`, then take the names.',
 }
 
 /** Known incorrect snippets that must fail. */

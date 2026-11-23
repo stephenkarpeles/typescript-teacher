@@ -125,7 +125,7 @@ Use explicit type annotations (not bare JavaScript). Spelling and punctuation fo
 
 Both are valid TypeScript. In this course, challenges require **explicit** annotations even when inference would work. That is practice for interviews, where saying the type out loud matters.
 
-Wrong type → error:
+If the type is wrong, TypeScript reports an error:
 
 \`\`\`
 let title: string = "Engineer"
@@ -153,9 +153,9 @@ count = 1  // ok with let
 // pi = 3  // error: const cannot be reassigned
 \`\`\`
 
-\`const\` only blocks reassignment of the binding. For objects and arrays you can still change properties inside (you will see that later). For primitives like strings and numbers, \`const\` means the value stays put.
+\`const\` only stops you from assigning a new value to that name. You can still change the fields inside an object or array (you will see that later). For strings and numbers, \`const\` means the value stays put.
 
-Interview habit: default to \`const\`, switch to \`let\` only when you know you will reassign.`,
+In an interview, start with \`const\`. Use \`let\` only when you know you will assign a new value later.`,
         challenge: {
           id: 'ch-primitives',
           title: 'Annotate three values',
@@ -270,7 +270,7 @@ Examples:
 \`const scores: number[] = [90, 85, 100]\`
 \`const tags: string[] = ["ts", "react"]\`
 
-Empty array often needs a type, or TypeScript thinks \`any[]\`:
+An empty array often needs a type. Otherwise TypeScript treats it as \`any[]\`:
 \`const ids: number[] = []\``,
         example: `const names: string[] = ["Ada", "Lin"]
 names.push("Grace")
@@ -476,7 +476,7 @@ Arrow function form is the same idea:
 const add = (a: number, b: number): number => a + b
 \`\`\`
 
-If you return a string from a function typed to return \`number\`, TypeScript errors before you run anything. That is the point of the annotations.`,
+If you return a string from a function that is supposed to return a \`number\`, TypeScript reports an error before you run anything. That is the point of the annotations.`,
         example: `function greet(name: string): string {
   return "Hi, " + name
 }
@@ -498,7 +498,7 @@ function add(a: number, b: number): number {
 - \`a: number\` and \`b: number\` — what you pass in
 - \`): number\` after the parameter list — what \`return\` must produce
 
-If the body returns the wrong type (or returns nothing when a type was promised), TypeScript errors.
+If the body returns the wrong type, or returns nothing when you said it would return a value, TypeScript reports an error.
 
 In the challenge you will type the **whole function** yourself: name, parameter types, return type, and body. The prompt describes what the function must do — you choose how to write it.`,
         challenge: {
@@ -567,7 +567,7 @@ Things to watch:
 - Spaces and punctuation inside the backticks are kept exactly — \`"Task (3)"\` is not the same as \`"Task(3)"\`
 - \`\${n}\` works for numbers; TypeScript still checks that the whole return is a \`string\`
 
-The challenge gives you a function signature. Fill in the return so the format matches what the prompt describes.`,
+You will write the whole function. The string you return has to match the format in the prompt.`,
         challenge: {
           id: 'ch-format',
           title: 'formatLabel',
@@ -728,7 +728,7 @@ In TypeScript you can annotate the callback when you want to be explicit:
 
 Often inference is enough: TypeScript already knows \`nums\` is \`number[]\`, so \`n\` is a number.
 
-Interview habit: prefer \`map\` over a manual \`for\` loop when you are building a new array of the same length. Do not push into the original array and return it — return what \`map\` gives you.`,
+In an interview, use \`map\` when you are building a new array of the same length. Don't push into the original array and hand that back. Return the array that \`map\` gives you.`,
         example: `const prices = [10, 20]
 const withTax = prices.map((p: number) => p * 1.1)`,
       },
@@ -753,7 +753,7 @@ Examples: doubleAll([1, 2, 3]) → [2, 4, 6]; doubleAll([]) → []. Type the par
 `,
           exports: ['doubleAll'],
           hints: [
-            'Prefer an array method that transforms every element into a new array.',
+            'Use an array method that turns every item into a new value and returns a new array.',
             'Each output element should be twice the corresponding input.',
           ],
           tests: [
@@ -789,7 +789,7 @@ The callback must return a boolean (or something TypeScript treats as yes/no):
 - \`true\` → keep that item
 - \`false\` → drop it
 
-\`%\` is remainder. \`n % 2 === 0\` means “\`n\` divides evenly by 2,” i.e. even.
+\`%\` is the remainder. \`n % 2 === 0\` means dividing \`n\` by 2 leaves nothing left over, so \`n\` is even.
 
 Unlike \`map\`, the result can be shorter than the input. If nothing passes, you get \`[]\`.`,
         challenge: {
@@ -806,7 +806,7 @@ Examples: onlyEvens([1, 2, 3, 4, 5]) → [2, 4]; onlyEvens([1, 3]) → []. Type 
 `,
           exports: ['onlyEvens'],
           hints: [
-            'Prefer an array method that keeps only some elements.',
+            'Use an array method that keeps only some of the items.',
             'A number is even when dividing by 2 leaves no remainder.',
           ],
           tests: [
@@ -858,7 +858,7 @@ Chaining reads left to right and returns one final array. You will do the same p
             `1. Define a type alias \`User\` with fields \`name\` (string) and \`active\` (boolean).
 2. Create a function \`activeNames\` that takes an array of \`User\` and returns a string array: the names of users where \`active\` is true, in original order.
 
-Example: users A(true), B(false), C(true) → ["A", "C"].`,
+Example: if the users are A (active), B (not active), and C (active), return ["A", "C"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -923,9 +923,9 @@ users.some((u) => u.id === 9)  // false
 users.every((u) => u.id > 0)   // true
 \`\`\`
 
-Return type for \`find\` is often a union: \`Item | undefined\`. That is honest — the item might not be there. Callers should handle the missing case.
+\`find\` often returns \`Item | undefined\`, because the item might not be there. Whatever uses that result has to handle the missing case.
 
-The challenge asks you to find by \`id\`. Prefer \`find\` over writing your own loop when you only need the first match.`,
+The challenge asks you to find an item by \`id\`. Use \`find\` when you only need the first match, instead of writing your own loop.`,
         challenge: {
           id: 'ch-find-by-id',
           title: 'findById',
@@ -1027,7 +1027,7 @@ Common initial values:
 - \`{}\` for building an object
 - \`[]\` for building an array by hand
 
-Next: write a function that sums a number array with \`reduce\`.`,
+Next, you will write a function that sums an array of numbers with \`reduce\`.`,
         example: `// Read it as: start at 0, keep adding each number
 [10, 5, 2].reduce((total, n) => total + n, 0)  // 17`,
         challenge: {
@@ -1223,7 +1223,7 @@ wrap(1)   // number[]`,
 
 **first item** — take an array \`T[]\`, return the element at index \`0\`. Empty arrays give \`undefined\` at index \`0\`, so the return type is usually \`T | undefined\`.
 
-Type both full function signatures yourself (including \`<T>\`), then fill in each body. Do not overthink — these are about the generic shape, not tricky logic.`,
+Type both full function signatures yourself (including \`<T>\`), then fill in each body. Don't overthink it. The point is the generic type, not tricky logic.`,
         challenge: {
           id: 'ch-generics',
           title: 'identity + firstItem',
@@ -1275,7 +1275,7 @@ Both functions should use a type parameter \`<T>\`. Keep the bodies simple; the 
         id: 'loop-intro',
         title: 'for and for...of',
         minutes: 14,
-        content: `You already used \`map\` / \`filter\`. Live tests also expect plain loops.
+        content: `You already used \`map\` and \`filter\`. Coding tests also expect you to write ordinary loops.
 
 **\`for...of\`** — walk each value in an array:
 
@@ -1314,7 +1314,7 @@ for (const w of words) {
         id: 'loop-push-challenge',
         title: 'Challenge: loop + push',
         minutes: 15,
-        content: `\`push\` adds an item to the **end** of an array (and mutates that array):
+        content: `\`push\` adds an item to the **end** of an array, and it changes that array:
 
 \`\`\`
 const result: number[] = []
@@ -1337,7 +1337,7 @@ return out
 
 You annotate the empty array (\`number[]\`) so TypeScript knows what you are collecting.
 
-\`filter\` can do the same job in one line. Learning the loop + \`push\` version still matters — many take-homes mix both styles.`,
+\`filter\` can do the same job in one line. The loop and \`push\` version still matters, because a lot of interview exercises use both.`,
         challenge: {
           id: 'ch-collect-odds',
           title: 'collectOdds',
@@ -1347,7 +1347,7 @@ You annotate the empty array (\`number[]\`) so TypeScript knows what you are col
 
 It takes an array of numbers and returns only the odd numbers, in order.
 
-Constraint: build the result with a loop and \`push\` — do not use \`filter\`.
+Build the result with a loop and \`push\`. Don't use \`filter\`.
 
 Examples: collectOdds([1, 2, 3, 4, 5]) → [1, 3, 5]; collectOdds([2, 4]) → [].`,
           starterCode: `// Write your full function below (name, params, types, and body).
@@ -1412,7 +1412,7 @@ That is the same \`map\` you already know — the output is \`string[]\` instead
 
 Format each label like: "Mug — $12" (name, space, em dash —, space, dollar sign, price).
 
-Example: Mug/12 and Tea/4 → ["Mug — $12", "Tea — $4"].`,
+Example: a Mug that costs 12 and a Tea that costs 4 become ["Mug — $12", "Tea — $4"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -1452,9 +1452,9 @@ Example: Mug/12 and Tea/4 → ["Mug — $12", "Tea — $4"].`,
         id: 'crud-add',
         title: 'Add to a list (button-click pattern)',
         minutes: 15,
-        content: `In a UI, “click Add” usually means: take the current list, produce a **new** list with one more item, then render that.
+        content: `When someone clicks Add in a UI, you take the current list, make a **new** list that includes one more item, and show that new list.
 
-In TypeScript (and React state), prefer **not** mutating the original array:
+Don't change the original array. Make a new one:
 
 \`\`\`
 function addTask(tasks: Task[], task: Task): Task[] {
@@ -1464,9 +1464,9 @@ function addTask(tasks: Task[], task: Task): Task[] {
 
 \`[...tasks, task]\` copies every existing task, then puts the new one at the end.
 
-Mutating with \`tasks.push(task)\` changes the old array in place. That breaks React state updates and surprises callers who still hold a reference to the old list.
+\`tasks.push(task)\` changes the array you already have. React often won't notice, because you handed it the same array as before. Anyone else who still has that array will see the new item too.
 
-Interview phrasing: “I’ll return a new array so the previous state stays unchanged.”`,
+If an interviewer asks, you can say: “I'll return a new array so the old list stays the same.”`,
         example: `type Task = { id: number; title: string }
 
 const before: Task[] = [{ id: 1, title: "Write tests" }]
@@ -1480,7 +1480,7 @@ const after = [...before, { id: 2, title: "Ship it" }]
             `1. Define a type alias \`Task\` with fields \`id\` (number) and \`title\` (string).
 2. Create a function \`addTask\` that takes the current task list and a new task, and returns a new array with that task appended.
 
-Do not mutate the original array. Example: starting with [{id:1,title:"A"}] and adding {id:2,title:"B"} → both tasks, originals unchanged.`,
+Don't change the original array. If you start with [{id:1,title:"A"}] and add {id:2,title:"B"}, the result should contain both tasks, and the array you were given should still contain only the first one.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -1488,7 +1488,7 @@ Do not mutate the original array. Example: starting with [{id:1,title:"A"}] and 
           requireTypeAlias: ['Task'],
           hints: [
             'Return a brand-new array that contains the old tasks plus the new one.',
-            'Avoid mutating methods that change the input list in place.',
+            'Don\'t use `push`, or anything else that changes the list you were given.',
           ],
           tests: [
             {
@@ -1505,7 +1505,7 @@ Do not mutate the original array. Example: starting with [{id:1,title:"A"}] and 
               },
             },
             {
-              description: 'does not mutate the original',
+              description: 'leaves the original list unchanged',
               run: (s) => {
                 const addTask = s.addTask as (
                   tasks: { id: number; title: string }[],
@@ -1536,14 +1536,14 @@ Do not mutate the original array. Example: starting with [{id:1,title:"A"}] and 
         id: 'crud-update-delete',
         title: 'Update & delete by id (CRUD)',
         minutes: 18,
-        content: `CRUD on a list in memory:
+        content: `A list in memory usually needs four operations. People call this CRUD:
 
-- **Create** — add an item (previous lesson)
-- **Update** — change one item, usually by \`id\`
-- **Delete** — remove one item by \`id\`
-- **Read** — find / filter (you already practiced)
+- **Create** — add an item (you did that in the last lesson)
+- **Read** — find or filter items (you already practiced this)
+- **Update** — change one item, usually by looking up its \`id\`
+- **Delete** — remove one item by its \`id\`
 
-**Update** without mutating:
+To update one item, build a new array. Copy the matching object and change its label:
 
 \`\`\`
 items.map((item) =>
@@ -1551,9 +1551,9 @@ items.map((item) =>
 )
 \`\`\`
 
-Spread \`{ ...item, label: newLabel }\` copies the object and overrides \`label\`.
+\`{ ...item, label: newLabel }\` copies the object and replaces \`label\` on the copy.
 
-**Delete** without mutating:
+To delete one item, build a new array that leaves that item out:
 
 \`\`\`
 items.filter((item) => item.id !== id)
@@ -1561,7 +1561,7 @@ items.filter((item) => item.id !== id)
 
 Keep every item whose id is **not** the one you want to remove.
 
-These two helpers are what sit behind “edit” and “delete” buttons in a lot of UI code.`,
+These are the two helpers behind Edit and Delete buttons in a lot of UI code.`,
         challenge: {
           id: 'ch-crud-items',
           title: 'updateLabel + removeById',
@@ -1571,16 +1571,16 @@ These two helpers are what sit behind “edit” and “delete” buttons in a l
 2. Create \`updateLabel(items, id, label)\` — return a new array where the item with that \`id\` has the new \`label\`. Other items stay the same.
 3. Create \`removeById(items, id)\` — return a new array without the item that has that \`id\`.
 
-Do not mutate the original arrays or objects.`,
+Don't change the arrays you were given, or the objects inside them.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
           exports: ['updateLabel', 'removeById'],
           requireTypeAlias: ['Item'],
           hints: [
-            'For updates: walk every item and, when the id matches, produce a replaced object.',
-            'The updated object should keep other fields and only change `label`.',
-            'For deletes: keep every item whose id is not the one you want to remove.',
+            'To update: go through every item. When the id matches, return a copy with the new label.',
+            'The copy should keep the other fields and only change `label`.',
+            'To delete: keep every item whose id is not the one you want to remove.',
           ],
           tests: [
             {
@@ -1627,7 +1627,7 @@ Do not mutate the original arrays or objects.`,
               },
             },
             {
-              description: 'updateLabel does not mutate',
+              description: 'updateLabel leaves the original list unchanged',
               run: (s) => {
                 const updateLabel = s.updateLabel as (
                   items: { id: number; label: string }[],
@@ -1654,15 +1654,15 @@ Do not mutate the original arrays or objects.`,
         id: 'drill-cart',
         title: 'Drill: cart total',
         minutes: 20,
-        content: `Interview shape: typed objects in, one number out.
+        content: `This is a common interview question. You get typed objects, and you return one number.
 
-You get cart lines with a price and an in-stock flag. Sum the prices of items that are in stock. Ignore the rest. Empty list → \`0\`.
+Each cart line has a price and a flag for whether it is in stock. Add up the prices of the items that are in stock, and skip the rest. If the list is empty, return \`0\`.
 
-Approach to practice saying out loud:
-1. Keep only in-stock items (\`filter\`)
-2. Add up their prices (\`reduce\` starting at \`0\`)
+Practice saying the steps out loud:
+1. Keep only the in-stock items (\`filter\`)
+2. Add up their prices (\`reduce\`, starting at \`0\`)
 
-You could also loop with \`for...of\`. Either works; filter + reduce is short and common in take-homes.
+You could also use a \`for...of\` loop. Either way works. \`filter\` plus \`reduce\` is short, and it shows up a lot in take-home exercises.
 
 Write the \`CartItem\` type and the full \`inStockTotal\` function yourself from the challenge prompt.`,
         challenge: {
@@ -1671,7 +1671,7 @@ Write the \`CartItem\` type and the full \`inStockTotal\` function yourself from
           prompt:
             
             `1. Define a type alias \`CartItem\` with fields \`name\` (string), \`price\` (number), and \`inStock\` (boolean).
-2. Create a function \`inStockTotal\` that takes an array of \`CartItem\` and returns a number: the sum of \`price\` for items that are in stock. Ignore out-of-stock items. Empty list → 0.`,
+2. Create a function \`inStockTotal\` that takes an array of \`CartItem\` and returns a number: the sum of \`price\` for items that are in stock. Skip items that are out of stock. If the list is empty, return 0.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -1736,7 +1736,7 @@ The challenge uses posts with an \`id\` and \`tags\`. Same idea.`,
             `1. Define a type alias \`Post\` with fields \`id\` (number) and \`tags\` (string array).
 2. Create a function \`uniqueTags\` that takes an array of posts and returns one string array: every tag from every post, with duplicates removed, keeping first-seen order.
 
-Example: tags ["ts","react"] then ["react","node"] → ["ts","react","node"].`,
+Example: one post tagged ["ts","react"], then another tagged ["react","node"], returns ["ts","react","node"].`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -1806,11 +1806,11 @@ The return type \`Record<string, string[]>\` means “an object whose keys are s
             `1. Define a type alias \`Person\` with fields \`name\` (string) and \`role\` (string).
 2. Create a function \`groupByRole\` that takes an array of people and returns an object:
    - keys are role strings
-   - values are arrays of names in that role (original encounter order)
+   - values are arrays of names in that role, in the order you first see them
 
-Example: A/dev, B/design, C/dev → { dev: ["A","C"], design: ["B"] }. Empty input → {}.
+Example: A has the role dev, B has the role design, and C has the role dev. The result is { dev: ["A","C"], design: ["B"] }. An empty list returns {}.
 
-Type the return as a record of string keys to string arrays.`,
+Type the return value as an object whose keys are strings and whose values are arrays of strings.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -1818,7 +1818,7 @@ Type the return as a record of string keys to string arrays.`,
           requireTypeAlias: ['Person'],
           hints: [
             'Build an object whose keys are roles and whose values are name lists.',
-            'For each person, ensure that role already has an array, then add their name.',
+            'For each person, make sure that role already has an array, then add their name.',
             'Return the finished object.',
           ],
           tests: [
@@ -1959,7 +1959,7 @@ You can combine them:
 user.profile?.email ?? "none"
 \`\`\`
 
-Next: return a display name from a possibly missing / null name.`,
+Next, you will return a display name when the name might be missing or null.`,
         challenge: {
           id: 'ch-display-name',
           title: 'displayName',
@@ -1972,7 +1972,7 @@ It takes a \`user\` object that may have a \`name\` field (string, null, or miss
 - If \`name\` is a real string, return it
 - Otherwise return "Guest"
 
-Prefer the nullish coalescing operator from the lesson.`,
+Use \`??\` from this lesson.`,
           starterCode: `// Write your full function below (name, params, types, and body).
 
 `,
@@ -2030,7 +2030,7 @@ function applyAll(
 
 Read \`fn: (n: number) => number\` as: “a function that takes a number and returns a number.”
 
-Callers pass the behavior in:
+You pass that behavior in when you call the function:
 
 \`\`\`
 applyAll([1, 2, 3], (n) => n * 10)  // [10, 20, 30]
@@ -2181,7 +2181,7 @@ Narrow on the \`ok\` tag before reading the branch-specific field.`,
         id: 'partial-patch',
         title: 'Partial for updates',
         minutes: 14,
-        content: `\`Partial<T>\` makes every property of \`T\` optional. It is the usual type for “patch” / update payloads:
+        content: `\`Partial<T>\` makes every property of \`T\` optional. This is the usual type when an update only includes some of the fields:
 
 \`\`\`
 type User = { id: number; name: string; email: string }
@@ -2191,15 +2191,15 @@ function applyPatch(user: User, patch: Partial<User>): User {
 }
 \`\`\`
 
-Callers can send only the fields that change:
+You can pass only the fields that should change:
 
 \`\`\`
 applyPatch(user, { name: "Alex" })
 \`\`\`
 
-\`id\` and \`email\` stay the same. Spreading \`patch\` second means its fields overwrite the originals.
+\`id\` and \`email\` stay the same. Because \`patch\` comes second, its fields replace the matching ones from the original user.
 
-Do not mutate \`user\` in place — return a new object.`,
+Don't change \`user\`. Return a new object.`,
         challenge: {
           id: 'ch-apply-patch',
           title: 'applyPatch',
@@ -2208,7 +2208,7 @@ Do not mutate \`user\` in place — return a new object.`,
             `1. Define a type alias \`User\` with fields \`id\` (number), \`name\` (string), and \`email\` (string).
 2. Create a function \`applyPatch\` that takes a full \`User\` and a \`Partial<User>\` patch, and returns a new \`User\` with any provided patch fields applied on top.
 
-Do not mutate the original user. Example: patching only \`{ name: "Alex" }\` keeps id and email the same.`,
+Don't change the original user. If the patch is only \`{ name: "Alex" }\`, the id and email stay the same.`,
           starterCode: `// Write your full type + function below.
 
 `,
@@ -2263,16 +2263,16 @@ Do not mutate the original user. Example: patching only \`{ name: "Alex" }\` kee
         id: 'real-search',
         title: 'Problem: search products',
         minutes: 20,
-        content: `Real UI feature: search a product list.
+        content: `Searching a product list is a normal feature in a UI.
 
-Given products with \`name\` and \`price\`, return those whose name contains a query (case-insensitive). Optionally also enforce a max price.
+Each product has a \`name\` and a \`price\`. Return the products whose name contains the search text, ignoring capitalization. If a maximum price was provided, also leave out anything more expensive than that.
 
-Approach:
-1. Normalize the query with \`toLowerCase()\`
-2. \`filter\` products where \`name.toLowerCase().includes(query)\`
-3. If \`maxPrice\` is provided, also require \`price <= maxPrice\`
+One way to do it:
+1. Make the query lowercase with \`toLowerCase()\`
+2. Use \`filter\` to keep products where \`name.toLowerCase().includes(query)\`
+3. If \`maxPrice\` was provided, also keep only products where \`price <= maxPrice\`
 
-This combines optional params, string methods, and \`filter\`.`,
+This uses an optional parameter, string methods, and \`filter\`.`,
         challenge: {
           id: 'ch-search-products',
           title: 'searchProducts',
@@ -2378,7 +2378,7 @@ Examples with ["a","b","c","d"], pageSize 2:
           hints: [
             'Page 1 starts at index 0; page 2 starts after one pageSize of items.',
             'Compute a start index from page and pageSize, then take that many items.',
-            'Prefer the array method that returns a window of elements without mutating.',
+            'Use the array method that copies a section of the list and leaves the original alone.',
           ],
           tests: [
             {
@@ -2421,15 +2421,15 @@ Examples with ["a","b","c","d"], pageSize 2:
         id: 'real-merge',
         title: 'Problem: merge records by id',
         minutes: 20,
-        content: `You have a local list and a newer list from the server. Merge by \`id\`: items in the incoming list overwrite matching ids; new ids are appended.
+        content: `You have a local list and a newer list from the server. Combine them by \`id\`. If an incoming item has the same id as one you already have, use the incoming version. If the id is new, add it at the end.
 
-Keep a stable approach:
-1. Start from a copy of the existing list
-2. For each incoming item, replace if the id exists, otherwise push
+One way to do it:
+1. Start from a copy of the existing list, so you don't change the original.
+2. For each incoming item, replace the match if that id is already there. Otherwise, add the item.
 
-Or build a \`Record\` / map keyed by id, write existing then incoming, then collect values.
+You can also build an object keyed by id. Put the existing items in first, then the incoming ones, and then turn the values back into an array.
 
-Order: existing order first, then any brand-new ids from incoming in the order they appear.`,
+Keep the existing items in their original order. After those, add any new ids in the order they show up in the incoming list.`,
         challenge: {
           id: 'ch-merge-by-id',
           title: 'mergeById',
@@ -2441,7 +2441,7 @@ Order: existing order first, then any brand-new ids from incoming in the order t
    - If the id is new, append it
    - Keep existing order for old ids; append brand-new ids in incoming order
 
-Do not mutate the input arrays.`,
+Don't change either of the arrays you were given.`,
           starterCode: `// Write your full type + function below.
 
 `,
@@ -2479,7 +2479,7 @@ Do not mutate the input arrays.`,
               },
             },
             {
-              description: 'does not mutate existing',
+              description: 'leaves the existing list unchanged',
               run: (s) => {
                 const mergeById = s.mergeById as (
                   existing: { id: number; label: string }[],
@@ -2498,15 +2498,15 @@ Do not mutate the input arrays.`,
         id: 'real-leaderboard',
         title: 'Problem: top N leaderboard',
         minutes: 18,
-        content: `Given scored entries, return the names of the top \`n\` by score (highest first).
+        content: `You get a list of names and scores. Return the names of the top \`n\`, with the highest score first.
 
-Steps:
-1. Copy the array before sorting (\`sort\` mutates)
-2. Sort descending: \`(a, b) => b.score - a.score\`
-3. \`slice(0, n)\`
-4. \`map\` to names
+Do it in four steps:
+1. Copy the array before you sort it. \`sort\` changes the array you call it on.
+2. Sort from high score to low: \`(a, b) => b.score - a.score\`
+3. Keep the first \`n\` items with \`slice(0, n)\`
+4. Turn those items into names with \`map\`
 
-Ties: whatever stable order your sort leaves is fine for these tests if scores differ.`,
+If two scores are equal, either order is fine. These tests use different scores.`,
         challenge: {
           id: 'ch-top-n',
           title: 'topNames',
@@ -2515,7 +2515,7 @@ Ties: whatever stable order your sort leaves is fine for these tests if scores d
             `1. Define a type alias \`Entry\` with fields \`name\` (string) and \`score\` (number).
 2. Create a function \`topNames\` that takes entries and a number \`n\`, and returns the names of the top \`n\` scores, highest first.
 
-Do not mutate the input array. Example: scores A:3, B:9, C:6 with n=2 → ["B","C"].`,
+Don't change the array you were given. For example, if A scored 3, B scored 9, and C scored 6, and n is 2, return ["B", "C"].`,
           starterCode: `// Write your full type + function below.
 
 `,
@@ -2564,7 +2564,7 @@ Do not mutate the input array. Example: scores A:3, B:9, C:6 with n=2 → ["B","
         id: 'graduation',
         title: 'You made it — keep drilling',
         minutes: 5,
-        content: `You covered basic → intermediate TypeScript for live coding:
+        content: `You covered beginner through intermediate TypeScript for live coding:
 
 - Primitive annotations, let / const
 - Arrays, objects, type aliases
@@ -2576,9 +2576,9 @@ Do not mutate the input array. Example: scores A:3, B:9, C:6 with n=2 → ["B","
 - Real problems: search, pagination, merge-by-id, leaderboard
 
 For the next few days before your test:
-1. Re-do Module 12 and Module 15 timed (aim under 15–20 minutes each)
-2. Say types out loud as you type
-3. Prefer immutable updates (\`map\` / spread) in UI-style answers
+1. Redo Module 12 and Module 15 with a timer (aim for under 15–20 minutes each)
+2. Say the types out loud as you type
+3. When an answer looks like UI state, return a new array or object (\`map\` or spread) instead of changing the one you were given
 
 Reset progress anytime from the header if you want a clean run.`,
       },
